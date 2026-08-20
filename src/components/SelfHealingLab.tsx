@@ -8,7 +8,6 @@ export const SelfHealingLab: React.FC = () => {
   const [searchParams] = useSearchParams();
   const vendorParam = searchParams.get("vendor") || "expedia";
 
-  // Simulation states
   const [simStatus, setSimStatus] = useState<SimState>("healthy");
   const [logs, setLogs] = useState<string[]>([
     "[14:02:10] [INFO] Node initialized successfully.",
@@ -19,14 +18,12 @@ export const SelfHealingLab: React.FC = () => {
 
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll terminal logs
   useEffect(() => {
     if (terminalEndRef.current) {
       terminalEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [logs]);
 
-  // Handle Break Test
   const handleBreak = () => {
     setSimStatus("broken");
     setLogs((prev) => [
@@ -62,7 +59,6 @@ export const SelfHealingLab: React.FC = () => {
     return () => window.clearTimeout(timer);
   }, [simStatus]);
 
-  // Handle Apply Repair
   const handleRepair = () => {
     if (simStatus !== "repaired") return;
     setLogs((prev) => [
@@ -76,38 +72,36 @@ export const SelfHealingLab: React.FC = () => {
     navigate("/scrapers/self-healing/success");
   };
 
-
-
   return (
-    <main className="flex-grow p-margin-mobile md:p-margin-desktop overflow-y-auto bg-background flex flex-col">
+    <main className="flex-grow p-4 md:p-10 overflow-y-auto bg-[#fcfcfc] flex flex-col w-full max-w-[1400px] mx-auto">
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-xs mb-md text-nav-link font-nav-link" aria-label="Breadcrumb">
-        <Link to="/" className="text-secondary hover:text-primary transition-colors">
+      <nav className="flex items-center gap-1.5 mb-4 font-inter text-[12px] text-[#6b7280]" aria-label="Breadcrumb">
+        <Link to="/" className="hover:text-[#145aff] transition-colors">
           Dashboard
         </Link>
-        <span className="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
-        <Link to="/scrapers" className="text-secondary hover:text-primary transition-colors">
+        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+        <Link to="/scrapers" className="hover:text-[#145aff] transition-colors">
           Scraper Health
         </Link>
-        <span className="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
-        <span className="text-ink font-medium">Self-Healing Lab</span>
+        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+        <span className="text-[#020520] font-medium">Self-Healing Lab</span>
       </nav>
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-xl gap-md">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
-          <h2 className="font-display-lg text-display-lg text-ink font-bold mb-xs">
+          <h2 className="font-inter text-[32px] md:text-[40px] text-[#020520] font-semibold tracking-[-1.48px] leading-tight mb-1">
             Self-Healing Lab
           </h2>
-          <p className="font-body text-secondary text-[14px] max-w-2xl leading-relaxed">
+          <p className="font-inter text-[#374151] text-[14px] max-w-2xl leading-relaxed">
             Interactive demonstration of automated DOM adaptation. Simulate a target site structural failure and observe the Sentinel AI re-map extraction logic in real-time.
           </p>
         </div>
-        <div className="flex gap-sm shrink-0">
+        <div className="flex gap-2 shrink-0">
           <button
             onClick={handleBreak}
             disabled={simStatus !== "healthy"}
-            className="bg-primary text-on-primary py-sm px-lg rounded-full font-body-strong text-[14px] hover:scale-95 hover:bg-surface-tint active:scale-95 transition-all flex items-center gap-xs shadow-[0px_10px_40px_rgba(0,0,0,0.15)] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#fcfcfc] border border-[#145aff] text-[#145aff] py-2 px-6 rounded-full font-inter font-medium text-[14px] hover:bg-[#f0f4fe] transition-colors duration-150 flex items-center gap-1.5 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span className="material-symbols-outlined">warning</span>
             Break Test Website
@@ -116,51 +110,46 @@ export const SelfHealingLab: React.FC = () => {
       </div>
 
       {/* Main Sandbox Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter flex-grow items-stretch">
-
-        {/* Left Column: Visual Simulator (8 cols) */}
-        <div className="col-span-1 lg:col-span-8 flex flex-col gap-gutter">
-          {/* DOM Logic repair screen split columns */}
-          <div className="flex-grow flex flex-col md:flex-row gap-md items-stretch">
-
-            {/* Target Visualization Pane (Bloomberg style sandbox container) */}
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md w-full md:w-1/2 flex flex-col shadow-sm">
-              <div className="flex justify-between items-center mb-md pb-xs border-b border-hairline">
-                <h4 className="font-body-strong text-ink font-semibold flex items-center gap-xs">
-                  <span className="material-symbols-outlined text-[18px] text-primary">preview</span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow items-stretch">
+        <div className="col-span-1 lg:col-span-8 flex flex-col gap-6">
+          <div className="flex-grow flex flex-col md:flex-row gap-4 items-stretch">
+            {/* Target Sandbox */}
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 w-full md:w-1/2 flex flex-col shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#e2e8f0]">
+                <h4 className="font-inter text-[#020520] font-semibold text-[15px] flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[18px] text-[#145aff]">preview</span>
                   Target Sandbox: {vendorParam.toUpperCase()}
                 </h4>
-                <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium font-data-tabular ${simStatus === "healthy" || simStatus === "repaired" ? "bg-success-green/10 text-success-green" :
-                    simStatus === "healing" ? "bg-primary-fixed text-primary" : "bg-error-container text-critical-red"
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-mono ${simStatus === "healthy" || simStatus === "repaired" ? "bg-[#16ca2e]/10 text-[#16ca2e]" :
+                    simStatus === "healing" ? "bg-[#f0f4fe] text-[#145aff]" : "bg-[#f26052]/10 text-[#f26052]"
                   }`}>
                   {simStatus === "healthy" ? "Live Connected" : simStatus === "healing" ? "Repairing Mapping" : simStatus === "repaired" ? "Repair Ready" : "DOM Mutated"}
                 </span>
               </div>
 
-              {/* Simulated Target browser content frame */}
-              <div className="flex-grow bg-[#fafafc] border border-hairline rounded flex flex-col p-md items-center justify-center min-h-[220px]">
-                <div className="bg-canvas-white border border-hairline rounded-lg p-lg shadow-sm w-full max-w-xs text-center relative">
-                  <div className="text-secondary font-label-capsule text-[11px] uppercase tracking-wider">ACME Retail Products</div>
-                  <h5 className="font-body-strong text-ink text-[16px] mt-xs font-semibold">Premium Cloud License</h5>
+              <div className="flex-grow bg-[#f1f5f9] border border-[#e2e8f0] rounded-[12px] flex flex-col p-4 items-center justify-center min-h-[220px]">
+                <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-6 shadow-sm w-full max-w-xs text-center relative">
+                  <div className="text-[#6b7280] font-mono text-[11px] uppercase tracking-wider">ACME Retail Products</div>
+                  <h5 className="font-inter text-[#020520] text-[16px] mt-1 font-semibold">Premium Cloud License</h5>
 
-                  <div className="my-md py-sm bg-canvas-parchment rounded border border-hairline border-dashed">
+                  <div className="my-4 py-3 bg-[#f1f5f9] rounded-[12px] border border-[#e2e8f0] border-dashed">
                     {simStatus === "healthy" ? (
-                      <div className="text-primary font-display-md text-[28px] font-bold animate-fade-in">
+                      <div className="text-[#145aff] font-mono text-[28px] font-semibold">
                         $29.99
                       </div>
                     ) : (
-                      <div className="text-secondary font-display-md text-[28px] font-bold line-through decoration-critical-red animate-pulse">
+                      <div className="text-[#6b7280] font-mono text-[28px] font-semibold line-through decoration-[#f26052]">
                         --
                       </div>
                     )}
-                    <span className="text-[10px] font-mono text-secondary mt-1 block">
+                    <span className="text-[10px] font-mono text-[#6b7280] mt-1 block">
                       {simStatus === "healthy" ? "Selector: .product-info > .price-tag" : "Selector Target Missing"}
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-center gap-sm">
-                    <span className={`w-2 h-2 rounded-full ${simStatus === "healthy" ? "bg-success-green" : "bg-critical-red"}`}></span>
-                    <span className="text-[11px] text-secondary font-medium">
+                  <div className="flex items-center justify-center gap-2">
+                    <span className={`w-2 h-2 rounded-full ${simStatus === "healthy" ? "bg-[#16ca2e]" : "bg-[#f26052]"}`}></span>
+                    <span className="text-[11px] font-inter text-[#374151]">
                       {simStatus === "healthy" ? "Extraction Match Success" : "Null Selector Exception"}
                     </span>
                   </div>
@@ -168,46 +157,42 @@ export const SelfHealingLab: React.FC = () => {
               </div>
             </div>
 
-            {/* DOM Analysis & Code Diff Pane */}
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md w-full md:w-1/2 flex flex-col shadow-sm">
-              <div className="flex justify-between items-center mb-md pb-xs border-b border-hairline">
-                <h4 className="font-body-strong text-ink font-semibold flex items-center gap-xs">
-                  <span className="material-symbols-outlined text-[18px] text-primary">code</span>
+            {/* DOM Analysis & Code Diff */}
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 w-full md:w-1/2 flex flex-col shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#e2e8f0]">
+                <h4 className="font-inter text-[#020520] font-semibold text-[15px] flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[18px] text-[#145aff]">code</span>
                   DOM Analysis & Selector Diff
                 </h4>
-                <span className="text-[11px] text-secondary font-data-tabular">Ruleset v3.1</span>
+                <span className="text-[11px] text-[#6b7280] font-mono">Ruleset v3.1</span>
               </div>
 
-              {/* Fenced Code Editor mockup */}
-              <div className="flex-grow bg-[#1a1c1d] rounded p-sm font-mono text-[11px] leading-relaxed text-[#eeeef0] overflow-y-auto min-h-[220px]">
-                {/* Baseline code */}
-                <div className="text-secondary mb-1">// Baseline selector extraction logic</div>
-                <div className="pl-xs border-l border-primary/50 text-[#aac7ff] mb-md">
-                  <span className="text-[#e2e2e4]">const</span> priceText = document.querySelector(
-                  <span className="text-[#ff9f0a]">'.product-info &gt; .price-tag'</span>
+              <div className="flex-grow bg-[#020520] rounded-[12px] p-3 font-mono text-[11px] leading-relaxed text-[#eeeef0] overflow-y-auto min-h-[220px]">
+                <div className="text-[#6b7280] mb-1">// Baseline selector extraction logic</div>
+                <div className="pl-2 border-l border-[#145aff]/50 text-[#3b82f6] mb-4">
+                  <span className="text-white">const</span> priceText = document.querySelector(
+                  <span className="text-[#ffa64d]">'.product-info &gt; .price-tag'</span>
                   ).innerText;
                 </div>
 
-                {/* Mutated code (conditional) */}
                 {simStatus !== "healthy" && (
                   <>
-                    <div className="text-[#ff3b30] mb-1 font-semibold flex items-center gap-xxs">
+                    <div className="text-[#f26052] mb-1 font-semibold flex items-center gap-1">
                       <span className="material-symbols-outlined text-[12px]">error</span>
                         // Selector Error: returns null
                     </div>
-                    <div className="pl-xs border-l border-[#ff3b30] text-[#ffdad6] line-through opacity-60 mb-md">
-                      <span className="text-[#e2e2e4]">const</span> priceText = document.querySelector(
-                      <span className="text-[#ff3b30]">'.product-info &gt; .price-tag'</span>
+                    <div className="pl-2 border-l border-[#f26052] text-[#f26052] line-through opacity-60 mb-4">
+                      <span className="text-white">const</span> priceText = document.querySelector(
+                      <span className="text-[#f26052]">'.product-info &gt; .price-tag'</span>
                       ).innerText;
                     </div>
 
-                    {/* Sentinel AI Suggestion */}
-                    <div className="text-success-green mb-1 font-semibold flex items-center gap-xxs">
+                    <div className="text-[#16ca2e] mb-1 font-semibold flex items-center gap-1">
                       <span className="material-symbols-outlined text-[12px]">auto_awesome</span>
                         // Sentinel AI Repaired Suggestion (Confidence: 98.4%)
                     </div>
-                    <div className="pl-xs border-l-2 border-success-green bg-success-green/10 text-success-green p-xs rounded-sm">
-                      <span className="text-[#eeeef0]">const</span> priceText = document.querySelector(
+                    <div className="pl-2 border-l-2 border-[#16ca2e] bg-[#16ca2e]/10 text-[#16ca2e] p-2 rounded-sm">
+                      <span className="text-white">const</span> priceText = document.querySelector(
                       <span className="font-bold underline">'[data-test="current-price"]'</span>
                       ).innerText;
                     </div>
@@ -215,11 +200,11 @@ export const SelfHealingLab: React.FC = () => {
                 )}
               </div>
 
-              <div className="mt-md">
+              <div className="mt-4">
                 <button
                   onClick={handleRepair}
                   disabled={simStatus !== "repaired"}
-                  className="w-full bg-[#28a745] hover:bg-success-green/90 disabled:bg-surface-container disabled:text-secondary disabled:cursor-not-allowed font-body-strong text-canvas-white text-[13px] py-2 rounded-full transition-colors flex items-center justify-center gap-xs shadow-sm"
+                  className="w-full bg-[#16ca2e] hover:bg-[#16ca2e]/90 disabled:bg-[#f1f5f9] disabled:text-[#6b7280] disabled:cursor-not-allowed font-inter font-medium text-white text-[13px] py-2 rounded-full transition-colors duration-150 flex items-center justify-center gap-1.5 shadow-sm"
                 >
                   <span className="material-symbols-outlined text-[16px]">check_circle</span>
                   Apply Repair Mapping
@@ -229,16 +214,14 @@ export const SelfHealingLab: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Telemetry metrics & Live Logs Output */}
-        <div className="col-span-1 lg:col-span-4 flex flex-col gap-md">
-
-          {/* Telemetry Metrics */}
-          <div className="grid grid-cols-2 gap-sm">
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md shadow-sm">
-              <div className="font-nav-link text-nav-link text-secondary mb-xs text-[12px]">Recovery Time</div>
-              <div className="font-display-md text-[24px] font-bold text-ink flex items-baseline">
+        {/* Right Column */}
+        <div className="col-span-1 lg:col-span-4 flex flex-col gap-4">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="font-inter text-[#6b7280] mb-1 text-[12px] font-medium">Recovery Time</div>
+              <div className="font-mono text-[24px] font-semibold text-[#020520] flex items-baseline">
                 {simStatus === "healing" ? (
-                  <span className="inline-block w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></span>
+                  <span className="inline-block w-4 h-4 border-2 border-[#145aff] border-t-transparent rounded-full animate-spin"></span>
                 ) : simStatus === "broken" ? (
                   "Calculating"
                 ) : simStatus === "repaired" ? (
@@ -246,30 +229,30 @@ export const SelfHealingLab: React.FC = () => {
                 ) : (
                   "412"
                 )}
-                <span className="font-body text-secondary text-[12px] ml-xxs">ms</span>
+                <span className="font-inter text-[#6b7280] text-[12px] ml-1">ms</span>
               </div>
             </div>
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md shadow-sm">
-              <div className="font-nav-link text-nav-link text-secondary mb-xs text-[12px]">Confidence Score</div>
-              <div className="font-display-md text-[24px] font-bold text-ink flex items-baseline">
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="font-inter text-[#6b7280] mb-1 text-[12px] font-medium">Confidence Score</div>
+              <div className="font-mono text-[24px] font-semibold text-[#020520] flex items-baseline">
                 {simStatus === "healing" ? (
-                  <span className="inline-block w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></span>
+                  <span className="inline-block w-4 h-4 border-2 border-[#145aff] border-t-transparent rounded-full animate-spin"></span>
                 ) : (
                   "98.4"
                 )}
-                <span className="font-body text-secondary text-[12px] ml-xxs">%</span>
+                <span className="font-inter text-[#6b7280] text-[12px] ml-1">%</span>
               </div>
             </div>
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md col-span-2 shadow-sm">
-              <div className="font-nav-link text-nav-link text-secondary mb-xs text-[12px]">Failed Fields Detected</div>
-              <div className="flex flex-wrap gap-xs mt-sm">
-                <span className="px-sm py-1 bg-surface-pearl border border-hairline rounded-full font-data-tabular text-[13px] text-ink flex items-center">
-                  <span className={`w-2 h-2 rounded-full mr-xs ${simStatus === "healthy" || simStatus === "repaired" ? "bg-success-green" : "bg-critical-red animate-pulse"
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 col-span-2 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="font-inter text-[#6b7280] mb-2 text-[12px] font-medium">Failed Fields Detected</div>
+              <div className="flex flex-wrap gap-2 mt-2 font-mono text-[12px]">
+                <span className="px-3 py-1 bg-[#f1f5f9] border border-[#e2e8f0] rounded-full text-[#020520] flex items-center">
+                  <span className={`w-2 h-2 rounded-full mr-2 ${simStatus === "healthy" || simStatus === "repaired" ? "bg-[#16ca2e]" : "bg-[#f26052] animate-pulse"
                     }`}></span>
                   price_current
                 </span>
-                <span className="px-sm py-1 bg-surface-pearl border border-hairline rounded-full font-data-tabular text-[13px] text-ink flex items-center">
-                  <span className={`w-2 h-2 rounded-full mr-xs ${simStatus === "healthy" || simStatus === "repaired" ? "bg-success-green" : "bg-warning-amber animate-pulse"
+                <span className="px-3 py-1 bg-[#f1f5f9] border border-[#e2e8f0] rounded-full text-[#020520] flex items-center">
+                  <span className={`w-2 h-2 rounded-full mr-2 ${simStatus === "healthy" || simStatus === "repaired" ? "bg-[#16ca2e]" : "bg-[#ffa64d] animate-pulse"
                     }`}></span>
                   stock_status
                 </span>
@@ -277,19 +260,18 @@ export const SelfHealingLab: React.FC = () => {
             </div>
           </div>
 
-          {/* System logs heartbeat output */}
-          <div className="bg-[#1a1c1d] text-[#eeeef0] border border-hairline rounded-lg p-md flex-grow h-[260px] flex flex-col font-mono text-[11px] shadow-lg">
-            <h4 className="text-secondary font-sans text-[12px] font-semibold border-b border-canvas-white/10 pb-xs mb-sm flex justify-between items-center">
+          <div className="bg-[#020520] text-[#eeeef0] border border-[#e2e8f0] rounded-[16px] p-4 flex-grow h-[260px] flex flex-col font-mono text-[11px] shadow-lg">
+            <h4 className="text-[#6b7280] font-inter text-[12px] font-semibold border-b border-[#e2e8f0]/10 pb-2 mb-2 flex justify-between items-center">
               <span>System Heartbeat</span>
-              <span className="w-2 h-2 rounded-full bg-success-green animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-[#16ca2e] animate-pulse"></span>
             </h4>
-            <div className="flex-grow overflow-y-auto space-y-xs pr-xxs">
+            <div className="flex-grow overflow-y-auto space-y-1.5 pr-1">
               {logs.map((log, index) => (
                 <div
                   key={index}
-                  className={`leading-relaxed animate-fade-in ${log.includes("[WARN]") ? "text-[#ff9f0a]" :
-                      log.includes("[CRIT]") ? "text-[#ff3b30]" :
-                        log.includes("repaired") || log.includes("Success") ? "text-success-green" : "text-secondary-fixed-dim"
+                  className={`leading-relaxed ${log.includes("[WARN]") ? "text-[#ffa64d]" :
+                      log.includes("[CRIT]") ? "text-[#f26052]" :
+                        log.includes("repaired") || log.includes("Success") ? "text-[#16ca2e]" : "text-[#6b7280]"
                     }`}
                 >
                   {log}
@@ -298,10 +280,9 @@ export const SelfHealingLab: React.FC = () => {
               <div ref={terminalEndRef}></div>
             </div>
           </div>
-
         </div>
-
       </div>
     </main>
   );
 };
+

@@ -1,10 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Relate Colors */
+  --color-snow-canvas: #fcfcfc;
+  --color-lavender-wash: #f0f4fe;
+  --color-midnight-ink: #020520;
+  --color-graphite-body: #14141e;
+  --color-slate-caption: #374151;
+  --color-ash-helper: #6b7280;
+  --color-stone-divider: #e2e8f0;
+  --color-fog-surface: #f1f5f9;
+  --color-royal-signal: #145aff;
+  --color-cobalt-glow: #3b82f6;
+  --color-mint-win: #16ca2e;
+  --color-coral-lost: #f26052;
+  --color-amber-pending: #ffa64d;
+  --color-azure-focus: #0099ff;
+
+  /* Font Families */
+  --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-pretendard: 'Pretendard', ui-sans-serif, system-ui, sans-serif;
+  --font-roboto-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Border Radii */
+  --radius-cards: 8px;
+  --radius-inputs: 12px;
+  --radius-pipeline-cards: 16px;
+  --radius-containers: 40px;
+  --radius-pills: 9999px;
+
+  /* Shadows */
+  --shadow-sm: rgba(0, 0, 0, 0.1) 0px 0px 4px -2px;
+}
+
 @layer base {
   body {
-    @apply bg-background text-ink antialiased;
+    background-color: #fcfcfc;
+    color: #14141e;
     font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
-}
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #020520;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+}

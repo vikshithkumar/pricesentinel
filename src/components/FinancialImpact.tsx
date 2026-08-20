@@ -8,28 +8,27 @@ export const FinancialImpact: React.FC = () => {
   return (
     <div
       onClick={() => navigate("/intelligence/financial-impact")}
-      className="bg-canvas-white rounded-xl border border-hairline shadow-sm p-md cursor-pointer hover:border-primary/50 transition-colors"
+      className="bg-[#ffffff] rounded-[16px] border border-[#e2e8f0] shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px] p-4 cursor-pointer hover:border-[#145aff]/40 transition-colors"
     >
-      <h3 className="font-body-strong text-[16px] text-ink font-semibold mb-4">
+      <h3 className="font-inter text-[16px] text-[#020520] font-semibold mb-4">
         Financial Impact Overview
       </h3>
 
-      <div className="h-40 w-full rounded border border-hairline bg-canvas-parchment relative overflow-hidden flex items-end px-4 pb-2 gap-2">
-        {/* Bars render */}
+      <div className="h-40 w-full rounded-[12px] border border-[#e2e8f0] bg-[#f1f5f9] relative overflow-hidden flex items-end px-4 pb-2 gap-2">
         <div className="w-full flex justify-between items-end h-full pt-4">
           {financialImpactBars.map((bar, idx) => (
             <div
               key={idx}
               style={{ height: bar.height }}
-              className={`w-1/12 rounded-t relative transition-colors ${bar.active
+              className={`w-1/12 rounded-t-sm relative transition-colors ${bar.active
                   ? bar.monthLabel === "Sep"
-                    ? "bg-critical-red/80 hover:bg-critical-red"
-                    : "bg-warning-amber/60 hover:bg-warning-amber"
-                  : "bg-surface-variant hover:bg-surface-dim"
+                    ? "bg-[#f26052] hover:bg-[#f26052]/90"
+                    : "bg-[#ffa64d] hover:bg-[#ffa64d]/90"
+                  : "bg-[#3b82f6]/30 hover:bg-[#3b82f6]/50"
                 }`}
             >
               {bar.monthLabel && (
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-ink font-bold">
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-[#020520] font-bold">
                   {bar.monthLabel}
                 </div>
               )}
@@ -37,11 +36,11 @@ export const FinancialImpact: React.FC = () => {
           ))}
         </div>
 
-        {/* Legend */}
-        <div className="absolute top-4 left-4 font-data-tabular text-[12px] text-secondary">
+        <div className="absolute top-4 left-4 font-mono text-[12px] text-[#374151]">
           Monthly Cost Variance
         </div>
       </div>
     </div>
   );
 };
+

@@ -8,7 +8,6 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = false, onCloseMobile }) => {
-  // Navigation items from the canonical Stitch screen (Executive Connected)
   const navItems = [
     { label: "Dashboard", icon: "dashboard", href: "/", active: currentPath === "/" },
     { label: "Vendors", icon: "storefront", href: "/vendors", active: currentPath === "/vendors" },
@@ -25,13 +24,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
   ];
 
   const sidebarContent = (
-    <div className="flex flex-col h-full py-xl px-sm">
+    <div className="flex flex-col h-full py-6 px-4">
       {/* Mobile Close Button */}
       {onCloseMobile && (
-        <div className="md:hidden flex justify-end pb-sm">
+        <div className="md:hidden flex justify-end pb-2">
           <button
             onClick={onCloseMobile}
-            className="p-1 text-secondary hover:text-ink transition-colors rounded-full"
+            className="p-1 text-[#6b7280] hover:text-[#020520] transition-colors rounded-full"
             aria-label="Close Mobile Navigation"
           >
             <span className="material-symbols-outlined text-[20px]">close</span>
@@ -39,19 +38,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
         </div>
       )}
 
-      {/* Branding */}
-      <div className="mb-lg px-xs">
-        <h1 className="font-display-md text-[24px] leading-tight font-bold text-ink dark:text-canvas-white tracking-tight">
-          PriceSentinel
-        </h1>
-        <p className="font-data-tabular text-data-tabular text-secondary mt-1">
-          v2.4.1 Enterprise
-        </p>
+      {/* Relate Brand Logo Mark */}
+      <div className="mb-6 px-2 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg bg-[#145aff] flex items-center justify-center text-white font-inter font-bold text-[18px] shadow-sm">
+          p
+        </div>
+        <div>
+          <h1 className="font-inter text-[20px] leading-none font-semibold text-[#020520] tracking-[-0.16px]">
+            PriceSentinel
+          </h1>
+          <p className="font-mono text-[11px] text-[#6b7280] mt-0.5">
+            v2.4.1 Enterprise
+          </p>
+        </div>
       </div>
 
-      {/* CTA Button */}
-      <div className="px-xs mb-xl">
-        <button className="w-full bg-primary text-on-primary py-2 px-md rounded-lg font-body-strong text-[14px] hover:bg-surface-tint transition-colors shadow-sm flex items-center justify-center gap-2">
+      {/* Ghost Outline CTA Button */}
+      <div className="px-1 mb-6">
+        <button className="w-full bg-[#fcfcfc] border border-[#145aff] text-[#145aff] hover:bg-[#f0f4fe] py-2 px-4 rounded-full font-inter font-medium text-[14px] transition-colors duration-150 shadow-sm flex items-center justify-center gap-2">
           <span className="material-symbols-outlined text-[18px]">add</span>
           New Analysis
         </button>
@@ -64,9 +68,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
             <Link
               to={item.href}
               onClick={onCloseMobile}
-              className={`flex items-center gap-sm px-3 py-2 rounded-lg transition-colors ${item.active
-                  ? "bg-surface-container-high dark:bg-on-secondary-fixed-variant text-primary dark:text-primary-fixed font-medium border-l-2 border-primary"
-                  : "text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant"
+              className={`flex items-center gap-3 px-3 py-2 rounded-full transition-colors duration-150 ${item.active
+                  ? "bg-[#f0f4fe] text-[#145aff] font-medium"
+                  : "text-[#374151] hover:text-[#145aff] hover:bg-[#f0f4fe]/60"
                 }`}
             >
               <span
@@ -75,9 +79,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
               >
                 {item.icon}
               </span>
-              <span className="font-nav-link text-[14px] flex-grow">{item.label}</span>
+              <span className="font-inter text-[15px] flex-grow">{item.label}</span>
               {item.badge && (
-                <span className="bg-critical-red text-canvas-white text-[10px] font-bold px-1.5 py-0.5 rounded-full shrink-0">
+                <span className="bg-[#f26052] text-white text-[11px] font-mono font-bold px-2 py-0.5 rounded-full shrink-0">
                   {item.badge}
                 </span>
               )}
@@ -87,20 +91,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
       </ul>
 
       {/* Bottom Nav Items */}
-      <div className="mt-auto border-t border-hairline pt-sm">
+      <div className="mt-auto border-t border-[#e2e8f0] pt-3">
         <ul className="flex flex-col gap-1">
           {bottomItems.map((item) => (
             <li key={item.label}>
               <Link
                 to={item.href}
                 onClick={onCloseMobile}
-                className={`flex items-center gap-sm px-3 py-2 rounded-lg transition-colors ${item.active
-                    ? "bg-surface-container-high dark:bg-on-secondary-fixed-variant text-primary dark:text-primary-fixed font-medium border-l-2 border-primary"
-                    : "text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant"
+                className={`flex items-center gap-3 px-3 py-2 rounded-full transition-colors duration-150 ${item.active
+                    ? "bg-[#f0f4fe] text-[#145aff] font-medium"
+                    : "text-[#374151] hover:text-[#145aff] hover:bg-[#f0f4fe]/60"
                   }`}
               >
                 <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-                <span className="font-nav-link text-[14px]">{item.label}</span>
+                <span className="font-inter text-[15px]">{item.label}</span>
               </Link>
             </li>
           ))}
@@ -112,7 +116,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
   return (
     <>
       {/* Desktop Fixed Sidebar */}
-      <nav className="hidden md:flex h-screen w-64 fixed left-0 top-0 border-r border-hairline dark:border-outline-variant bg-canvas-parchment dark:bg-inverse-surface flex-col z-40">
+      <nav className="hidden md:flex h-screen w-64 fixed left-0 top-0 border-r border-[#e2e8f0] bg-[#ffffff] flex-col z-40">
         {sidebarContent}
       </nav>
 
@@ -120,10 +124,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
       {isOpenMobile && (
         <div className="md:hidden fixed inset-0 z-50 flex">
           <div
-            className="fixed inset-0 bg-ink/50 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-[#020520]/40 backdrop-blur-xs transition-opacity"
             onClick={onCloseMobile}
           />
-          <nav className="relative w-64 max-w-[80vw] h-full bg-canvas-parchment dark:bg-inverse-surface border-r border-hairline shadow-xl z-50">
+          <nav className="relative w-64 max-w-[80vw] h-full bg-[#ffffff] border-r border-[#e2e8f0] shadow-xl z-50">
             {sidebarContent}
           </nav>
         </div>
@@ -131,4 +135,5 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
     </>
   );
 };
+
 

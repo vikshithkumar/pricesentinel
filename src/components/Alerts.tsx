@@ -4,7 +4,7 @@ import type { AlertData } from "../mockData";
 
 export const Alerts: React.FC = () => {
   const [alerts, setAlerts] = useState<AlertData[]>(mockAlerts);
-  const [categoryFilter, setCategoryFilter] = useState<string>("Plan"); // Simulated filter
+  const [categoryFilter, setCategoryFilter] = useState<string>("Plan");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const handleRead = (id: string) => {
@@ -19,9 +19,7 @@ export const Alerts: React.FC = () => {
     );
   };
 
-  // Filter alerts (simulated search)
   const filteredAlerts = alerts.filter((item) => {
-    // Search query filter
     const matchesSearch =
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -32,63 +30,63 @@ export const Alerts: React.FC = () => {
   });
 
   return (
-    <main className="flex-grow p-margin-mobile md:p-margin-desktop overflow-y-auto bg-background flex flex-col">
+    <main className="flex-grow p-4 md:p-10 overflow-y-auto bg-[#fcfcfc] flex flex-col w-full max-w-[1400px] mx-auto">
       {/* Breadcrumbs */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-xxs mb-md text-[12px] text-secondary font-medium">
-        <span className="hover:text-primary cursor-pointer transition-colors">Dashboard</span>
-        <span className="material-symbols-outlined text-secondary text-[14px] select-none">chevron_right</span>
-        <span className="text-ink">Alerts</span>
+      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 mb-4 text-[12px] text-[#6b7280] font-inter">
+        <span className="hover:text-[#145aff] cursor-pointer transition-colors">Dashboard</span>
+        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+        <span className="text-[#020520] font-medium">Alerts</span>
       </nav>
 
       {/* Page Header */}
-      <div className="mb-lg md:mb-xl flex flex-col md:flex-row md:items-end justify-between gap-md border-b border-hairline pb-md">
+      <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#e2e8f0] pb-6">
         <div>
-          <h2 className="font-display-lg text-display-lg-mobile md:text-display-lg font-bold text-ink tracking-tight">Intelligence Feed</h2>
-          <p className="font-body text-[14px] text-secondary mt-xs max-w-2xl">Monitor and respond to critical pricing changes, vendor risk signals, and structural market shifts.</p>
+          <h2 className="font-inter text-[32px] md:text-[40px] text-[#020520] font-semibold tracking-[-1.48px] leading-tight">Intelligence Feed</h2>
+          <p className="font-inter text-[14px] text-[#374151] mt-1 max-w-2xl">Monitor and respond to critical pricing changes, vendor risk signals, and structural market shifts.</p>
         </div>
-        <div className="flex items-center gap-sm shrink-0">
-          <div className="bg-surface-pearl border border-hairline rounded-lg px-md py-2 flex items-center gap-md">
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] px-4 py-2 flex items-center gap-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
             <div className="flex flex-col">
-              <span className="font-data-tabular text-[10px] text-secondary uppercase tracking-widest font-semibold">Active Risks</span>
-              <span className="font-display-md text-[24px] font-bold text-ink leading-none mt-1">14</span>
+              <span className="font-mono text-[10px] text-[#6b7280] uppercase tracking-wider font-medium">Active Risks</span>
+              <span className="font-mono text-[24px] font-semibold text-[#020520] leading-none mt-1">14</span>
             </div>
-            <div className="w-px h-8 bg-hairline"></div>
+            <div className="w-px h-8 bg-[#e2e8f0]"></div>
             <div className="flex flex-col">
-              <span className="font-data-tabular text-critical-red text-[10px] uppercase tracking-widest font-bold">Critical</span>
-              <span className="font-display-md text-[24px] font-bold text-critical-red leading-none mt-1">3</span>
+              <span className="font-mono text-[#f26052] text-[10px] uppercase tracking-wider font-semibold">Critical</span>
+              <span className="font-mono text-[24px] font-semibold text-[#f26052] leading-none mt-1">3</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Bento Layout Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter flex-grow items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow items-stretch">
 
-        {/* Main Feed (Canvas Stacking - 8 or 9 cols) */}
-        <div className="lg:col-span-8 xl:col-span-9 flex flex-col gap-md">
+        {/* Main Feed */}
+        <div className="lg:col-span-8 xl:col-span-9 flex flex-col gap-4">
           {/* Filters Toolbar */}
-          <div className="bg-canvas-white border border-hairline rounded-lg p-sm flex flex-wrap gap-sm items-center sticky top-0 z-20 shadow-sm">
-            <span className="font-data-tabular text-[13px] text-secondary mr-xs">Filters:</span>
-            <button className="bg-surface-pearl hover:bg-surface-container-high border border-hairline text-ink font-label-capsule text-[12px] px-sm py-1 rounded-full transition-colors flex items-center gap-xs">
-              Severity <span className="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+          <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-3 flex flex-wrap gap-3 items-center sticky top-0 z-20 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px] font-inter">
+            <span className="font-mono text-[13px] text-[#6b7280] mr-1">Filters:</span>
+            <button className="bg-[#f1f5f9] hover:bg-[#f0f4fe] border border-[#e2e8f0] text-[#020520] text-[12px] px-3 py-1 rounded-full transition-colors flex items-center gap-1">
+              Severity <span className="material-symbols-outlined text-[16px] text-[#6b7280]">expand_more</span>
             </button>
             {categoryFilter && (
               <button
                 onClick={() => setCategoryFilter("")}
-                className="bg-primary text-on-primary border border-primary font-label-capsule text-[12px] px-sm py-1 rounded-full transition-colors flex items-center gap-xs"
+                className="bg-[#f0f4fe] border border-[#145aff] text-[#145aff] text-[12px] font-medium px-3 py-1 rounded-full transition-colors flex items-center gap-1"
               >
                 Category: {categoryFilter} <span className="material-symbols-outlined text-[14px]">close</span>
               </button>
             )}
-            <button className="bg-surface-pearl hover:bg-surface-container-high border border-hairline text-ink font-label-capsule text-[12px] px-sm py-1 rounded-full transition-colors flex items-center gap-xs">
-              Vendor <span className="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
+            <button className="bg-[#f1f5f9] hover:bg-[#f0f4fe] border border-[#e2e8f0] text-[#020520] text-[12px] px-3 py-1 rounded-full transition-colors flex items-center gap-1">
+              Vendor <span className="material-symbols-outlined text-[16px] text-[#6b7280]">expand_more</span>
             </button>
 
-            {/* Search Input inside toolbar */}
+            {/* Search Input */}
             <div className="relative ml-auto w-48 sm:w-64">
-              <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-secondary text-[16px]">search</span>
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280] text-[16px]">search</span>
               <input
-                className="w-full bg-canvas-parchment focus:bg-white border border-hairline rounded-full py-1 pl-xl pr-sm text-data-tabular text-[12px] focus:outline-none"
+                className="w-full bg-[#f1f5f9] focus:bg-[#ffffff] border border-[#e2e8f0] rounded-full py-1 pl-8 pr-3 font-mono text-[12px] text-[#020520] focus:outline-none focus:border-[#145aff]"
                 placeholder="Search feed..."
                 type="text"
                 value={searchQuery}
@@ -99,117 +97,112 @@ export const Alerts: React.FC = () => {
 
           {/* Alert Cards */}
           {filteredAlerts.length === 0 ? (
-            <div className="border border-hairline border-dashed rounded-lg p-section text-center bg-canvas-white shadow-sm flex flex-col items-center">
-              <div className="w-16 h-16 mb-md bg-surface-container-low rounded-full flex items-center justify-center text-secondary">
+            <div className="border border-[#e2e8f0] border-dashed rounded-[16px] p-10 text-center bg-[#ffffff] shadow-sm flex flex-col items-center">
+              <div className="w-16 h-16 mb-4 bg-[#f1f5f9] rounded-full flex items-center justify-center text-[#6b7280]">
                 <span className="material-symbols-outlined text-[36px]">notifications_off</span>
               </div>
-              <h3 className="font-tagline text-[18px] text-ink font-semibold">No alerts matching filters</h3>
-              <p className="font-body text-secondary text-[14px] mt-xs">Try clearing search terms or modifying severity categories.</p>
+              <h3 className="font-inter text-[18px] text-[#020520] font-semibold">No alerts matching filters</h3>
+              <p className="font-inter text-[#6b7280] text-[14px] mt-1">Try clearing search terms or modifying severity categories.</p>
             </div>
           ) : (
             filteredAlerts.map((item) => {
               const isCritical = item.severity === "critical";
               const isHigh = item.severity === "high";
-              const leftBorderClass = isCritical ? "bg-critical-red" : isHigh ? "bg-warning-amber" : "bg-secondary";
-              const titleClass = isCritical ? "text-critical-red" : isHigh ? "text-warning-amber" : "text-secondary";
+              const leftBorderClass = isCritical ? "bg-[#f26052]" : isHigh ? "bg-[#ffa64d]" : "bg-[#3b82f6]";
+              const titleClass = isCritical ? "text-[#f26052]" : isHigh ? "text-[#ffa64d]" : "text-[#3b82f6]";
 
               return (
                 <article
                   key={item.id}
-                  className={`bg-canvas-white border border-hairline rounded-lg p-md md:p-lg hover:border-outline-variant transition-colors group relative overflow-hidden shadow-sm ${item.isRead ? "opacity-60" : ""
+                  className={`bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 md:p-6 hover:border-[#145aff]/40 transition-colors duration-150 group relative overflow-hidden shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px] ${item.isRead ? "opacity-60" : ""
                     }`}
                 >
-                  {/* Thick left severity bar */}
-                  <div className={`absolute top-0 left-0 w-1 h-full ${leftBorderClass}`}></div>
+                  <div className={`absolute top-0 left-0 w-1.5 h-full ${leftBorderClass}`}></div>
 
-                  <div className="flex justify-between items-start mb-sm">
-                    <div className="flex items-center gap-sm">
-                      <span className={`flex items-center justify-center w-6 h-6 rounded-full ${isCritical ? "bg-error-container text-on-error-container" : "bg-surface-container-highest"
+                  <div className="flex justify-between items-start mb-3 font-inter">
+                    <div className="flex items-center gap-2">
+                      <span className={`flex items-center justify-center w-6 h-6 rounded-full ${isCritical ? "bg-[#f26052]/10 text-[#f26052]" : "bg-[#f1f5f9] text-[#6b7280]"
                         }`}>
                         <span className="material-symbols-outlined text-[14px]">
                           {isCritical ? "warning" : isHigh ? "error" : "info"}
                         </span>
                       </span>
-                      <span className={`font-data-tabular text-[12px] font-bold uppercase tracking-wider ${titleClass}`}>
+                      <span className={`font-mono text-[12px] font-semibold uppercase tracking-wider ${titleClass}`}>
                         {item.severity} Risk
                       </span>
-                      <span className="text-secondary text-[12px]">•</span>
-                      <span className="font-data-tabular text-[12px] text-secondary">{item.timeText}</span>
+                      <span className="text-[#6b7280] text-[12px]">•</span>
+                      <span className="font-mono text-[12px] text-[#6b7280]">{item.timeText}</span>
                       {item.isSnoozed && (
-                        <span className="bg-surface-container-high text-secondary text-[10px] uppercase font-bold px-1 py-0.5 rounded">Snoozed</span>
+                        <span className="bg-[#f1f5f9] text-[#6b7280] text-[10px] uppercase font-mono font-medium px-2 py-0.5 rounded-full">Snoozed</span>
                       )}
                     </div>
-                    <button className="text-secondary hover:text-ink transition-colors">
+                    <button className="text-[#6b7280] hover:text-[#020520] transition-colors">
                       <span className="material-symbols-outlined text-[20px]">more_horiz</span>
                     </button>
                   </div>
 
-                  <div className="flex gap-md">
-                    {/* Logo/Icon */}
-                    <div className="w-10 h-10 rounded-full bg-surface-container-high border border-hairline flex items-center justify-center shrink-0">
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full bg-[#f1f5f9] border border-[#e2e8f0] flex items-center justify-center shrink-0">
                       {item.vendorLogoUrl ? (
                         <img alt="Vendor Logo" className="w-6 h-6 object-contain rounded-full" src={item.vendorLogoUrl} />
                       ) : (
-                        <span className="material-symbols-outlined text-secondary text-[20px]">
+                        <span className="material-symbols-outlined text-[#6b7280] text-[20px]">
                           {isHigh ? "cloud" : "web"}
                         </span>
                       )}
                     </div>
 
-                    {/* Body */}
-                    <div className="flex-1">
-                      <h3 className="font-body-strong text-[18px] text-ink leading-tight mb-xs font-semibold">{item.title}</h3>
-                      <p className="font-body text-[14px] text-secondary mb-sm">{item.description}</p>
+                    <div className="flex-1 font-inter">
+                      <h3 className="text-[18px] text-[#020520] leading-tight mb-1 font-semibold">{item.title}</h3>
+                      <p className="text-[14px] text-[#374151] mb-3 leading-relaxed">{item.description}</p>
 
-                      {/* Sub card metadata brief */}
                       {(item.impactAmount || item.actionByText) && (
-                        <div className="bg-canvas-parchment border border-hairline rounded-md p-sm mb-md flex items-center justify-between">
+                        <div className="bg-[#f1f5f9] border border-[#e2e8f0] rounded-[12px] p-3 mb-4 flex items-center justify-between font-inter">
                           {item.impactAmount && (
                             <div>
-                              <div className="font-data-tabular text-[11px] text-secondary uppercase tracking-wider mb-xxs">Estimated Annual Impact</div>
-                              <div className="font-body-strong text-critical-red font-semibold">{item.impactAmount}</div>
+                              <div className="font-mono text-[11px] text-[#6b7280] uppercase tracking-wider mb-0.5">Estimated Annual Impact</div>
+                              <div className="font-mono text-[#f26052] font-semibold">{item.impactAmount}</div>
                             </div>
                           )}
                           {item.affectedWatchlist && (
                             <div className="hidden sm:block">
-                              <div className="font-data-tabular text-[11px] text-secondary uppercase tracking-wider mb-xxs">Affected Watchlists</div>
-                              <div className="font-body-strong text-[14px] text-ink font-semibold">{item.affectedWatchlist}</div>
+                              <div className="font-mono text-[11px] text-[#6b7280] uppercase tracking-wider mb-0.5">Affected Watchlists</div>
+                              <div className="font-inter text-[14px] text-[#020520] font-semibold">{item.affectedWatchlist}</div>
                             </div>
                           )}
                           {item.actionByText && (
                             <div>
-                              <div className="font-data-tabular text-[11px] text-secondary uppercase tracking-wider mb-xxs">Action Required By</div>
-                              <div className="font-body-strong text-[14px] text-ink font-semibold">{item.actionByText}</div>
+                              <div className="font-mono text-[11px] text-[#6b7280] uppercase tracking-wider mb-0.5">Action Required By</div>
+                              <div className="font-inter text-[14px] text-[#020520] font-semibold">{item.actionByText}</div>
                             </div>
                           )}
                           {item.potentialImpactText && (
                             <div className="hidden sm:block">
-                              <div className="font-data-tabular text-[11px] text-secondary uppercase tracking-wider mb-xxs">Potential Impact</div>
-                              <div className="font-body-strong text-[14px] text-warning-amber font-semibold">{item.potentialImpactText}</div>
+                              <div className="font-mono text-[11px] text-[#6b7280] uppercase tracking-wider mb-0.5">Potential Impact</div>
+                              <div className="font-mono text-[14px] text-[#ffa64d] font-semibold">{item.potentialImpactText}</div>
                             </div>
                           )}
                         </div>
                       )}
 
-                      {/* Actions */}
-                      <div className="flex flex-wrap gap-sm items-center">
+                      <div className="flex flex-wrap gap-2 items-center font-inter">
                         <button
                           onClick={() => console.log("Mock review scenario")}
-                          className="bg-primary text-on-primary font-label-capsule text-[12px] px-md py-1 rounded-full hover:scale-95 transition-transform duration-150 inline-block font-semibold"
+                          className="bg-[#fcfcfc] border border-[#145aff] text-[#145aff] font-medium text-[12px] px-4 py-1.5 rounded-full hover:bg-[#f0f4fe] transition-colors duration-150 inline-block shadow-sm"
                         >
                           Review Scenario
                         </button>
                         <button
                           onClick={() => console.log("Mock view scraper")}
-                          className="bg-surface-pearl border border-hairline text-ink font-label-capsule text-[12px] px-md py-1 rounded-full hover:bg-surface-container-high transition-colors inline-block"
+                          className="bg-[#ffffff] border border-[#e2e8f0] text-[#020520] text-[12px] px-4 py-1.5 rounded-full hover:bg-[#f0f4fe] transition-colors duration-150 inline-block font-medium"
                         >
                           View Scraper
                         </button>
 
-                        <div className="ml-auto flex gap-xs">
+                        <div className="ml-auto flex gap-1">
                           <button
                             onClick={() => handleRead(item.id)}
-                            className={`p-1 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-container-high ${item.isRead ? "text-primary bg-surface-container-low" : ""
+                            className={`p-1.5 text-[#6b7280] hover:text-[#145aff] transition-colors rounded-full hover:bg-[#f0f4fe] ${item.isRead ? "text-[#145aff] bg-[#f0f4fe]" : ""
                               }`}
                             title="Mark as Read"
                           >
@@ -217,7 +210,7 @@ export const Alerts: React.FC = () => {
                           </button>
                           <button
                             onClick={() => handleSnooze(item.id)}
-                            className={`p-1 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-container-high ${item.isSnoozed ? "text-primary bg-surface-container-low" : ""
+                            className={`p-1.5 text-[#6b7280] hover:text-[#145aff] transition-colors rounded-full hover:bg-[#f0f4fe] ${item.isSnoozed ? "text-[#145aff] bg-[#f0f4fe]" : ""
                               }`}
                             title="Snooze"
                           >
@@ -233,66 +226,63 @@ export const Alerts: React.FC = () => {
           )}
         </div>
 
-        {/* Right Sidebar (Context & Settings - 4 or 3 cols) */}
-        <aside className="hidden lg:flex flex-col lg:col-span-4 xl:col-span-3 gap-md">
-          {/* Alert Fatigue Health Check */}
-          <div className="bg-canvas-white border border-hairline rounded-lg p-md shadow-sm">
-            <h4 className="font-body-strong text-ink mb-sm flex items-center gap-xs font-semibold text-[14px]">
-              <span className="material-symbols-outlined text-[18px] text-secondary">monitoring</span>
+        {/* Right Sidebar */}
+        <aside className="hidden lg:flex flex-col lg:col-span-4 xl:col-span-3 gap-4 font-inter">
+          <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+            <h4 className="font-inter text-[#020520] mb-1 flex items-center gap-1.5 font-semibold text-[14px]">
+              <span className="material-symbols-outlined text-[18px] text-[#145aff]">monitoring</span>
               Alert Health
             </h4>
-            <p className="font-data-tabular text-[12px] text-secondary mb-md">Daily notification volume vs. 30-day average.</p>
+            <p className="font-mono text-[12px] text-[#6b7280] mb-4">Daily notification volume vs. 30-day average.</p>
 
-            {/* Mini Chart Placeholder (Simple CSS columns) */}
-            <div className="flex items-end gap-[3px] h-20 mb-xs opacity-70 border-b border-hairline pb-1">
-              <div className="w-full bg-surface-container-high rounded-t-sm h-[30%]"></div>
-              <div className="w-full bg-surface-container-high rounded-t-sm h-[45%]"></div>
-              <div className="w-full bg-surface-container-high rounded-t-sm h-[20%]"></div>
-              <div className="w-full bg-surface-container-high rounded-t-sm h-[60%]"></div>
-              <div className="w-full bg-surface-container-high rounded-t-sm h-[55%]"></div>
-              <div className="w-full bg-surface-container-high rounded-t-sm h-[80%] relative">
-                <div className="absolute -top-1 left-0 w-full h-[2px] bg-warning-amber"></div>
+            <div className="flex items-end gap-[3px] h-20 mb-2 opacity-70 border-b border-[#e2e8f0] pb-1">
+              <div className="w-full bg-[#f1f5f9] rounded-t-sm h-[30%]"></div>
+              <div className="w-full bg-[#f1f5f9] rounded-t-sm h-[45%]"></div>
+              <div className="w-full bg-[#f1f5f9] rounded-t-sm h-[20%]"></div>
+              <div className="w-full bg-[#f1f5f9] rounded-t-sm h-[60%]"></div>
+              <div className="w-full bg-[#f1f5f9] rounded-t-sm h-[55%]"></div>
+              <div className="w-full bg-[#f1f5f9] rounded-t-sm h-[80%] relative">
+                <div className="absolute -top-1 left-0 w-full h-[2px] bg-[#ffa64d]"></div>
               </div>
-              <div className="w-full bg-primary/20 rounded-t-sm h-[95%] border-t-2 border-primary"></div>
+              <div className="w-full bg-[#145aff]/20 rounded-t-sm h-[95%] border-t-2 border-[#145aff]"></div>
             </div>
 
-            <div className="flex justify-between font-data-tabular text-[10px] text-secondary">
+            <div className="flex justify-between font-mono text-[10px] text-[#6b7280]">
               <span>Mon</span>
               <span>Today</span>
             </div>
 
-            <div className="mt-md bg-error-container/30 border border-error-container rounded-md p-xs flex items-start gap-xs">
-              <span className="material-symbols-outlined text-[14px] text-warning-amber shrink-0 mt-[2px]">trending_up</span>
-              <span className="font-data-tabular text-[11px] text-ink leading-tight">Volume is <strong>24% higher</strong> than average today. Consider tuning your plan change sensitivity.</span>
+            <div className="mt-4 bg-[#ffa64d]/10 border border-[#ffa64d]/30 rounded-[12px] p-2.5 flex items-start gap-2">
+              <span className="material-symbols-outlined text-[14px] text-[#ffa64d] shrink-0 mt-[2px]">trending_up</span>
+              <span className="font-inter text-[11px] text-[#020520] leading-tight">Volume is <strong>24% higher</strong> than average today. Consider tuning your plan change sensitivity.</span>
             </div>
           </div>
 
-          {/* Quick Preferences */}
-          <div className="bg-canvas-white border border-hairline rounded-lg p-md shadow-sm">
-            <h4 className="font-body-strong text-ink mb-sm font-semibold text-[14px]">Quick Preferences</h4>
-            <ul className="flex flex-col gap-sm">
+          <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+            <h4 className="font-inter text-[#020520] mb-3 font-semibold text-[14px]">Quick Preferences</h4>
+            <ul className="flex flex-col gap-3 font-inter">
               <li className="flex items-center justify-between">
-                <span className="font-data-tabular text-[13px] text-secondary font-medium">Critical Alerts (Email)</span>
-                <div className="w-8 h-4 bg-primary rounded-full relative cursor-pointer">
+                <span className="text-[13px] text-[#374151] font-medium">Critical Alerts (Email)</span>
+                <div className="w-8 h-4 bg-[#145aff] rounded-full relative cursor-pointer">
                   <div className="absolute right-0.5 top-0.5 w-3 h-3 bg-white rounded-full shadow-sm"></div>
                 </div>
               </li>
               <li className="flex items-center justify-between">
-                <span className="font-data-tabular text-[13px] text-secondary font-medium">Digest (Weekly)</span>
-                <div className="w-8 h-4 bg-primary rounded-full relative cursor-pointer">
+                <span className="text-[13px] text-[#374151] font-medium">Digest (Weekly)</span>
+                <div className="w-8 h-4 bg-[#145aff] rounded-full relative cursor-pointer">
                   <div className="absolute right-0.5 top-0.5 w-3 h-3 bg-white rounded-full shadow-sm"></div>
                 </div>
               </li>
               <li className="flex items-center justify-between">
-                <span className="font-data-tabular text-[13px] text-secondary font-medium">Scraper Warnings</span>
-                <div className="w-8 h-4 bg-surface-container-highest rounded-full relative cursor-pointer">
+                <span className="text-[13px] text-[#374151] font-medium">Scraper Warnings</span>
+                <div className="w-8 h-4 bg-[#e2e8f0] rounded-full relative cursor-pointer">
                   <div className="absolute left-0.5 top-0.5 w-3 h-3 bg-white rounded-full shadow-sm"></div>
                 </div>
               </li>
             </ul>
             <button
               onClick={() => console.log("Mock manage settings click")}
-              className="mt-md w-full bg-surface-pearl border border-hairline text-ink font-label-capsule text-[12px] py-1.5 rounded-full hover:bg-surface-container-high transition-colors inline-block text-center font-semibold"
+              className="mt-4 w-full bg-[#ffffff] border border-[#e2e8f0] text-[#020520] font-inter text-[12px] py-2 rounded-full hover:bg-[#f0f4fe] transition-colors duration-150 font-medium"
             >
               Manage All Settings
             </button>
@@ -303,3 +293,4 @@ export const Alerts: React.FC = () => {
     </main>
   );
 };
+

@@ -3,23 +3,19 @@ import { Link } from "react-router-dom";
 import { mockFinancialImpactScores } from "../mockData";
 
 export const FinancialImpactDetail: React.FC = () => {
-  // Overrides form state
   const [seatCount, setSeatCount] = useState<number>(1250);
   const [monthlySpend, setMonthlySpend] = useState<number>(350000);
   const [renewalDate, setRenewalDate] = useState<string>("2024-12-31");
 
-  // Visual calculation state
   const [appliedSeats, setAppliedSeats] = useState<number>(1250);
   const [appliedMonthlySpend, setAppliedMonthlySpend] = useState<number>(350000);
 
   const currentAnnualSpend = appliedMonthlySpend * 12;
-
-  // Calculate projected spend dynamically based on overrides for high-fidelity interaction
   const seatsDelta = appliedSeats - 1250;
-  const spendAdjustment = seatsDelta * 360; // Adjust $360/year per seat change
+  const spendAdjustment = seatsDelta * 360;
   const totalDelta = 450000 + spendAdjustment;
   const projectedSpend = currentAnnualSpend + totalDelta;
-  const renewalExposure = 1200000; // $1.2M
+  const renewalExposure = 1200000;
 
   const formatCurrency = (val: number) => {
     const sign = val < 0 ? "-" : "";
@@ -44,34 +40,34 @@ export const FinancialImpactDetail: React.FC = () => {
   };
 
   return (
-    <main className="flex-grow p-margin-mobile md:p-margin-desktop overflow-y-auto bg-background flex flex-col">
+    <main className="flex-grow p-4 md:p-10 overflow-y-auto bg-[#fcfcfc] flex flex-col w-full max-w-[1400px] mx-auto">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-xs mb-md text-nav-link font-nav-link animate-fade-in" aria-label="Breadcrumb">
-        <Link to="/" className="text-secondary hover:text-primary transition-colors">
+      <nav className="flex items-center gap-1.5 mb-4 font-inter text-[12px] text-[#6b7280]" aria-label="Breadcrumb">
+        <Link to="/" className="hover:text-[#145aff] transition-colors">
           Dashboard
         </Link>
-        <span className="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
-        <span className="text-secondary">Intelligence</span>
-        <span className="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
-        <span className="text-ink font-medium">Financial Impact</span>
+        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+        <span>Intelligence</span>
+        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+        <span className="text-[#020520] font-medium">Financial Impact</span>
       </nav>
 
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-xl gap-md">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
-          <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg text-ink font-bold tracking-tight">
+          <h1 className="font-inter text-[32px] md:text-[40px] text-[#020520] font-semibold tracking-[-1.48px] leading-tight">
             Financial Impact Analysis
           </h1>
-          <div className="flex items-center gap-xs mt-xs text-secondary font-data-tabular text-data-tabular">
+          <div className="flex items-center gap-1.5 mt-1 text-[#6b7280] font-mono text-[12px]">
             <span className="material-symbols-outlined text-[16px]">update</span>
             Last Calculated: Today, 09:41 AM EST
           </div>
         </div>
-        <div className="flex gap-sm">
-          <button className="px-md py-sm bg-surface-pearl border border-hairline text-ink rounded-full font-body-strong text-[14px] hover:bg-surface-container-low transition-colors">
+        <div className="flex gap-2">
+          <button className="px-4 py-2 bg-[#fcfcfc] border border-[#e2e8f0] text-[#020520] rounded-full font-inter font-medium text-[13px] hover:bg-[#f0f4fe] transition-colors duration-150">
             Export CSV
           </button>
-          <button className="px-md py-sm bg-primary text-canvas-white rounded-full font-body-strong text-[14px] hover:bg-surface-tint transition-all flex items-center gap-xs shadow-sm">
+          <button className="px-5 py-2 bg-[#fcfcfc] border border-[#145aff] text-[#145aff] rounded-full font-inter font-medium text-[13px] hover:bg-[#f0f4fe] transition-colors duration-150 flex items-center gap-1.5 shadow-sm">
             <span className="material-symbols-outlined text-[18px]">assessment</span>
             Generate Procurement Report
           </button>
@@ -79,171 +75,148 @@ export const FinancialImpactDetail: React.FC = () => {
       </div>
 
       {/* Stale Data Warning Banner */}
-      <div className="mb-lg bg-surface-bright border border-warning-amber/30 rounded-lg p-sm flex items-start gap-sm shadow-sm">
-        <span className="material-symbols-outlined text-warning-amber mt-[2px] text-[20px]">warning</span>
+      <div className="mb-6 bg-[#ffffff] border border-[#ffa64d]/40 rounded-[16px] p-4 flex items-start gap-3 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+        <span className="material-symbols-outlined text-[#ffa64d] mt-[2px] text-[20px]">warning</span>
         <div>
-          <h4 className="font-body-strong text-[14px] text-ink">Stale Data Warning</h4>
-          <p className="font-body text-secondary text-[13px] mt-0.5">
+          <h4 className="font-inter text-[14px] text-[#020520] font-semibold">Stale Data Warning</h4>
+          <p className="font-inter text-[#374151] text-[13px] mt-0.5">
             Scraper health for 2 vendors (Salesforce, Zendesk) is currently degraded. Projections may rely on historical data older than 48 hours.
           </p>
         </div>
       </div>
 
       {/* Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-xl flex-grow">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 flex-grow">
 
-        {/* Left Column: Metrics & Charts */}
-        <div className="col-span-1 lg:col-span-8 space-y-gutter">
+        {/* Left Column */}
+        <div className="col-span-1 lg:col-span-8 space-y-6">
 
-          {/* KPI Cards (Bento Style) */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-sm">
-
-            {/* Current Spend */}
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md shadow-sm">
-              <div className="text-secondary font-label-capsule text-[12px] mb-xxs">Current Annual Spend</div>
-              <div className="font-display-md text-[28px] font-bold text-ink">{formatCurrency(currentAnnualSpend)}</div>
+          {/* KPI Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="text-[#6b7280] font-inter text-[12px] uppercase tracking-wider mb-1 font-medium">Current Annual Spend</div>
+              <div className="font-mono text-[28px] font-semibold text-[#020520]">{formatCurrency(currentAnnualSpend)}</div>
             </div>
 
-            {/* Projected Spend */}
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md relative overflow-hidden shadow-sm">
-              <div className="text-secondary font-label-capsule text-[12px] mb-xxs">Projected Annual Spend</div>
-              <div className="font-display-md text-[28px] font-bold text-ink">{formatCurrency(projectedSpend)}</div>
-              <div className="absolute top-3 right-3 flex items-center gap-0.5 text-critical-red font-data-tabular text-[11px] bg-error-container/50 px-1.5 py-0.5 rounded-sm">
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 relative overflow-hidden shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="text-[#6b7280] font-inter text-[12px] uppercase tracking-wider mb-1 font-medium">Projected Annual Spend</div>
+              <div className="font-mono text-[28px] font-semibold text-[#020520]">{formatCurrency(projectedSpend)}</div>
+              <div className="absolute top-3 right-3 flex items-center gap-0.5 text-[#f26052] font-mono text-[11px] bg-[#f26052]/10 px-2 py-0.5 rounded-full font-semibold">
                 <span className="material-symbols-outlined text-[13px]">trending_up</span>
                 +{((totalDelta / currentAnnualSpend) * 100).toFixed(1)}%
               </div>
             </div>
 
-            {/* Total Delta */}
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md shadow-sm">
-              <div className="text-secondary font-label-capsule text-[12px] mb-xxs">Total Delta</div>
-              <div className={`font-display-md text-[28px] font-bold ${totalDelta >= 0 ? "text-critical-red" : "text-success-green"}`}>
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="text-[#6b7280] font-inter text-[12px] uppercase tracking-wider mb-1 font-medium">Total Delta</div>
+              <div className={`font-mono text-[28px] font-semibold ${totalDelta >= 0 ? "text-[#f26052]" : "text-[#16ca2e]"}`}>
                 {totalDelta >= 0 ? "+" : ""}{formatCurrency(totalDelta)}
               </div>
             </div>
 
-            {/* Renewal Exposure */}
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md shadow-sm">
-              <div className="text-secondary font-label-capsule text-[12px] mb-xxs">Renewal Exp. (90d)</div>
-              <div className="font-display-md text-[28px] font-bold text-ink">{formatCurrency(renewalExposure)}</div>
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="text-[#6b7280] font-inter text-[12px] uppercase tracking-wider mb-1 font-medium">Renewal Exp. (90d)</div>
+              <div className="font-mono text-[28px] font-semibold text-[#020520]">{formatCurrency(renewalExposure)}</div>
             </div>
-
           </div>
 
           {/* Charts Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-sm">
-
-            {/* Cost Variance Trend (SVG Bar Chart) */}
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md h-64 flex flex-col shadow-sm">
-              <div className="font-body-strong text-[15px] text-ink mb-md">Cost Variance Trend</div>
-              <div className="flex-grow flex items-end justify-between px-4 pb-2 bg-canvas-parchment rounded border border-hairline relative">
-                <div className="absolute top-2 left-2 text-[10px] text-secondary font-data-tabular">Monthly Variance ($k)</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 h-64 flex flex-col shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="font-inter text-[15px] text-[#020520] font-semibold mb-3">Cost Variance Trend</div>
+              <div className="flex-grow flex items-end justify-between px-4 pb-2 bg-[#f1f5f9] rounded-[12px] border border-[#e2e8f0] relative">
+                <div className="absolute top-2 left-2 text-[10px] text-[#6b7280] font-mono">Monthly Variance ($k)</div>
                 <div className="w-full flex justify-between items-end h-[80%] px-2">
                   <div className="flex flex-col items-center w-1/6">
-                    <div className="w-6 bg-primary/40 h-8 rounded-t"></div>
-                    <span className="text-[10px] text-secondary mt-1">Mar</span>
+                    <div className="w-6 bg-[#3b82f6]/40 h-8 rounded-t-sm"></div>
+                    <span className="text-[10px] text-[#6b7280] font-mono mt-1">Mar</span>
                   </div>
                   <div className="flex flex-col items-center w-1/6">
-                    <div className="w-6 bg-primary/40 h-10 rounded-t"></div>
-                    <span className="text-[10px] text-secondary mt-1">Apr</span>
+                    <div className="w-6 bg-[#3b82f6]/40 h-10 rounded-t-sm"></div>
+                    <span className="text-[10px] text-[#6b7280] font-mono mt-1">Apr</span>
                   </div>
                   <div className="flex flex-col items-center w-1/6">
-                    <div className="w-6 bg-primary/40 h-7 rounded-t"></div>
-                    <span className="text-[10px] text-secondary mt-1">May</span>
+                    <div className="w-6 bg-[#3b82f6]/40 h-7 rounded-t-sm"></div>
+                    <span className="text-[10px] text-[#6b7280] font-mono mt-1">May</span>
                   </div>
                   <div className="flex flex-col items-center w-1/6">
-                    <div className="w-6 bg-primary/40 h-12 rounded-t"></div>
-                    <span className="text-[10px] text-secondary mt-1">Jun</span>
+                    <div className="w-6 bg-[#3b82f6]/40 h-12 rounded-t-sm"></div>
+                    <span className="text-[10px] text-[#6b7280] font-mono mt-1">Jun</span>
                   </div>
                   <div className="flex flex-col items-center w-1/6">
-                    <div className="w-6 bg-warning-amber/60 h-20 rounded-t"></div>
-                    <span className="text-[10px] text-secondary mt-1">Jul</span>
+                    <div className="w-6 bg-[#ffa64d]/80 h-20 rounded-t-sm"></div>
+                    <span className="text-[10px] text-[#6b7280] font-mono mt-1">Jul</span>
                   </div>
                   <div className="flex flex-col items-center w-1/6">
-                    <div className="w-6 bg-critical-red/80 h-28 rounded-t"></div>
-                    <span className="text-[10px] text-secondary mt-1">Aug</span>
+                    <div className="w-6 bg-[#f26052] h-28 rounded-t-sm"></div>
+                    <span className="text-[10px] text-[#6b7280] font-mono mt-1">Aug</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Spend by Category (SVG Donut Chart) */}
-            <div className="bg-canvas-white border border-hairline rounded-lg p-md h-64 flex flex-col shadow-sm">
-              <div className="font-body-strong text-[15px] text-ink mb-md">Spend by Category</div>
-              <div className="flex-grow flex items-center justify-center bg-canvas-parchment rounded border border-hairline relative">
+            <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 h-64 flex flex-col shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+              <div className="font-inter text-[15px] text-[#020520] font-semibold mb-3">Spend by Category</div>
+              <div className="flex-grow flex items-center justify-center bg-[#f1f5f9] rounded-[12px] border border-[#e2e8f0] relative">
                 <svg className="w-36 h-36 transform -rotate-90" viewBox="0 0 36 36">
-                  {/* Donut sectors */}
-                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#e0e0e0" strokeWidth="3" />
-                  {/* Category 1: Infra - 40% */}
-                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#004e9f" strokeWidth="3" strokeDasharray="40 60" strokeDashoffset="100" />
-                  {/* Category 2: CRM - 30% */}
-                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#ff9f0a" strokeWidth="3" strokeDasharray="30 70" strokeDashoffset="60" />
-                  {/* Category 3: DevTools - 20% */}
-                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#28a745" strokeWidth="3" strokeDasharray="20 80" strokeDashoffset="30" />
-                  {/* Category 4: AI - 10% */}
-                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#ff3b30" strokeWidth="3" strokeDasharray="10 90" strokeDashoffset="10" />
-                  <circle cx="18" cy="18" r="12" fill="#fafafc" />
+                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#e2e8f0" strokeWidth="3" />
+                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#145aff" strokeWidth="3" strokeDasharray="40 60" strokeDashoffset="100" />
+                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#ffa64d" strokeWidth="3" strokeDasharray="30 70" strokeDashoffset="60" />
+                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#16ca2e" strokeWidth="3" strokeDasharray="20 80" strokeDashoffset="30" />
+                  <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f26052" strokeWidth="3" strokeDasharray="10 90" strokeDashoffset="10" />
+                  <circle cx="18" cy="18" r="12" fill="#fcfcfc" />
                 </svg>
-                <div className="absolute right-4 top-4 flex flex-col gap-1 text-[10px] font-medium text-secondary">
-                  <div className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#004e9f]"></span> Infra (40%)</div>
-                  <div className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#ff9f0a]"></span> CRM (30%)</div>
-                  <div className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#28a745]"></span> DevTools (20%)</div>
-                  <div className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#ff3b30]"></span> AI (10%)</div>
+                <div className="absolute right-4 top-4 flex flex-col gap-1 text-[10px] font-mono text-[#374151]">
+                  <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#145aff]"></span> Infra (40%)</div>
+                  <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#ffa64d]"></span> CRM (30%)</div>
+                  <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#16ca2e]"></span> DevTools (20%)</div>
+                  <div className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#f26052]"></span> AI (10%)</div>
                 </div>
               </div>
             </div>
-
           </div>
 
-          {/* Main Table: Vendor Impact Scoring */}
-          <div className="bg-canvas-white border border-hairline rounded-lg overflow-hidden shadow-sm">
-            <div className="p-md border-b border-hairline bg-surface-pearl flex justify-between items-center">
-              <h3 className="font-body-strong text-body-strong text-ink font-semibold">Vendor Impact Scoring</h3>
-              <div className="flex gap-xs">
-                <button className="p-xs text-secondary hover:text-ink transition-colors">
-                  <span className="material-symbols-outlined text-[20px]">filter_list</span>
-                </button>
-                <button className="p-xs text-secondary hover:text-ink transition-colors">
-                  <span className="material-symbols-outlined text-[20px]">more_vert</span>
-                </button>
-              </div>
+          {/* Main Table */}
+          <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] overflow-hidden shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+            <div className="p-4 border-b border-[#e2e8f0] bg-[#f1f5f9] flex justify-between items-center">
+              <h3 className="font-inter text-[#020520] font-semibold text-[15px]">Vendor Impact Scoring</h3>
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto font-mono text-[13px]">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-canvas-parchment border-b border-hairline">
-                    <th className="py-2.5 px-md font-label-capsule text-[12px] text-secondary font-medium uppercase">Vendor</th>
-                    <th className="py-2.5 px-md font-label-capsule text-[12px] text-secondary font-medium uppercase">Impact Score</th>
-                    <th className="py-2.5 px-md font-label-capsule text-[12px] text-secondary font-medium uppercase">Core Drivers</th>
-                    <th className="py-2.5 px-md font-label-capsule text-[12px] text-secondary font-medium uppercase text-right">Annual Delta</th>
-                    <th className="py-2.5 px-md font-label-capsule text-[12px] text-secondary font-medium uppercase">Status</th>
+                  <tr className="bg-[#f1f5f9] border-b border-[#e2e8f0] font-inter text-[#374151]">
+                    <th className="py-3 px-4 text-[12px] font-medium uppercase">Vendor</th>
+                    <th className="py-3 px-4 text-[12px] font-medium uppercase">Impact Score</th>
+                    <th className="py-3 px-4 text-[12px] font-medium uppercase">Core Drivers</th>
+                    <th className="py-3 px-4 text-[12px] font-medium uppercase text-right">Annual Delta</th>
+                    <th className="py-3 px-4 text-[12px] font-medium uppercase">Status</th>
                   </tr>
                 </thead>
-                <tbody className="font-data-tabular text-[13px] text-ink divide-y divide-hairline">
+                <tbody className="divide-y divide-[#e2e8f0] text-[#14141e]">
                   {mockFinancialImpactScores.map((scoreItem) => (
-                    <tr key={scoreItem.vendor} className="hover:bg-surface-bright transition-colors cursor-pointer">
-                      <td className="py-3 px-md flex items-center gap-sm">
-                        <div className={`w-2.5 h-2.5 rounded-full ${scoreItem.impactColor === "red" ? "bg-critical-red" :
-                            scoreItem.impactColor === "amber" ? "bg-warning-amber" : "bg-success-green"
+                    <tr key={scoreItem.vendor} className="hover:bg-[#f0f4fe]/60 transition-colors duration-150">
+                      <td className="py-3 px-4 flex items-center gap-2">
+                        <div className={`w-2.5 h-2.5 rounded-full ${scoreItem.impactColor === "red" ? "bg-[#f26052]" :
+                            scoreItem.impactColor === "amber" ? "bg-[#ffa64d]" : "bg-[#16ca2e]"
                           }`}></div>
-                        <span className="font-semibold">{scoreItem.vendor}</span>
+                        <span className="font-inter font-semibold text-[#020520]">{scoreItem.vendor}</span>
                       </td>
-                      <td className="py-3 px-md">
+                      <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-16 h-1.5 bg-surface-container rounded-full overflow-hidden">
-                            <div className={`h-full ${scoreItem.impactColor === "red" ? "bg-critical-red" :
-                                scoreItem.impactColor === "amber" ? "bg-warning-amber" : "bg-success-green"
+                          <div className="w-16 h-1.5 bg-[#f1f5f9] rounded-full overflow-hidden">
+                            <div className={`h-full ${scoreItem.impactColor === "red" ? "bg-[#f26052]" :
+                                scoreItem.impactColor === "amber" ? "bg-[#ffa64d]" : "bg-[#16ca2e]"
                               }`} style={{ width: `${scoreItem.score}%` }}></div>
                           </div>
                           <span>{scoreItem.score}</span>
                         </div>
                       </td>
-                      <td className="py-3 px-md text-secondary">{scoreItem.coreDrivers}</td>
-                      <td className={`py-3 px-md text-right font-medium ${scoreItem.impactColor === "red" ? "text-critical-red" :
-                          scoreItem.impactColor === "amber" ? "text-warning-amber" : "text-success-green"
+                      <td className="py-3 px-4 font-inter text-[#374151]">{scoreItem.coreDrivers}</td>
+                      <td className={`py-3 px-4 text-right font-semibold ${scoreItem.impactColor === "red" ? "text-[#f26052]" :
+                          scoreItem.impactColor === "amber" ? "text-[#ffa64d]" : "text-[#16ca2e]"
                         }`}>{scoreItem.annualDelta}</td>
-                      <td className="py-3 px-md">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-[11px] font-medium border border-primary-container/20">
+                      <td className="py-3 px-4 font-inter">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#f0f4fe] text-[#145aff] text-[11px] font-medium">
                           {scoreItem.status}
                         </span>
                       </td>
@@ -258,60 +231,57 @@ export const FinancialImpactDetail: React.FC = () => {
 
         {/* Right Column: Config Overrides Panel */}
         <div className="col-span-1 lg:col-span-4">
-          <div className="bg-canvas-white border border-hairline rounded-lg p-md sticky top-20 shadow-sm">
-            <div className="flex justify-between items-center mb-md pb-xs border-b border-hairline">
-              <h3 className="font-body-strong text-body-strong text-ink flex items-center gap-sm font-semibold">
-                <span className="material-symbols-outlined text-[20px] text-primary">tune</span>
+          <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 sticky top-20 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+            <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#e2e8f0]">
+              <h3 className="font-inter text-[#020520] flex items-center gap-2 font-semibold text-[15px]">
+                <span className="material-symbols-outlined text-[20px] text-[#145aff]">tune</span>
                 Profile Overrides
               </h3>
               <button
                 onClick={handleReset}
-                className="text-primary text-[13px] hover:underline font-body-strong"
+                className="text-[#145aff] text-[13px] hover:underline font-inter font-medium"
               >
                 Reset
               </button>
             </div>
-            <p className="font-body text-secondary text-[13px] mb-lg leading-relaxed">
+            <p className="font-inter text-[#374151] text-[13px] mb-6 leading-relaxed">
               Refine calculations by overriding Sentinel's detected company metrics.
             </p>
 
-            <div className="space-y-md">
-              {/* Seat Count */}
+            <div className="space-y-4">
               <div>
-                <label className="block font-label-capsule text-[12px] text-ink mb-1.5 font-medium">Total Seat Count</label>
+                <label className="block font-inter text-[12px] text-[#374151] mb-1 font-medium">Total Seat Count</label>
                 <div className="flex relative">
                   <input
-                    className="w-full bg-surface-bright border border-hairline rounded-md py-1.5 px-sm font-data-tabular text-[13px] focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary pr-12 text-ink"
+                    className="w-full bg-[#f1f5f9] border border-[#e2e8f0] rounded-[12px] py-2 px-3 font-mono text-[13px] text-[#020520] focus:outline-none focus:border-[#145aff] focus:ring-1 focus:ring-[#0099ff] pr-12 transition-colors"
                     type="number"
                     value={seatCount}
                     onChange={(e) => setSeatCount(parseInt(e.target.value) || 0)}
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] uppercase tracking-wider text-primary font-bold">User</span>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono uppercase tracking-wider text-[#145aff] font-semibold">User</span>
                 </div>
               </div>
 
-              {/* Monthly Spend */}
               <div>
-                <label className="block font-label-capsule text-[12px] text-ink mb-1.5 font-medium">Avg. Monthly Cloud Spend</label>
+                <label className="block font-inter text-[12px] text-[#374151] mb-1 font-medium">Avg. Monthly Cloud Spend</label>
                 <div className="flex relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[13px]">$</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280] font-mono text-[13px]">$</span>
                   <input
-                    className="w-full bg-surface-container-low border border-hairline border-dashed rounded-sm py-1.5 pl-7 pr-20 font-data-tabular text-[13px] text-secondary focus:outline-none"
+                    className="w-full bg-[#f1f5f9] border border-[#e2e8f0] rounded-[12px] py-2 pl-7 pr-20 font-mono text-[13px] text-[#6b7280] focus:outline-none cursor-not-allowed"
                     type="text"
                     disabled={true}
                     value={appliedMonthlySpend.toLocaleString()}
                   />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-wider text-secondary font-medium flex items-center gap-0.5">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono uppercase tracking-wider text-[#6b7280] font-medium flex items-center gap-1">
                     <span className="material-symbols-outlined text-[12px]">auto_awesome</span> Sentinel
                   </span>
                 </div>
               </div>
 
-              {/* Next Major Renewal */}
               <div>
-                <label className="block font-label-capsule text-[12px] text-ink mb-1.5 font-medium">Global Renewal Anchor Date</label>
+                <label className="block font-inter text-[12px] text-[#374151] mb-1 font-medium">Global Renewal Anchor Date</label>
                 <input
-                  className="w-full bg-surface-bright border border-hairline rounded-md py-1.5 px-sm font-data-tabular text-[13px] focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-ink"
+                  className="w-full bg-[#f1f5f9] border border-[#e2e8f0] rounded-[12px] py-2 px-3 font-mono text-[13px] text-[#020520] focus:outline-none focus:border-[#145aff] focus:ring-1 focus:ring-[#0099ff] transition-colors"
                   type="date"
                   value={renewalDate}
                   onChange={(e) => setRenewalDate(e.target.value)}
@@ -319,10 +289,10 @@ export const FinancialImpactDetail: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-lg pt-md border-t border-hairline">
+            <div className="mt-6 pt-4 border-t border-[#e2e8f0]">
               <button
                 onClick={handleApply}
-                className="w-full bg-surface-pearl border border-hairline text-ink hover:bg-surface-container rounded-full font-body-strong text-[13px] py-2 transition-all shadow-sm active:scale-98"
+                className="w-full bg-[#fcfcfc] border border-[#145aff] text-[#145aff] hover:bg-[#f0f4fe] rounded-full font-inter font-medium text-[13px] py-2 transition-colors duration-150 shadow-sm"
               >
                 Apply Overrides
               </button>
@@ -334,3 +304,4 @@ export const FinancialImpactDetail: React.FC = () => {
     </main>
   );
 };
+

@@ -71,13 +71,13 @@ export const ReportDetail: React.FC = () => {
           </p>
         </div>
         <div className="flex gap-sm shrink-0">
-          <button 
+          <button
             onClick={() => console.log("Mock export CSV click")}
             className="px-md py-2 bg-surface-pearl border border-hairline text-ink rounded-full font-body-strong text-[13px] hover:bg-surface-container-low transition-colors"
           >
             Export CSV
           </button>
-          <button 
+          <button
             onClick={() => console.log("Mock export PDF click")}
             className="px-md py-2 bg-primary text-on-primary rounded-full font-body-strong text-[13px] hover:bg-surface-tint transition-all shadow-sm"
           >
@@ -128,9 +128,8 @@ export const ReportDetail: React.FC = () => {
                     <td className="py-3 px-md font-body-strong text-[14px] text-ink font-semibold">{event.vendor}</td>
                     <td className="py-3 px-md font-data-tabular text-[13px] text-secondary">{event.parameter}</td>
                     <td className="py-3 px-md">
-                      <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
-                        isIncrease ? "bg-error-container text-on-error-container" : "bg-success-green/10 text-success-green"
-                      }`}>
+                      <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${isIncrease ? "bg-error-container text-on-error-container" : "bg-success-green/10 text-success-green"
+                        }`}>
                         {event.type}
                       </span>
                     </td>

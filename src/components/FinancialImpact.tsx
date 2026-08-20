@@ -21,13 +21,12 @@ export const FinancialImpact: React.FC = () => {
             <div
               key={idx}
               style={{ height: bar.height }}
-              className={`w-1/12 rounded-t relative transition-colors ${
-                bar.active
+              className={`w-1/12 rounded-t relative transition-colors ${bar.active
                   ? bar.monthLabel === "Sep"
                     ? "bg-critical-red/80 hover:bg-critical-red"
                     : "bg-warning-amber/60 hover:bg-warning-amber"
                   : "bg-surface-variant hover:bg-surface-dim"
-              }`}
+                }`}
             >
               {bar.monthLabel && (
                 <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-ink font-bold">

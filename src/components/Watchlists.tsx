@@ -9,12 +9,12 @@ export const Watchlists: React.FC = () => {
   // Handle Search & Tab filter
   const activeWatchlists = mockWatchlists.filter((item) => {
     if (item.archived) return false;
-    
+
     // Search query filter
-    const matchesSearch = 
+    const matchesSearch =
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase());
-      
+
     if (!matchesSearch) return false;
 
     // Tab filter
@@ -60,23 +60,21 @@ export const Watchlists: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-sm mb-lg">
         {/* Navigation Tabs */}
         <nav className="flex gap-sm border-b border-hairline w-full md:w-auto">
-          <button 
+          <button
             onClick={() => setActiveTab("all")}
-            className={`py-2 px-sm text-[14px] font-body-strong transition-all ${
-              activeTab === "all" 
-                ? "text-primary border-b-2 border-primary font-semibold" 
+            className={`py-2 px-sm text-[14px] font-body-strong transition-all ${activeTab === "all"
+                ? "text-primary border-b-2 border-primary font-semibold"
                 : "text-secondary hover:text-primary"
-            }`}
+              }`}
           >
             All
           </button>
-          <button 
+          <button
             onClick={() => setActiveTab("recent")}
-            className={`py-2 px-sm text-[14px] font-body-strong transition-all ${
-              activeTab === "recent" 
-                ? "text-primary border-b-2 border-primary font-semibold" 
+            className={`py-2 px-sm text-[14px] font-body-strong transition-all ${activeTab === "recent"
+                ? "text-primary border-b-2 border-primary font-semibold"
                 : "text-secondary hover:text-primary"
-            }`}
+              }`}
           >
             Recent
           </button>
@@ -85,9 +83,9 @@ export const Watchlists: React.FC = () => {
         {/* Search */}
         <div className="relative w-full md:w-64">
           <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-secondary text-[18px]">search</span>
-          <input 
-            className="w-full pl-xl pr-md py-1.5 rounded-full border border-hairline bg-canvas-parchment/50 focus:bg-canvas-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-body text-[13px]" 
-            placeholder="Search watchlists..." 
+          <input
+            className="w-full pl-xl pr-md py-1.5 rounded-full border border-hairline bg-canvas-parchment/50 focus:bg-canvas-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-body text-[13px]"
+            placeholder="Search watchlists..."
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -126,16 +124,15 @@ export const Watchlists: React.FC = () => {
                     <span className="material-symbols-outlined text-[20px]">more_vert</span>
                   </button>
                 </div>
-                
+
                 <div className="flex items-center gap-xs mb-lg">
                   <span className="inline-flex items-center px-sm py-0.5 rounded-full bg-surface-pearl border border-hairline font-label-capsule text-[12px] text-ink">
                     {watchlist.vendorCount} Vendors
                   </span>
-                  <div className={`flex items-center gap-xxs px-sm py-0.5 rounded-full border font-label-capsule text-[12px] ${
-                    isCritical 
-                      ? "bg-warning-amber/10 border-warning-amber/30 text-warning-amber" 
+                  <div className={`flex items-center gap-xxs px-sm py-0.5 rounded-full border font-label-capsule text-[12px] ${isCritical
+                      ? "bg-warning-amber/10 border-warning-amber/30 text-warning-amber"
                       : "bg-surface-pearl border-hairline text-ink"
-                  }`}>
+                    }`}>
                     <span className={`w-2 h-2 rounded-full ${isCritical ? "bg-warning-amber animate-pulse" : "bg-success-green"}`}></span>
                     {watchlist.healthPercentage}% Health
                   </div>
@@ -148,13 +145,12 @@ export const Watchlists: React.FC = () => {
                   </div>
                   <div className="text-right">
                     <p className="font-nav-link text-[11px] text-secondary uppercase tracking-widest mb-xxs">Est. Impact</p>
-                    <p className={`font-display-md text-[24px] font-bold ${
-                      watchlist.estimatedImpact.startsWith("+") 
-                        ? "text-error" 
-                        : watchlist.estimatedImpact.startsWith("-") 
-                          ? "text-success-green" 
+                    <p className={`font-display-md text-[24px] font-bold ${watchlist.estimatedImpact.startsWith("+")
+                        ? "text-error"
+                        : watchlist.estimatedImpact.startsWith("-")
+                          ? "text-success-green"
                           : "text-secondary"
-                    }`}>
+                      }`}>
                       {watchlist.estimatedImpact}
                     </p>
                   </div>
@@ -168,7 +164,7 @@ export const Watchlists: React.FC = () => {
       {/* Archived Section Accordion */}
       {archivedWatchlists.length > 0 && (
         <div className="border-t border-hairline pt-lg mb-xxl">
-          <button 
+          <button
             onClick={() => setArchivedOpen(!archivedOpen)}
             className="flex items-center gap-sm text-secondary hover:text-ink transition-colors font-body-strong text-[14px] w-full text-left focus:outline-none"
           >
@@ -177,7 +173,7 @@ export const Watchlists: React.FC = () => {
             </span>
             Archived Watchlists ({archivedWatchlists.length})
           </button>
-          
+
           {archivedOpen && (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter mt-lg animate-fade-in">
               {archivedWatchlists.map((watchlist) => (

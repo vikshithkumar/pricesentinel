@@ -22,11 +22,11 @@ export const Alerts: React.FC = () => {
   // Filter alerts (simulated search)
   const filteredAlerts = alerts.filter((item) => {
     // Search query filter
-    const matchesSearch = 
+    const matchesSearch =
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.vendorName.toLowerCase().includes(searchQuery.toLowerCase());
-      
+
     if (!matchesSearch) return false;
     return true;
   });
@@ -63,7 +63,7 @@ export const Alerts: React.FC = () => {
 
       {/* Bento Layout Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter flex-grow items-stretch">
-        
+
         {/* Main Feed (Canvas Stacking - 8 or 9 cols) */}
         <div className="lg:col-span-8 xl:col-span-9 flex flex-col gap-md">
           {/* Filters Toolbar */}
@@ -73,7 +73,7 @@ export const Alerts: React.FC = () => {
               Severity <span className="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
             </button>
             {categoryFilter && (
-              <button 
+              <button
                 onClick={() => setCategoryFilter("")}
                 className="bg-primary text-on-primary border border-primary font-label-capsule text-[12px] px-sm py-1 rounded-full transition-colors flex items-center gap-xs"
               >
@@ -83,13 +83,13 @@ export const Alerts: React.FC = () => {
             <button className="bg-surface-pearl hover:bg-surface-container-high border border-hairline text-ink font-label-capsule text-[12px] px-sm py-1 rounded-full transition-colors flex items-center gap-xs">
               Vendor <span className="material-symbols-outlined text-[16px] text-secondary">expand_more</span>
             </button>
-            
+
             {/* Search Input inside toolbar */}
             <div className="relative ml-auto w-48 sm:w-64">
               <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-secondary text-[16px]">search</span>
-              <input 
-                className="w-full bg-canvas-parchment focus:bg-white border border-hairline rounded-full py-1 pl-xl pr-sm text-data-tabular text-[12px] focus:outline-none" 
-                placeholder="Search feed..." 
+              <input
+                className="w-full bg-canvas-parchment focus:bg-white border border-hairline rounded-full py-1 pl-xl pr-sm text-data-tabular text-[12px] focus:outline-none"
+                placeholder="Search feed..."
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -112,22 +112,20 @@ export const Alerts: React.FC = () => {
               const isHigh = item.severity === "high";
               const leftBorderClass = isCritical ? "bg-critical-red" : isHigh ? "bg-warning-amber" : "bg-secondary";
               const titleClass = isCritical ? "text-critical-red" : isHigh ? "text-warning-amber" : "text-secondary";
-              
+
               return (
-                <article 
+                <article
                   key={item.id}
-                  className={`bg-canvas-white border border-hairline rounded-lg p-md md:p-lg hover:border-outline-variant transition-colors group relative overflow-hidden shadow-sm ${
-                    item.isRead ? "opacity-60" : ""
-                  }`}
+                  className={`bg-canvas-white border border-hairline rounded-lg p-md md:p-lg hover:border-outline-variant transition-colors group relative overflow-hidden shadow-sm ${item.isRead ? "opacity-60" : ""
+                    }`}
                 >
                   {/* Thick left severity bar */}
                   <div className={`absolute top-0 left-0 w-1 h-full ${leftBorderClass}`}></div>
-                  
+
                   <div className="flex justify-between items-start mb-sm">
                     <div className="flex items-center gap-sm">
-                      <span className={`flex items-center justify-center w-6 h-6 rounded-full ${
-                        isCritical ? "bg-error-container text-on-error-container" : "bg-surface-container-highest"
-                      }`}>
+                      <span className={`flex items-center justify-center w-6 h-6 rounded-full ${isCritical ? "bg-error-container text-on-error-container" : "bg-surface-container-highest"
+                        }`}>
                         <span className="material-symbols-outlined text-[14px]">
                           {isCritical ? "warning" : isHigh ? "error" : "info"}
                         </span>
@@ -157,12 +155,12 @@ export const Alerts: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    
+
                     {/* Body */}
                     <div className="flex-1">
                       <h3 className="font-body-strong text-[18px] text-ink leading-tight mb-xs font-semibold">{item.title}</h3>
                       <p className="font-body text-[14px] text-secondary mb-sm">{item.description}</p>
-                      
+
                       {/* Sub card metadata brief */}
                       {(item.impactAmount || item.actionByText) && (
                         <div className="bg-canvas-parchment border border-hairline rounded-md p-sm mb-md flex items-center justify-between">
@@ -195,34 +193,32 @@ export const Alerts: React.FC = () => {
 
                       {/* Actions */}
                       <div className="flex flex-wrap gap-sm items-center">
-                        <button 
+                        <button
                           onClick={() => console.log("Mock review scenario")}
                           className="bg-primary text-on-primary font-label-capsule text-[12px] px-md py-1 rounded-full hover:scale-95 transition-transform duration-150 inline-block font-semibold"
                         >
                           Review Scenario
                         </button>
-                        <button 
+                        <button
                           onClick={() => console.log("Mock view scraper")}
                           className="bg-surface-pearl border border-hairline text-ink font-label-capsule text-[12px] px-md py-1 rounded-full hover:bg-surface-container-high transition-colors inline-block"
                         >
                           View Scraper
                         </button>
-                        
+
                         <div className="ml-auto flex gap-xs">
-                          <button 
+                          <button
                             onClick={() => handleRead(item.id)}
-                            className={`p-1 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-container-high ${
-                              item.isRead ? "text-primary bg-surface-container-low" : ""
-                            }`} 
+                            className={`p-1 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-container-high ${item.isRead ? "text-primary bg-surface-container-low" : ""
+                              }`}
                             title="Mark as Read"
                           >
                             <span className="material-symbols-outlined text-[18px] block">done</span>
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleSnooze(item.id)}
-                            className={`p-1 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-container-high ${
-                              item.isSnoozed ? "text-primary bg-surface-container-low" : ""
-                            }`} 
+                            className={`p-1 text-secondary hover:text-primary transition-colors rounded-full hover:bg-surface-container-high ${item.isSnoozed ? "text-primary bg-surface-container-low" : ""
+                              }`}
                             title="Snooze"
                           >
                             <span className="material-symbols-outlined text-[18px] block">schedule</span>
@@ -246,7 +242,7 @@ export const Alerts: React.FC = () => {
               Alert Health
             </h4>
             <p className="font-data-tabular text-[12px] text-secondary mb-md">Daily notification volume vs. 30-day average.</p>
-            
+
             {/* Mini Chart Placeholder (Simple CSS columns) */}
             <div className="flex items-end gap-[3px] h-20 mb-xs opacity-70 border-b border-hairline pb-1">
               <div className="w-full bg-surface-container-high rounded-t-sm h-[30%]"></div>
@@ -259,12 +255,12 @@ export const Alerts: React.FC = () => {
               </div>
               <div className="w-full bg-primary/20 rounded-t-sm h-[95%] border-t-2 border-primary"></div>
             </div>
-            
+
             <div className="flex justify-between font-data-tabular text-[10px] text-secondary">
               <span>Mon</span>
               <span>Today</span>
             </div>
-            
+
             <div className="mt-md bg-error-container/30 border border-error-container rounded-md p-xs flex items-start gap-xs">
               <span className="material-symbols-outlined text-[14px] text-warning-amber shrink-0 mt-[2px]">trending_up</span>
               <span className="font-data-tabular text-[11px] text-ink leading-tight">Volume is <strong>24% higher</strong> than average today. Consider tuning your plan change sensitivity.</span>
@@ -294,7 +290,7 @@ export const Alerts: React.FC = () => {
                 </div>
               </li>
             </ul>
-            <button 
+            <button
               onClick={() => console.log("Mock manage settings click")}
               className="mt-md w-full bg-surface-pearl border border-hairline text-ink font-label-capsule text-[12px] py-1.5 rounded-full hover:bg-surface-container-high transition-colors inline-block text-center font-semibold"
             >

@@ -26,7 +26,7 @@ export const SelfHealingSuccess: React.FC = () => {
 
       {/* Success Recovery Card */}
       <div className="w-full max-w-3xl bg-canvas-parchment rounded-xl border border-hairline p-lg md:p-xl flex flex-col gap-lg shadow-[0px_10px_40px_rgba(0,0,0,0.04)] relative z-10 animate-fade-in">
-        
+
         {/* Header Section */}
         <div className="flex flex-col items-center text-center gap-xs">
           <div className="w-16 h-16 rounded-full bg-success-green/10 flex items-center justify-center text-success-green mb-xxs">
@@ -116,7 +116,7 @@ export const SelfHealingSuccess: React.FC = () => {
             <span className="material-symbols-outlined text-[18px]">database</span>
             View Intelligence Update
           </button>
-          
+
           <button
             onClick={() => navigate("/scrapers")}
             className="w-full sm:w-auto bg-surface-pearl border border-hairline text-ink hover:bg-surface-container font-body-strong text-[14px] px-xl py-sm rounded-full transition-all flex items-center justify-center gap-xs"

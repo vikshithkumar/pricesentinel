@@ -16,7 +16,7 @@ export const SelfHealingLab: React.FC = () => {
     "[14:02:15] [INFO] Fetching target DOM tree payload... Done (2.4KB).",
     "[14:02:16] [INFO] Extracting entity values. price_current: $29.99, stock: in_stock."
   ]);
-  
+
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll terminal logs
@@ -117,12 +117,12 @@ export const SelfHealingLab: React.FC = () => {
 
       {/* Main Sandbox Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter flex-grow items-stretch">
-        
+
         {/* Left Column: Visual Simulator (8 cols) */}
         <div className="col-span-1 lg:col-span-8 flex flex-col gap-gutter">
           {/* DOM Logic repair screen split columns */}
           <div className="flex-grow flex flex-col md:flex-row gap-md items-stretch">
-            
+
             {/* Target Visualization Pane (Bloomberg style sandbox container) */}
             <div className="bg-canvas-white border border-hairline rounded-lg p-md w-full md:w-1/2 flex flex-col shadow-sm">
               <div className="flex justify-between items-center mb-md pb-xs border-b border-hairline">
@@ -130,10 +130,9 @@ export const SelfHealingLab: React.FC = () => {
                   <span className="material-symbols-outlined text-[18px] text-primary">preview</span>
                   Target Sandbox: {vendorParam.toUpperCase()}
                 </h4>
-                <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium font-data-tabular ${
-                  simStatus === "healthy" || simStatus === "repaired" ? "bg-success-green/10 text-success-green" :
-                  simStatus === "healing" ? "bg-primary-fixed text-primary" : "bg-error-container text-critical-red"
-                }`}>
+                <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium font-data-tabular ${simStatus === "healthy" || simStatus === "repaired" ? "bg-success-green/10 text-success-green" :
+                    simStatus === "healing" ? "bg-primary-fixed text-primary" : "bg-error-container text-critical-red"
+                  }`}>
                   {simStatus === "healthy" ? "Live Connected" : simStatus === "healing" ? "Repairing Mapping" : simStatus === "repaired" ? "Repair Ready" : "DOM Mutated"}
                 </span>
               </div>
@@ -143,7 +142,7 @@ export const SelfHealingLab: React.FC = () => {
                 <div className="bg-canvas-white border border-hairline rounded-lg p-lg shadow-sm w-full max-w-xs text-center relative">
                   <div className="text-secondary font-label-capsule text-[11px] uppercase tracking-wider">ACME Retail Products</div>
                   <h5 className="font-body-strong text-ink text-[16px] mt-xs font-semibold">Premium Cloud License</h5>
-                  
+
                   <div className="my-md py-sm bg-canvas-parchment rounded border border-hairline border-dashed">
                     {simStatus === "healthy" ? (
                       <div className="text-primary font-display-md text-[28px] font-bold animate-fade-in">
@@ -169,70 +168,70 @@ export const SelfHealingLab: React.FC = () => {
               </div>
             </div>
 
-              {/* DOM Analysis & Code Diff Pane */}
-              <div className="bg-canvas-white border border-hairline rounded-lg p-md w-full md:w-1/2 flex flex-col shadow-sm">
-                <div className="flex justify-between items-center mb-md pb-xs border-b border-hairline">
-                  <h4 className="font-body-strong text-ink font-semibold flex items-center gap-xs">
-                    <span className="material-symbols-outlined text-[18px] text-primary">code</span>
-                    DOM Analysis & Selector Diff
-                  </h4>
-                  <span className="text-[11px] text-secondary font-data-tabular">Ruleset v3.1</span>
+            {/* DOM Analysis & Code Diff Pane */}
+            <div className="bg-canvas-white border border-hairline rounded-lg p-md w-full md:w-1/2 flex flex-col shadow-sm">
+              <div className="flex justify-between items-center mb-md pb-xs border-b border-hairline">
+                <h4 className="font-body-strong text-ink font-semibold flex items-center gap-xs">
+                  <span className="material-symbols-outlined text-[18px] text-primary">code</span>
+                  DOM Analysis & Selector Diff
+                </h4>
+                <span className="text-[11px] text-secondary font-data-tabular">Ruleset v3.1</span>
+              </div>
+
+              {/* Fenced Code Editor mockup */}
+              <div className="flex-grow bg-[#1a1c1d] rounded p-sm font-mono text-[11px] leading-relaxed text-[#eeeef0] overflow-y-auto min-h-[220px]">
+                {/* Baseline code */}
+                <div className="text-secondary mb-1">// Baseline selector extraction logic</div>
+                <div className="pl-xs border-l border-primary/50 text-[#aac7ff] mb-md">
+                  <span className="text-[#e2e2e4]">const</span> priceText = document.querySelector(
+                  <span className="text-[#ff9f0a]">'.product-info &gt; .price-tag'</span>
+                  ).innerText;
                 </div>
 
-                {/* Fenced Code Editor mockup */}
-                <div className="flex-grow bg-[#1a1c1d] rounded p-sm font-mono text-[11px] leading-relaxed text-[#eeeef0] overflow-y-auto min-h-[220px]">
-                  {/* Baseline code */}
-                  <div className="text-secondary mb-1">// Baseline selector extraction logic</div>
-                  <div className="pl-xs border-l border-primary/50 text-[#aac7ff] mb-md">
-                    <span className="text-[#e2e2e4]">const</span> priceText = document.querySelector(
-                    <span className="text-[#ff9f0a]">'.product-info &gt; .price-tag'</span>
-                    ).innerText;
-                  </div>
-
-                  {/* Mutated code (conditional) */}
-                  {simStatus !== "healthy" && (
-                    <>
-                      <div className="text-[#ff3b30] mb-1 font-semibold flex items-center gap-xxs">
-                        <span className="material-symbols-outlined text-[12px]">error</span>
+                {/* Mutated code (conditional) */}
+                {simStatus !== "healthy" && (
+                  <>
+                    <div className="text-[#ff3b30] mb-1 font-semibold flex items-center gap-xxs">
+                      <span className="material-symbols-outlined text-[12px]">error</span>
                         // Selector Error: returns null
-                      </div>
-                      <div className="pl-xs border-l border-[#ff3b30] text-[#ffdad6] line-through opacity-60 mb-md">
-                        <span className="text-[#e2e2e4]">const</span> priceText = document.querySelector(
-                        <span className="text-[#ff3b30]">'.product-info &gt; .price-tag'</span>
-                        ).innerText;
-                      </div>
+                    </div>
+                    <div className="pl-xs border-l border-[#ff3b30] text-[#ffdad6] line-through opacity-60 mb-md">
+                      <span className="text-[#e2e2e4]">const</span> priceText = document.querySelector(
+                      <span className="text-[#ff3b30]">'.product-info &gt; .price-tag'</span>
+                      ).innerText;
+                    </div>
 
-                      {/* Sentinel AI Suggestion */}
-                      <div className="text-success-green mb-1 font-semibold flex items-center gap-xxs">
-                        <span className="material-symbols-outlined text-[12px]">auto_awesome</span>
+                    {/* Sentinel AI Suggestion */}
+                    <div className="text-success-green mb-1 font-semibold flex items-center gap-xxs">
+                      <span className="material-symbols-outlined text-[12px]">auto_awesome</span>
                         // Sentinel AI Repaired Suggestion (Confidence: 98.4%)
-                      </div>
-                      <div className="pl-xs border-l-2 border-success-green bg-success-green/10 text-success-green p-xs rounded-sm">
-                        <span className="text-[#eeeef0]">const</span> priceText = document.querySelector(
-                        <span className="font-bold underline">'[data-test="current-price"]'</span>
-                        ).innerText;
-                      </div>
-                    </>
-                  )}
-                </div>
+                    </div>
+                    <div className="pl-xs border-l-2 border-success-green bg-success-green/10 text-success-green p-xs rounded-sm">
+                      <span className="text-[#eeeef0]">const</span> priceText = document.querySelector(
+                      <span className="font-bold underline">'[data-test="current-price"]'</span>
+                      ).innerText;
+                    </div>
+                  </>
+                )}
+              </div>
 
-                <div className="mt-md">
-                  <button
-                    onClick={handleRepair}
-                    disabled={simStatus !== "repaired"}
-                    className="w-full bg-[#28a745] hover:bg-success-green/90 disabled:bg-surface-container disabled:text-secondary disabled:cursor-not-allowed font-body-strong text-canvas-white text-[13px] py-2 rounded-full transition-colors flex items-center justify-center gap-xs shadow-sm"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">check_circle</span>
-                    Apply Repair Mapping
-                  </button>
-                </div>
+              <div className="mt-md">
+                <button
+                  onClick={handleRepair}
+                  disabled={simStatus !== "repaired"}
+                  className="w-full bg-[#28a745] hover:bg-success-green/90 disabled:bg-surface-container disabled:text-secondary disabled:cursor-not-allowed font-body-strong text-canvas-white text-[13px] py-2 rounded-full transition-colors flex items-center justify-center gap-xs shadow-sm"
+                >
+                  <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                  Apply Repair Mapping
+                </button>
               </div>
             </div>
           </div>
+        </div>
 
         {/* Right Column: Telemetry metrics & Live Logs Output */}
         <div className="col-span-1 lg:col-span-4 flex flex-col gap-md">
-          
+
           {/* Telemetry Metrics */}
           <div className="grid grid-cols-2 gap-sm">
             <div className="bg-canvas-white border border-hairline rounded-lg p-md shadow-sm">
@@ -265,15 +264,13 @@ export const SelfHealingLab: React.FC = () => {
               <div className="font-nav-link text-nav-link text-secondary mb-xs text-[12px]">Failed Fields Detected</div>
               <div className="flex flex-wrap gap-xs mt-sm">
                 <span className="px-sm py-1 bg-surface-pearl border border-hairline rounded-full font-data-tabular text-[13px] text-ink flex items-center">
-                  <span className={`w-2 h-2 rounded-full mr-xs ${
-                    simStatus === "healthy" || simStatus === "repaired" ? "bg-success-green" : "bg-critical-red animate-pulse"
-                  }`}></span>
+                  <span className={`w-2 h-2 rounded-full mr-xs ${simStatus === "healthy" || simStatus === "repaired" ? "bg-success-green" : "bg-critical-red animate-pulse"
+                    }`}></span>
                   price_current
                 </span>
                 <span className="px-sm py-1 bg-surface-pearl border border-hairline rounded-full font-data-tabular text-[13px] text-ink flex items-center">
-                  <span className={`w-2 h-2 rounded-full mr-xs ${
-                    simStatus === "healthy" || simStatus === "repaired" ? "bg-success-green" : "bg-warning-amber animate-pulse"
-                  }`}></span>
+                  <span className={`w-2 h-2 rounded-full mr-xs ${simStatus === "healthy" || simStatus === "repaired" ? "bg-success-green" : "bg-warning-amber animate-pulse"
+                    }`}></span>
                   stock_status
                 </span>
               </div>
@@ -288,13 +285,12 @@ export const SelfHealingLab: React.FC = () => {
             </h4>
             <div className="flex-grow overflow-y-auto space-y-xs pr-xxs">
               {logs.map((log, index) => (
-                <div 
+                <div
                   key={index}
-                  className={`leading-relaxed animate-fade-in ${
-                    log.includes("[WARN]") ? "text-[#ff9f0a]" :
-                    log.includes("[CRIT]") ? "text-[#ff3b30]" :
-                    log.includes("repaired") || log.includes("Success") ? "text-success-green" : "text-secondary-fixed-dim"
-                  }`}
+                  className={`leading-relaxed animate-fade-in ${log.includes("[WARN]") ? "text-[#ff9f0a]" :
+                      log.includes("[CRIT]") ? "text-[#ff3b30]" :
+                        log.includes("repaired") || log.includes("Success") ? "text-success-green" : "text-secondary-fixed-dim"
+                    }`}
                 >
                   {log}
                 </div>

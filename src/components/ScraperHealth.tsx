@@ -194,10 +194,10 @@ export const ScraperHealth: React.FC = () => {
 
       {/* Grid Layout: Main Scraper content + Logs Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter flex-grow items-start">
-        
+
         {/* Left Column: Filters + Scrapers Container */}
         <div className="col-span-1 lg:col-span-8 space-y-md">
-          
+
           {/* Controls Bar */}
           <div className="flex flex-col sm:flex-row justify-between items-center bg-canvas-white p-sm border border-hairline rounded-lg gap-sm shadow-sm">
             {/* Filter chips */}
@@ -212,11 +212,10 @@ export const ScraperHealth: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-sm py-1 text-[13px] rounded font-body-strong transition-all ${
-                    activeTab === tab.id
+                  className={`px-sm py-1 text-[13px] rounded font-body-strong transition-all ${activeTab === tab.id
                       ? "bg-primary text-canvas-white shadow-xs"
                       : "text-secondary hover:text-ink bg-surface-pearl border border-hairline"
-                  }`}
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -242,11 +241,10 @@ export const ScraperHealth: React.FC = () => {
               {/* Freshness mode button */}
               <button
                 onClick={() => setShowFreshness(!showFreshness)}
-                className={`p-1.5 border rounded-md transition-colors ${
-                  showFreshness
+                className={`p-1.5 border rounded-md transition-colors ${showFreshness
                     ? "bg-warning-amber/10 border-warning-amber text-warning-amber"
                     : "bg-surface-pearl border-hairline text-secondary hover:text-ink"
-                }`}
+                  }`}
                 title="Toggle Freshness View"
               >
                 <span className="material-symbols-outlined text-[18px]">calendar_today</span>
@@ -302,7 +300,7 @@ export const ScraperHealth: React.FC = () => {
                       const statusInfo = getStatusClasses(node.status);
                       const isStale = node.status === "stale" || node.status === "critical-stale";
                       const isFailed = node.status === "failed";
-                      
+
                       return (
                         <tr key={node.id} className="hover:bg-surface-bright transition-colors group">
                           <td className="py-3 px-md flex items-center gap-sm">
@@ -318,14 +316,13 @@ export const ScraperHealth: React.FC = () => {
                           {/* Success % / Freshness Category */}
                           <td className="py-3 px-md text-center font-medium">
                             {showFreshness ? (
-                              <span className={`font-body-strong px-2 py-0.5 rounded text-[11px] font-semibold ${
-                                node.status === "healthy" ? "bg-success-green/10 text-success-green" :
-                                node.status === "degraded" ? "bg-warning-amber/10 text-warning-amber" :
-                                isStale ? "bg-secondary-container text-secondary" : "bg-error-container text-critical-red"
-                              }`}>
+                              <span className={`font-body-strong px-2 py-0.5 rounded text-[11px] font-semibold ${node.status === "healthy" ? "bg-success-green/10 text-success-green" :
+                                  node.status === "degraded" ? "bg-warning-amber/10 text-warning-amber" :
+                                    isStale ? "bg-secondary-container text-secondary" : "bg-error-container text-critical-red"
+                                }`}>
                                 {node.status === "healthy" ? "Fresh" :
-                                 node.status === "degraded" ? "Aging" :
-                                 node.status === "stale" ? "Stale" : "Critical Stale"}
+                                  node.status === "degraded" ? "Aging" :
+                                    node.status === "stale" ? "Stale" : "Critical Stale"}
                               </span>
                             ) : (
                               `${node.successRate}%`
@@ -352,9 +349,8 @@ export const ScraperHealth: React.FC = () => {
                               )}
                               <button
                                 onClick={() => handleRestartNode(node.id)}
-                                className={`p-1 bg-surface-pearl border border-hairline rounded hover:bg-surface-container transition-colors ${
-                                  restartingId === node.id ? "animate-spin cursor-not-allowed" : ""
-                                }`}
+                                className={`p-1 bg-surface-pearl border border-hairline rounded hover:bg-surface-container transition-colors ${restartingId === node.id ? "animate-spin cursor-not-allowed" : ""
+                                  }`}
                                 disabled={restartingId !== null}
                                 title="Restart Node Collector"
                               >
@@ -376,7 +372,7 @@ export const ScraperHealth: React.FC = () => {
                 const statusInfo = getStatusClasses(node.status);
                 const isFailed = node.status === "failed";
                 const isStale = node.status === "stale" || node.status === "critical-stale";
-                
+
                 return (
                   <div
                     key={node.id}
@@ -390,7 +386,7 @@ export const ScraperHealth: React.FC = () => {
                         </div>
                         <span className="font-mono text-secondary text-[11px]">{node.collectorId}</span>
                       </div>
-                      
+
                       {/* Telemetry info */}
                       <div className="grid grid-cols-2 gap-sm mt-md">
                         <div>
@@ -438,7 +434,7 @@ export const ScraperHealth: React.FC = () => {
 
         {/* Right Column: Pipeline Log Streams & Lab Shortcut */}
         <div className="col-span-1 lg:col-span-4 space-y-md">
-          
+
           {/* Self-Healing Stats Card */}
           <div className="bg-surface-pearl border border-hairline rounded-lg p-md shadow-sm">
             <div className="flex items-center gap-sm mb-sm">

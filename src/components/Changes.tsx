@@ -1,55 +1,32 @@
 import React, { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { changeDetails } from "../mockData";
+import { detections } from "../mockData";
 
 export const Changes: React.FC = () => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>("DevTools"); // Matches Stitch default filter
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  // Convert map to array for listing
-  const events = useMemo(() => Object.values(changeDetails), []);
-
-  // Filtered Events
-  const filteredEvents = useMemo(() => {
-    return events.filter((ev) => {
-      // Search term match (Vendor Name or Title)
+  const filteredDetections = useMemo(() => {
+    return detections.filter((item) => {
       const matchesSearch =
-        ev.vendorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        ev.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        ev.subtitle.toLowerCase().includes(searchTerm.toLowerCase());
+        item.vendor.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.changeType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.values.toLowerCase().includes(searchQuery.toLowerCase());
 
-      // Category match
-      let matchesCategory = true;
-      if (selectedCategory) {
-        // Find category from vendor info or match based on tags
-        const categoryMap: Record<string, string> = {
-          "OpenAI": "AI Infrastructure",
-          "AWS": "AI Infrastructure",
-          "Twilio": "DevTools",
-          "MongoDB": "DevTools",
-          "CloudForge Inc.": "DevTools",
-          "SynthText API": "AI Infrastructure",
-          "DataLake Co.": "DevTools",
-          "BuildOps": "DevTools"
-        };
-        const category = categoryMap[ev.vendorName] || "DevTools";
-        matchesCategory = category === selectedCategory;
-      }
+      const matchesCategory = selectedCategory ? item.changeType === selectedCategory : true;
 
       return matchesSearch && matchesCategory;
     });
-  }, [events, searchTerm, selectedCategory]);
+  }, [searchQuery, selectedCategory]);
 
   return (
-    <main className="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-background">
-      {/* Breadcrumbs */}
+    <main className="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop space-y-xl bg-background">
+      {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="mb-sm">
         <ol className="flex items-center space-x-2 font-body text-sm">
           <li>
-            <Link to="/" className="text-primary hover:underline">
-              Dashboard
-            </Link>
+            <Link to="/" className="text-primary hover:underline font-medium">Dashboard</Link>
           </li>
           <li className="text-secondary">
             <span className="mx-1">/</span>
@@ -63,266 +40,166 @@ export const Changes: React.FC = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
         <div>
-          <h2 className="font-display-lg text-[32px] md:text-display-lg font-bold text-ink tracking-tight mb-xs">
+          <h2 className="font-display-lg text-display-lg text-ink font-bold tracking-tight mb-xs">
             Intelligence Feed
           </h2>
           <p className="font-body text-body text-secondary">
             Real-time detection of pricing, plan, and feature shifts across tracked vendors.
           </p>
         </div>
-        <div className="flex gap-sm">
-          <button className="flex items-center space-x-xs px-sm py-1.5 bg-surface-pearl border border-hairline rounded-full font-label-capsule text-ink hover:bg-surface-variant transition-colors text-[13px] font-medium">
-            <span className="material-symbols-outlined text-[16px] mr-1">download</span>
+
+        <div className="flex gap-sm shrink-0">
+          <button
+            onClick={() => alert("Exporting Intelligence Feed CSV...")}
+            className="flex items-center space-x-xs px-sm py-xs bg-surface-pearl border border-hairline rounded-full font-label-capsule text-ink hover:bg-surface-container-high active:scale-[0.98] transition-all duration-150"
+          >
+            <span className="material-symbols-outlined text-sm">download</span>
             <span>Export CSV</span>
           </button>
-          <Link
-            to="/settings"
-            className="flex items-center space-x-xs px-sm py-1.5 bg-surface-pearl border border-hairline rounded-full font-label-capsule text-ink hover:bg-surface-variant transition-colors text-[13px] font-medium"
+          <button
+            onClick={() => navigate("/settings")}
+            className="flex items-center space-x-xs px-sm py-xs bg-surface-pearl border border-hairline rounded-full font-label-capsule text-ink hover:bg-surface-container-high active:scale-[0.98] transition-all duration-150"
           >
-            <span className="material-symbols-outlined text-[16px] mr-1">tune</span>
+            <span className="material-symbols-outlined text-sm">tune</span>
             <span>View Settings</span>
-          </Link>
+          </button>
         </div>
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-canvas-white border border-hairline rounded-lg p-sm flex flex-col md:flex-row items-center justify-between gap-sm shadow-sm mb-gutter">
+      <div className="bg-canvas-white border border-hairline rounded-lg p-sm flex flex-col md:flex-row items-center justify-between gap-sm shadow-sm">
         <div className="flex flex-wrap gap-sm items-center w-full md:w-auto">
-          <span className="font-label-capsule text-secondary mr-xs flex items-center text-[13px]">
-            <span className="material-symbols-outlined text-[16px] mr-1">filter_list</span>
-            <span>Filters:</span>
+          <span className="font-label-capsule text-secondary mr-xs flex items-center">
+            <span className="material-symbols-outlined text-sm mr-1">filter_list</span>
+            Filters:
           </span>
 
-          {/* Watchlist Filter Dropdown */}
-          <div className="relative">
-            <button className="px-sm py-[6px] rounded-full border border-hairline bg-surface-pearl text-ink font-label-capsule flex items-center hover:bg-surface-variant transition-colors text-sm">
-              Watchlists{" "}
-              <span className="material-symbols-outlined text-xs ml-1">arrow_drop_down</span>
-            </button>
-          </div>
-
-          {/* Active Category Filter chip toggle */}
-          {selectedCategory ? (
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className="px-sm py-[6px] rounded-full border border-primary bg-primary-fixed-dim/20 text-primary font-label-capsule flex items-center hover:bg-primary-fixed-dim/30 transition-colors text-sm font-semibold"
-            >
-              Category: {selectedCategory}{" "}
-              <span className="material-symbols-outlined text-xs ml-1">close</span>
-            </button>
-          ) : (
-            <div className="flex gap-1.5">
-              {["DevTools", "AI Infrastructure"].map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className="px-sm py-[6px] rounded-full border border-hairline bg-surface-pearl text-ink font-label-capsule flex items-center hover:bg-surface-variant transition-colors text-sm"
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* Magnitude Filter Dropdown */}
-          <div className="relative">
-            <button className="px-sm py-[6px] rounded-full border border-hairline bg-surface-pearl text-ink font-label-capsule flex items-center hover:bg-surface-variant transition-colors text-sm">
-              Change Magnitude{" "}
-              <span className="material-symbols-outlined text-xs ml-1">arrow_drop_down</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Search & Event Count */}
-        <div className="w-full md:w-auto flex items-center gap-sm border-t md:border-t-0 border-hairline pt-sm md:pt-0">
-          <div className="relative">
-            <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[16px]">
+          {/* Search Bar Input */}
+          <div className="relative w-full sm:w-64">
+            <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-secondary text-[16px]">
               search
             </span>
             <input
-              className="pl-8 pr-sm py-1.5 rounded-full border border-hairline bg-canvas-parchment focus:bg-canvas-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-[13px] w-48 md:w-64 transition-all"
-              placeholder="Search feed..."
               type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search Intelligence..."
+              className="w-full pl-9 pr-sm py-1.5 rounded-full border border-hairline bg-canvas-parchment focus:bg-canvas-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-body text-[13px] transition-all"
             />
           </div>
-          <span className="font-data-tabular text-secondary text-[13px] shrink-0">
-            Showing {filteredEvents.length} detected events
+
+          {/* Quick Filter Pill */}
+          <button
+            onClick={() => setSelectedCategory(selectedCategory ? null : "Plan Restructure")}
+            className={`px-sm py-[6px] rounded-full border font-label-capsule flex items-center transition-colors text-sm ${
+              selectedCategory === "Plan Restructure"
+                ? "border-primary bg-primary-container/20 text-primary"
+                : "border-hairline bg-surface-pearl text-ink hover:bg-surface-container-low"
+            }`}
+          >
+            Category: Plan Shifts
+            {selectedCategory === "Plan Restructure" && (
+              <span className="material-symbols-outlined text-xs ml-1">close</span>
+            )}
+          </button>
+        </div>
+
+        <div className="w-full md:w-auto flex items-center space-x-sm border-t md:border-t-0 border-hairline pt-sm md:pt-0">
+          <span className="font-data-tabular text-secondary text-[13px]">
+            Showing {filteredDetections.length} detected events
           </span>
         </div>
       </div>
 
       {/* Data Table Container */}
       <div className="bg-canvas-white border border-hairline rounded-lg overflow-hidden shadow-sm">
-        <div className="overflow-x-auto w-full">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-canvas-parchment border-b border-hairline font-label-capsule text-secondary text-[13px] uppercase tracking-wide font-semibold">
-                <th className="p-md py-3 px-4">Vendor</th>
-                <th className="p-md py-3 px-4">Change Type</th>
-                <th className="p-md py-3 px-4 hidden sm:table-cell">Date Detected</th>
-                <th className="p-md py-3 px-4 text-right">Est. Impact</th>
-                <th className="p-md py-3 px-4">Diff / Details</th>
-                <th className="p-md py-3 px-4 w-12 text-center"></th>
-              </tr>
-            </thead>
-            <tbody className="font-data-tabular text-ink divide-y divide-hairline text-[13px]">
-              {filteredEvents.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="p-8 text-center text-secondary">
-                    No intelligence events match your criteria.
-                  </td>
-                </tr>
-              ) : (
-                filteredEvents.map((row) => {
-                  const isPriceIncrease = row.title.includes("Increase") || row.title.includes("Adjustment");
-                  const isPriceDecrease = row.title.includes("Decrease") || row.title.includes("Drop");
-
-                  let typeBg = "bg-surface-container-high border-outline/20 text-ink";
-                  let typeLabel = "Plan Restructure";
-                  let typeIcon = "tune";
-
-                  if (isPriceIncrease) {
-                    typeBg = "bg-error-container text-on-error-container border-error/20";
-                    typeLabel = "Price Increase";
-                    typeIcon = "trending_up";
-                  } else if (isPriceDecrease) {
-                    typeBg = "bg-success-green/10 text-success-green border-success-green/20";
-                    typeLabel = "Price Decrease";
-                    typeIcon = "trending_down";
-                  } else if (row.title.includes("Credit")) {
-                    typeBg = "bg-primary-fixed-dim/20 text-primary border-primary/20";
-                    typeLabel = "New Credit Model";
-                    typeIcon = "toll";
-                  }
-
-                  const firstMetric = row.metrics[0];
-
-                  return (
-                    <tr
-                      key={row.id}
-                      onClick={() => navigate(`/intelligence/${row.id}`)}
-                      className="hover:bg-surface-bright transition-colors group cursor-pointer"
-                    >
-                      {/* Vendor Logo & Name */}
-                      <td className="p-md py-4 px-4">
-                        <div className="flex items-center space-x-sm">
-                          <div className="w-8 h-8 rounded bg-surface-variant border border-hairline flex items-center justify-center shrink-0">
-                            <span className="material-symbols-outlined text-primary text-[18px]">
-                              {row.vendorLogoIcon || "storefront"}
-                            </span>
-                          </div>
-                          <div>
-                            <span className="font-body-strong block text-[15px] font-semibold text-ink group-hover:text-primary transition-colors">
-                              {row.vendorName}
-                            </span>
-                            <span className="text-secondary text-[11px] flex items-center mt-0.5">
-                              <span className="w-2 h-2 rounded-full bg-success-green mr-1.5"></span>
-                              Scraper Active
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Change Type chip */}
-                      <td className="p-md py-4 px-4">
-                        <span
-                          className={`inline-flex items-center px-2 py-1 rounded font-medium text-[11px] border ${typeBg}`}
-                        >
-                          <span className="material-symbols-outlined text-[14px] mr-1">
-                            {typeIcon}
-                          </span>
-                          {typeLabel}
-                        </span>
-                      </td>
-
-                      {/* Date Detected */}
-                      <td className="p-md py-4 px-4 hidden sm:table-cell text-secondary">
-                        {row.timeText.replace("Detected ", "").split(" via ")[0]}
-                      </td>
-
-                      {/* Est. Impact */}
-                      <td
-                        className={`p-md py-4 px-4 text-right font-body-strong text-[14px] font-bold ${
-                          row.monthlyDelta.startsWith("+") || row.monthlyDelta.startsWith("-")
-                            ? row.monthlyDelta.startsWith("+")
-                              ? "text-success-green"
-                              : "text-critical-red"
-                            : "text-secondary"
-                        }`}
-                      >
-                        {row.monthlyDelta === "$0" ? "N/A" : row.monthlyDelta}
-                      </td>
-
-                      {/* Diff Preview */}
-                      <td className="p-md py-4 px-4 max-w-xs md:max-w-md">
-                        {firstMetric && (firstMetric.previous !== "" || firstMetric.current !== "") ? (
-                          <div className="bg-canvas-parchment rounded p-1 border border-hairline font-mono text-[11px] inline-block mb-1">
-                            <span className="text-secondary line-through mr-1.5">
-                              {firstMetric.previous}
-                            </span>
-                            <span className="material-symbols-outlined text-[10px] text-outline align-middle">
-                              arrow_forward
-                            </span>
-                            <span
-                              className={`font-semibold ml-1.5 ${
-                                firstMetric.status === "critical"
-                                  ? "text-critical-red"
-                                  : firstMetric.status === "success"
-                                  ? "text-success-green"
-                                  : "text-ink"
-                              }`}
-                            >
-                              {firstMetric.current}
-                            </span>
-                          </div>
-                        ) : null}
-                        <div className="text-[11px] text-secondary truncate max-w-sm">
-                          {row.subtitle}
-                        </div>
-                      </td>
-
-                      {/* Action Chevron */}
-                      <td className="p-md py-4 px-4 text-center">
-                        <button className="flex items-center space-x-1 px-2 py-1 rounded border border-primary/20 text-primary hover:bg-primary-fixed-dim/20 transition-colors text-[11px] font-semibold">
-                          <span>View</span>
-                          <span className="material-symbols-outlined text-[14px]">
-                            chevron_right
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Pagination Footer */}
-        <div className="bg-canvas-parchment border-t border-hairline p-sm flex items-center justify-between text-data-tabular text-[13px]">
-          <span className="text-secondary">
-            Showing 1 to {filteredEvents.length} of {filteredEvents.length} entries
-          </span>
-          <div className="flex space-x-1">
-            <button
-              className="px-3 py-1 border border-hairline bg-canvas-white rounded hover:bg-surface-variant text-outline disabled:opacity-50"
-              disabled
-            >
-              Prev
-            </button>
-            <button className="px-3 py-1 border border-primary bg-primary text-canvas-white rounded">
-              1
-            </button>
-            <button
-              className="px-3 py-1 border border-hairline bg-canvas-white rounded hover:bg-surface-variant text-outline disabled:opacity-50"
-              disabled
-            >
-              Next
-            </button>
+        {filteredDetections.length === 0 ? (
+          <div className="border border-hairline border-dashed rounded-lg p-section text-center bg-canvas-parchment/30 my-lg flex flex-col items-center">
+            <div className="w-16 h-16 mb-md bg-surface-container-low rounded-full flex items-center justify-center text-secondary">
+              <span className="material-symbols-outlined text-[36px]">search_off</span>
+            </div>
+            <h3 className="font-tagline text-[18px] text-ink font-semibold">No changes found</h3>
+            <p className="font-body text-secondary text-[14px] mt-xs max-w-sm">
+              No pricing detections match your filter criteria. Try clearing search query.
+            </p>
           </div>
-        </div>
+        ) : (
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-canvas-parchment border-b border-hairline font-label-capsule text-secondary text-[11px] uppercase tracking-wider">
+                  <th className="p-md font-medium">Vendor</th>
+                  <th className="p-md font-medium">Change Type</th>
+                  <th className="p-md font-medium hidden sm:table-cell">Date Detected</th>
+                  <th className="p-md font-medium text-right">Est. Impact</th>
+                  <th className="p-md font-medium">Diff / Details</th>
+                  <th className="p-md font-medium w-12 text-center"></th>
+                </tr>
+              </thead>
+              <tbody className="font-data-tabular text-ink divide-y divide-hairline text-[13px]">
+                {filteredDetections.map((row) => (
+                  <tr
+                    key={row.id}
+                    onClick={() => navigate(`/intelligence/${row.id}`)}
+                    className="hover:bg-surface-pearl transition-colors group cursor-pointer"
+                  >
+                    <td className="p-md">
+                      <div className="flex items-center space-x-sm">
+                        <div className="w-8 h-8 rounded bg-surface-container-low border border-hairline flex items-center justify-center shrink-0">
+                          <span className="material-symbols-outlined text-[16px] text-primary">{row.icon}</span>
+                        </div>
+                        <div>
+                          <span className="font-body-strong block text-[14px] text-ink group-hover:text-primary transition-colors">
+                            {row.vendor}
+                          </span>
+                          <span className="text-secondary text-[11px] flex items-center mt-[-2px]">
+                            <div className="w-2 h-2 rounded-full bg-success-green mr-1"></div>
+                            Scraper Active
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="p-md">
+                      <span className={`inline-flex items-center px-2 py-1 rounded font-medium text-[11px] border ${row.changeTypeClass}`}>
+                        {row.changeType}
+                      </span>
+                    </td>
+
+                    <td className="p-md hidden sm:table-cell text-secondary">
+                      Today, 09:41 AM
+                    </td>
+
+                    <td className={`p-md text-right font-body-strong text-[14px] ${row.impactClass}`}>
+                      {row.impact}
+                    </td>
+
+                    <td className="p-md">
+                      <div className="bg-canvas-parchment rounded p-xs border border-hairline font-data-tabular text-[12px] inline-block">
+                        <span className="text-secondary line-through mr-2">$19.00/mo</span>
+                        <span className="material-symbols-outlined text-[10px] text-secondary align-middle">arrow_forward</span>
+                        <span className="text-critical-red font-medium ml-2">{row.values}</span>
+                      </div>
+                    </td>
+
+                    <td className="p-md text-center">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/intelligence/${row.id}`);
+                        }}
+                        className="flex items-center space-x-1 px-2 py-1 rounded border border-primary/20 text-primary hover:bg-surface-container-low active:scale-[0.98] transition-all text-[11px] font-medium"
+                      >
+                        <span>View</span>
+                        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </main>
   );

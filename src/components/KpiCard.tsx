@@ -42,13 +42,12 @@ export const KpiCard: React.FC<KpiCardProps> = ({ kpi }) => {
 
         {kpi.trendText && (
           <span
-            className={`font-data-tabular text-[12px] flex items-center px-1.5 py-0.5 rounded font-medium ${
-              kpi.trendType === "up"
+            className={`font-data-tabular text-[12px] flex items-center px-1.5 py-0.5 rounded font-medium ${kpi.trendType === "up"
                 ? "text-success-green bg-success-green/10"
                 : kpi.trendType === "error"
-                ? "text-critical-red font-medium"
-                : "text-secondary"
-            }`}
+                  ? "text-critical-red font-medium"
+                  : "text-secondary"
+              }`}
           >
             {kpi.trendType === "up" && (
               <span className="material-symbols-outlined text-[12px] mr-0.5">trending_up</span>

@@ -29,7 +29,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
       {/* Mobile Close Button */}
       {onCloseMobile && (
         <div className="md:hidden flex justify-end pb-sm">
-          <button 
+          <button
             onClick={onCloseMobile}
             className="p-1 text-secondary hover:text-ink transition-colors rounded-full"
             aria-label="Close Mobile Navigation"
@@ -64,11 +64,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
             <Link
               to={item.href}
               onClick={onCloseMobile}
-              className={`flex items-center gap-sm px-3 py-2 rounded-lg transition-colors ${
-                item.active
+              className={`flex items-center gap-sm px-3 py-2 rounded-lg transition-colors ${item.active
                   ? "bg-surface-container-high dark:bg-on-secondary-fixed-variant text-primary dark:text-primary-fixed font-medium border-l-2 border-primary"
                   : "text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant"
-              }`}
+                }`}
             >
               <span
                 className="material-symbols-outlined text-[20px]"
@@ -95,11 +94,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
               <Link
                 to={item.href}
                 onClick={onCloseMobile}
-                className={`flex items-center gap-sm px-3 py-2 rounded-lg transition-colors ${
-                  item.active
+                className={`flex items-center gap-sm px-3 py-2 rounded-lg transition-colors ${item.active
                     ? "bg-surface-container-high dark:bg-on-secondary-fixed-variant text-primary dark:text-primary-fixed font-medium border-l-2 border-primary"
                     : "text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant"
-                }`}
+                  }`}
               >
                 <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
                 <span className="font-nav-link text-[14px]">{item.label}</span>
@@ -121,9 +119,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
       {/* Mobile Drawer Overlay */}
       {isOpenMobile && (
         <div className="md:hidden fixed inset-0 z-50 flex">
-          <div 
-            className="fixed inset-0 bg-ink/50 backdrop-blur-xs transition-opacity" 
-            onClick={onCloseMobile} 
+          <div
+            className="fixed inset-0 bg-ink/50 backdrop-blur-xs transition-opacity"
+            onClick={onCloseMobile}
           />
           <nav className="relative w-64 max-w-[80vw] h-full bg-canvas-parchment dark:bg-inverse-surface border-r border-hairline shadow-xl z-50">
             {sidebarContent}

@@ -23,11 +23,10 @@ export const Reports: React.FC = () => {
               <li key={cat}>
                 <button
                   onClick={() => setActiveCategory(cat)}
-                  className={`w-full text-left px-sm py-1.5 rounded text-[13px] transition-colors ${
-                    activeCategory === cat
+                  className={`w-full text-left px-sm py-1.5 rounded text-[13px] transition-colors ${activeCategory === cat
                       ? "bg-surface-container-low text-primary font-body-strong font-semibold"
                       : "hover:bg-canvas-parchment text-secondary font-body"
-                  }`}
+                    }`}
                 >
                   {cat === "All" ? "All Reports" : `${cat} Summaries`}
                 </button>
@@ -35,7 +34,7 @@ export const Reports: React.FC = () => {
             ))}
           </ul>
         </div>
-        
+
         <div>
           <h3 className="font-body-strong text-ink mb-sm uppercase tracking-wider text-[11px] font-bold flex items-center gap-xs">
             <span className="material-symbols-outlined text-[16px] text-secondary">schedule</span>
@@ -78,7 +77,7 @@ export const Reports: React.FC = () => {
             <h2 className="font-display-lg text-display-lg-mobile md:text-display-lg text-ink font-bold tracking-tight">Reports</h2>
             <p className="font-body text-[14px] text-secondary mt-1">Executive-ready pricing intelligence summaries.</p>
           </div>
-          <button 
+          <button
             onClick={() => navigate("/reports/configure")}
             className="bg-primary text-on-primary font-body-strong text-[13px] px-lg py-2 rounded-full flex items-center gap-xs hover:scale-95 active:scale-95 transition-all shadow-sm"
           >
@@ -104,9 +103,9 @@ export const Reports: React.FC = () => {
               const isComplete = report.status === "Complete";
               const isScheduled = report.status === "Scheduled";
               const isWarning = report.status === "Review Needed";
-              
+
               return (
-                <div 
+                <div
                   key={report.id}
                   className="bg-canvas-white border border-hairline rounded-lg p-lg flex flex-col justify-between hover:border-outline-variant transition-colors cursor-pointer relative shadow-sm"
                 >
@@ -118,9 +117,8 @@ export const Reports: React.FC = () => {
                       <span className="px-xs py-xxs bg-surface-container-low text-secondary font-nav-link text-[11px] font-semibold tracking-wider rounded border border-hairline uppercase">
                         {report.category}
                       </span>
-                      <span className={`flex items-center gap-xxs font-nav-link text-[12px] ${
-                        isComplete ? "text-success-green" : isWarning ? "text-warning-amber font-semibold animate-pulse" : "text-secondary"
-                      }`}>
+                      <span className={`flex items-center gap-xxs font-nav-link text-[12px] ${isComplete ? "text-success-green" : isWarning ? "text-warning-amber font-semibold animate-pulse" : "text-secondary"
+                        }`}>
                         <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                           {isComplete ? "check_circle" : isWarning ? "warning" : "event"}
                         </span>
@@ -128,7 +126,7 @@ export const Reports: React.FC = () => {
                       </span>
                     </div>
 
-                    <h3 
+                    <h3
                       onClick={() => isComplete && navigate(`/reports/detail/${report.id}`)}
                       className={`font-lead text-[18px] text-ink tracking-tight mb-xs font-semibold hover:text-primary transition-colors`}
                     >
@@ -149,7 +147,7 @@ export const Reports: React.FC = () => {
                           </div>
                         </>
                       )}
-                      
+
                       {isScheduled && (
                         <div className="col-span-2">
                           <p className="font-nav-link text-[10px] text-secondary uppercase tracking-wider mb-xxs">Status</p>
@@ -177,27 +175,26 @@ export const Reports: React.FC = () => {
                       {isScheduled ? `Runs: ${report.runsTimeText}` : `Generated: ${report.generatedTimeText}`}
                     </p>
                     <div className="flex gap-xs">
-                      <button 
-                        aria-label="Schedule" 
+                      <button
+                        aria-label="Schedule"
                         onClick={(e) => { e.stopPropagation(); console.log("Schedule clicked"); }}
                         className={`p-1.5 text-secondary hover:text-primary transition-colors border ${isScheduled ? "border-hairline bg-surface-pearl text-primary" : "border-transparent"} rounded`}
                       >
                         <span className="material-symbols-outlined text-[16px] block">schedule</span>
                       </button>
                       {isComplete && (
-                        <button 
-                          aria-label="Export" 
+                        <button
+                          aria-label="Export"
                           onClick={(e) => { e.stopPropagation(); console.log("Mock export clicked"); }}
                           className="p-1.5 text-secondary hover:text-primary transition-colors border border-transparent rounded"
                         >
                           <span className="material-symbols-outlined text-[16px] block">download</span>
                         </button>
                       )}
-                      <button 
+                      <button
                         onClick={() => isComplete && navigate(`/reports/detail/${report.id}`)}
-                        className={`px-3 py-1 bg-surface-container-low hover:bg-surface-container-high text-primary font-body-strong text-[12px] rounded transition-colors ${
-                          !isComplete ? "opacity-50 cursor-not-allowed" : ""
-                        }`}
+                        className={`px-3 py-1 bg-surface-container-low hover:bg-surface-container-high text-primary font-body-strong text-[12px] rounded transition-colors ${!isComplete ? "opacity-50 cursor-not-allowed" : ""
+                          }`}
                         disabled={!isComplete}
                       >
                         View

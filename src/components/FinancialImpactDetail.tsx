@@ -7,13 +7,13 @@ export const FinancialImpactDetail: React.FC = () => {
   const [seatCount, setSeatCount] = useState<number>(1250);
   const [monthlySpend, setMonthlySpend] = useState<number>(350000);
   const [renewalDate, setRenewalDate] = useState<string>("2024-12-31");
-  
+
   // Visual calculation state
   const [appliedSeats, setAppliedSeats] = useState<number>(1250);
   const [appliedMonthlySpend, setAppliedMonthlySpend] = useState<number>(350000);
-  
+
   const currentAnnualSpend = appliedMonthlySpend * 12;
-  
+
   // Calculate projected spend dynamically based on overrides for high-fidelity interaction
   const seatsDelta = appliedSeats - 1250;
   const spendAdjustment = seatsDelta * 360; // Adjust $360/year per seat change
@@ -91,13 +91,13 @@ export const FinancialImpactDetail: React.FC = () => {
 
       {/* Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter mb-xl flex-grow">
-        
+
         {/* Left Column: Metrics & Charts */}
         <div className="col-span-1 lg:col-span-8 space-y-gutter">
-          
+
           {/* KPI Cards (Bento Style) */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-sm">
-            
+
             {/* Current Spend */}
             <div className="bg-canvas-white border border-hairline rounded-lg p-md shadow-sm">
               <div className="text-secondary font-label-capsule text-[12px] mb-xxs">Current Annual Spend</div>
@@ -132,7 +132,7 @@ export const FinancialImpactDetail: React.FC = () => {
 
           {/* Charts Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-sm">
-            
+
             {/* Cost Variance Trend (SVG Bar Chart) */}
             <div className="bg-canvas-white border border-hairline rounded-lg p-md h-64 flex flex-col shadow-sm">
               <div className="font-body-strong text-[15px] text-ink mb-md">Cost Variance Trend</div>
@@ -223,28 +223,25 @@ export const FinancialImpactDetail: React.FC = () => {
                   {mockFinancialImpactScores.map((scoreItem) => (
                     <tr key={scoreItem.vendor} className="hover:bg-surface-bright transition-colors cursor-pointer">
                       <td className="py-3 px-md flex items-center gap-sm">
-                        <div className={`w-2.5 h-2.5 rounded-full ${
-                          scoreItem.impactColor === "red" ? "bg-critical-red" :
-                          scoreItem.impactColor === "amber" ? "bg-warning-amber" : "bg-success-green"
-                        }`}></div>
+                        <div className={`w-2.5 h-2.5 rounded-full ${scoreItem.impactColor === "red" ? "bg-critical-red" :
+                            scoreItem.impactColor === "amber" ? "bg-warning-amber" : "bg-success-green"
+                          }`}></div>
                         <span className="font-semibold">{scoreItem.vendor}</span>
                       </td>
                       <td className="py-3 px-md">
                         <div className="flex items-center gap-2">
                           <div className="w-16 h-1.5 bg-surface-container rounded-full overflow-hidden">
-                            <div className={`h-full ${
-                              scoreItem.impactColor === "red" ? "bg-critical-red" :
-                              scoreItem.impactColor === "amber" ? "bg-warning-amber" : "bg-success-green"
-                            }`} style={{ width: `${scoreItem.score}%` }}></div>
+                            <div className={`h-full ${scoreItem.impactColor === "red" ? "bg-critical-red" :
+                                scoreItem.impactColor === "amber" ? "bg-warning-amber" : "bg-success-green"
+                              }`} style={{ width: `${scoreItem.score}%` }}></div>
                           </div>
                           <span>{scoreItem.score}</span>
                         </div>
                       </td>
                       <td className="py-3 px-md text-secondary">{scoreItem.coreDrivers}</td>
-                      <td className={`py-3 px-md text-right font-medium ${
-                        scoreItem.impactColor === "red" ? "text-critical-red" :
-                        scoreItem.impactColor === "amber" ? "text-warning-amber" : "text-success-green"
-                      }`}>{scoreItem.annualDelta}</td>
+                      <td className={`py-3 px-md text-right font-medium ${scoreItem.impactColor === "red" ? "text-critical-red" :
+                          scoreItem.impactColor === "amber" ? "text-warning-amber" : "text-success-green"
+                        }`}>{scoreItem.annualDelta}</td>
                       <td className="py-3 px-md">
                         <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-[11px] font-medium border border-primary-container/20">
                           {scoreItem.status}
@@ -267,7 +264,7 @@ export const FinancialImpactDetail: React.FC = () => {
                 <span className="material-symbols-outlined text-[20px] text-primary">tune</span>
                 Profile Overrides
               </h3>
-              <button 
+              <button
                 onClick={handleReset}
                 className="text-primary text-[13px] hover:underline font-body-strong"
               >
@@ -277,15 +274,15 @@ export const FinancialImpactDetail: React.FC = () => {
             <p className="font-body text-secondary text-[13px] mb-lg leading-relaxed">
               Refine calculations by overriding Sentinel's detected company metrics.
             </p>
-            
+
             <div className="space-y-md">
               {/* Seat Count */}
               <div>
                 <label className="block font-label-capsule text-[12px] text-ink mb-1.5 font-medium">Total Seat Count</label>
                 <div className="flex relative">
-                  <input 
-                    className="w-full bg-surface-bright border border-hairline rounded-md py-1.5 px-sm font-data-tabular text-[13px] focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary pr-12 text-ink" 
-                    type="number" 
+                  <input
+                    className="w-full bg-surface-bright border border-hairline rounded-md py-1.5 px-sm font-data-tabular text-[13px] focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary pr-12 text-ink"
+                    type="number"
                     value={seatCount}
                     onChange={(e) => setSeatCount(parseInt(e.target.value) || 0)}
                   />
@@ -298,9 +295,9 @@ export const FinancialImpactDetail: React.FC = () => {
                 <label className="block font-label-capsule text-[12px] text-ink mb-1.5 font-medium">Avg. Monthly Cloud Spend</label>
                 <div className="flex relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[13px]">$</span>
-                  <input 
-                    className="w-full bg-surface-container-low border border-hairline border-dashed rounded-sm py-1.5 pl-7 pr-20 font-data-tabular text-[13px] text-secondary focus:outline-none" 
-                    type="text" 
+                  <input
+                    className="w-full bg-surface-container-low border border-hairline border-dashed rounded-sm py-1.5 pl-7 pr-20 font-data-tabular text-[13px] text-secondary focus:outline-none"
+                    type="text"
                     disabled={true}
                     value={appliedMonthlySpend.toLocaleString()}
                   />
@@ -313,9 +310,9 @@ export const FinancialImpactDetail: React.FC = () => {
               {/* Next Major Renewal */}
               <div>
                 <label className="block font-label-capsule text-[12px] text-ink mb-1.5 font-medium">Global Renewal Anchor Date</label>
-                <input 
-                  className="w-full bg-surface-bright border border-hairline rounded-md py-1.5 px-sm font-data-tabular text-[13px] focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-ink" 
-                  type="date" 
+                <input
+                  className="w-full bg-surface-bright border border-hairline rounded-md py-1.5 px-sm font-data-tabular text-[13px] focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-ink"
+                  type="date"
                   value={renewalDate}
                   onChange={(e) => setRenewalDate(e.target.value)}
                 />
@@ -323,7 +320,7 @@ export const FinancialImpactDetail: React.FC = () => {
             </div>
 
             <div className="mt-lg pt-md border-t border-hairline">
-              <button 
+              <button
                 onClick={handleApply}
                 className="w-full bg-surface-pearl border border-hairline text-ink hover:bg-surface-container rounded-full font-body-strong text-[13px] py-2 transition-all shadow-sm active:scale-98"
               >

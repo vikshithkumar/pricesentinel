@@ -25,8 +25,8 @@ const AppContent: React.FC = () => {
   return (
     <div className="flex w-full h-screen overflow-hidden bg-background">
       {/* Sidebar Shell */}
-      <Sidebar 
-        currentPath={location.pathname} 
+      <Sidebar
+        currentPath={location.pathname}
         isOpenMobile={mobileSidebarOpen}
         onCloseMobile={() => setMobileSidebarOpen(false)}
       />
@@ -55,7 +55,7 @@ const AppContent: React.FC = () => {
           <Route path="/reports/detail/:id" element={<ReportDetail />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/settings" element={<Settings />} />
-          
+
           {/* Placeholders for unfinished areas as per rules */}
           <Route
             path="*"

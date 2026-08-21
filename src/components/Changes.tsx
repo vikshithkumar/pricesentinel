@@ -21,44 +21,44 @@ export const Changes: React.FC = () => {
   }, [searchQuery, selectedCategory]);
 
   return (
-    <main className="flex-1 overflow-y-auto p-4 md:p-10 space-y-6 bg-[#fcfcfc] w-full max-w-[1400px] mx-auto">
+    <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-frost dark:bg-[#0a0a0a] w-full max-w-[1400px] mx-auto font-dm-sans transition-colors duration-200">
       {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="mb-2">
-        <ol className="flex items-center space-x-2 font-inter text-xs text-[#6b7280]">
+      <nav aria-label="Breadcrumb" className="mb-1">
+        <ol className="flex items-center space-x-2 font-dm-sans text-xs text-steel dark:text-slate">
           <li>
-            <Link to="/" className="text-[#145aff] hover:underline font-medium">Dashboard</Link>
+            <Link to="/" className="text-carbon dark:text-bone hover:underline font-medium">Dashboard</Link>
           </li>
           <li>
-            <span className="material-symbols-outlined text-xs">chevron_right</span>
+            <span className="material-symbols-outlined text-[14px]">chevron_right</span>
           </li>
-          <li className="text-[#020520] font-medium" aria-current="page">
+          <li className="text-carbon dark:text-bone font-medium" aria-current="page">
             Intelligence Feed
           </li>
         </ol>
       </nav>
 
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 border-b border-bone-light dark:border-white/10 pb-6">
         <div>
-          <h2 className="font-inter text-[32px] md:text-[40px] text-[#020520] font-semibold tracking-[-1.48px] leading-tight mb-1">
+          <h2 className="font-geist text-[32px] md:text-[36px] text-ink-black dark:text-bone font-medium tracking-tight leading-tight mb-1">
             Intelligence Feed
           </h2>
-          <p className="font-inter text-[14px] text-[#374151]">
+          <p className="font-dm-sans text-[14px] text-steel dark:text-ash">
             Real-time detection of pricing, plan, and feature shifts across tracked vendors.
           </p>
         </div>
 
-        <div className="flex gap-2 shrink-0">
+        <div className="flex gap-2.5 shrink-0">
           <button
             onClick={() => alert("Exporting Intelligence Feed CSV...")}
-            className="flex items-center gap-1.5 px-4 py-2 bg-[#fcfcfc] border border-[#e2e8f0] rounded-full font-inter text-[13px] text-[#020520] hover:bg-[#f0f4fe] transition-colors duration-150"
+            className="flex items-center gap-2 px-5 py-2.5 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-full font-dm-sans text-[13px] text-carbon dark:text-bone hover:bg-[#e4e4e7] dark:hover:bg-white/10 transition-colors"
           >
             <span className="material-symbols-outlined text-[16px]">download</span>
             <span>Export CSV</span>
           </button>
           <button
             onClick={() => navigate("/settings")}
-            className="flex items-center gap-1.5 px-4 py-2 bg-[#fcfcfc] border border-[#145aff] text-[#145aff] rounded-full font-inter text-[13px] hover:bg-[#f0f4fe] transition-colors duration-150 shadow-sm"
+            className="flex items-center gap-2 px-5 py-2.5 bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black rounded-full font-dm-sans font-medium text-[13px] transition-colors shadow-sm"
           >
             <span className="material-symbols-outlined text-[16px]">tune</span>
             <span>View Settings</span>
@@ -67,16 +67,16 @@ export const Changes: React.FC = () => {
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
-        <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
-          <span className="font-inter text-[13px] text-[#6b7280] mr-1 flex items-center">
-            <span className="material-symbols-outlined text-[16px] mr-1">filter_list</span>
+      <div className="bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-[24px] p-5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm dark:shadow-glass">
+        <div className="flex flex-wrap gap-2.5 items-center w-full md:w-auto">
+          <span className="font-dm-sans text-[13px] text-steel dark:text-ash mr-1 flex items-center">
+            <span className="material-symbols-outlined text-[16px] mr-1.5">filter_list</span>
             Filters:
           </span>
 
           {/* Search Bar Input */}
           <div className="relative w-full sm:w-64">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280] text-[16px]">
+            <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-steel dark:text-slate text-[16px]">
               search
             </span>
             <input
@@ -84,17 +84,17 @@ export const Changes: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search Intelligence..."
-              className="w-full pl-9 pr-3 py-1.5 rounded-[12px] border border-[#e2e8f0] bg-[#f1f5f9] focus:bg-[#ffffff] focus:outline-none focus:border-[#145aff] focus:ring-1 focus:ring-[#0099ff] font-inter text-[13px] transition-all"
+              className="w-full pl-9 pr-4 py-1.5 rounded-full border border-bone-light dark:border-white/10 bg-vapor dark:bg-white/5 focus:outline-none focus:border-signal-blue dark:focus:border-white/30 font-dm-sans text-[13px] text-carbon dark:text-bone placeholder:text-steel dark:placeholder:text-slate transition-all"
             />
           </div>
 
           {/* Quick Filter Pill */}
           <button
             onClick={() => setSelectedCategory(selectedCategory ? null : "Plan Restructure")}
-            className={`px-3 py-1 rounded-full border font-inter text-[13px] flex items-center transition-colors duration-150 ${
+            className={`px-4 py-1.5 rounded-full border font-dm-sans text-[13px] flex items-center transition-all duration-150 ${
               selectedCategory === "Plan Restructure"
-                ? "border-[#145aff] bg-[#f0f4fe] text-[#145aff] font-medium"
-                : "border-[#e2e8f0] bg-[#ffffff] text-[#020520] hover:bg-[#f0f4fe]/60"
+                ? "border-signal-blue/30 bg-signal-blue/15 text-signal-blue dark:border-white/30 dark:bg-white/15 dark:text-white font-medium shadow-sm"
+                : "border-bone-light dark:border-white/10 bg-vapor dark:bg-white/5 text-steel dark:text-ash hover:text-carbon dark:hover:text-white hover:bg-[#e4e4e7] dark:hover:bg-white/10"
             }`}
           >
             Category: Plan Shifts
@@ -104,97 +104,97 @@ export const Changes: React.FC = () => {
           </button>
         </div>
 
-        <div className="w-full md:w-auto flex items-center space-x-2 border-t md:border-t-0 border-[#e2e8f0] pt-2 md:pt-0">
-          <span className="font-mono text-[#6b7280] text-[12px]">
+        <div className="w-full md:w-auto flex items-center space-x-2 border-t md:border-t-0 border-bone-light dark:border-white/10 pt-2 md:pt-0">
+          <span className="font-geist text-steel dark:text-slate text-[12px]">
             Showing {filteredDetections.length} detected events
           </span>
         </div>
       </div>
 
       {/* Data Table Container */}
-      <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] overflow-hidden shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+      <div className="bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-[24px] overflow-hidden shadow-sm dark:shadow-glass">
         {filteredDetections.length === 0 ? (
-          <div className="border border-[#e2e8f0] border-dashed rounded-[16px] p-10 text-center bg-[#ffffff] my-6 flex flex-col items-center">
-            <div className="w-16 h-16 mb-4 bg-[#f1f5f9] rounded-full flex items-center justify-center text-[#6b7280]">
-              <span className="material-symbols-outlined text-[36px]">search_off</span>
+          <div className="border border-bone-light dark:border-white/10 border-dashed rounded-[24px] p-12 text-center bg-vapor/30 dark:bg-white/[0.01] my-6 flex flex-col items-center">
+            <div className="w-16 h-16 mb-4 bg-vapor dark:bg-white/5 rounded-full flex items-center justify-center text-steel dark:text-slate border border-bone-light dark:border-white/10">
+              <span className="material-symbols-outlined text-[32px]">search_off</span>
             </div>
-            <h3 className="font-inter text-[18px] text-[#020520] font-semibold">No changes found</h3>
-            <p className="font-inter text-[#6b7280] text-[14px] mt-1 max-w-sm">
+            <h3 className="font-geist text-[18px] text-ink-black dark:text-bone font-medium">No changes found</h3>
+            <p className="font-dm-sans text-steel dark:text-ash text-[14px] mt-1 max-w-sm">
               No pricing detections match your filter criteria. Try clearing search query.
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto w-full">
-            <table className="w-full text-left border-collapse font-mono text-[13px]">
+            <table className="w-full text-left border-collapse font-dm-sans text-[13px]">
               <thead>
-                <tr className="bg-[#f1f5f9] border-b border-[#e2e8f0] font-inter text-[#374151] text-[12px] font-medium uppercase tracking-wider">
-                  <th className="p-4 font-medium">Vendor</th>
-                  <th className="p-4 font-medium">Change Type</th>
-                  <th className="p-4 font-medium hidden sm:table-cell">Date Detected</th>
-                  <th className="p-4 font-medium text-right">Est. Impact</th>
-                  <th className="p-4 font-medium">Diff / Details</th>
-                  <th className="p-4 font-medium w-12 text-center"></th>
+                <tr className="bg-vapor dark:bg-white/[0.02] border-b border-bone-light dark:border-white/10 font-dm-sans text-steel dark:text-ash text-[12px] font-medium uppercase tracking-wider">
+                  <th className="py-4 px-6 font-medium">Vendor</th>
+                  <th className="py-4 px-6 font-medium">Change Type</th>
+                  <th className="py-4 px-6 font-medium hidden sm:table-cell">Date Detected</th>
+                  <th className="py-4 px-6 font-medium text-right">Est. Impact</th>
+                  <th className="py-4 px-6 font-medium">Diff / Details</th>
+                  <th className="py-4 px-6 font-medium w-16 text-center"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#e2e8f0] text-[#14141e]">
+              <tbody className="divide-y divide-bone-light/60 dark:divide-white/5 text-carbon dark:text-bone">
                 {filteredDetections.map((row) => (
                   <tr
                     key={row.id}
                     onClick={() => navigate(`/intelligence/${row.id}`)}
-                    className="hover:bg-[#f0f4fe]/60 transition-colors duration-150 group cursor-pointer"
+                    className="hover:bg-vapor/60 dark:hover:bg-white/[0.04] transition-colors duration-150 group cursor-pointer"
                   >
-                    <td className="p-4">
+                    <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#f1f5f9] border border-[#e2e8f0] flex items-center justify-center shrink-0 text-[#145aff]">
+                        <div className="w-8 h-8 rounded-[4px] bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 flex items-center justify-center shrink-0 text-carbon dark:text-bone group-hover:bg-[#e4e4e7] dark:group-hover:bg-white/10 transition-colors">
                           <span className="material-symbols-outlined text-[16px]">{row.icon}</span>
                         </div>
                         <div>
-                          <span className="font-inter font-semibold block text-[14px] text-[#020520] group-hover:text-[#145aff] transition-colors">
+                          <span className="font-geist font-medium block text-[14px] text-ink-black dark:text-bone group-hover:text-signal-blue dark:group-hover:text-white transition-colors">
                             {row.vendor}
                           </span>
-                          <span className="font-inter text-[#6b7280] text-[11px] flex items-center mt-0.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#16ca2e] mr-1.5"></span>
+                          <span className="font-dm-sans text-steel dark:text-ash text-[11px] flex items-center mt-0.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 mr-1.5"></span>
                             Scraper Active
                           </span>
                         </div>
                       </div>
                     </td>
 
-                    <td className="p-4 font-inter">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium ${
+                    <td className="py-4 px-6 font-dm-sans">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-medium border ${
                         row.changeType === "Price Increase" || row.changeType === "Fee Added"
-                          ? "bg-[#f26052]/10 text-[#f26052]"
+                          ? "bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20"
                           : row.changeType === "Price Decrease"
-                            ? "bg-[#16ca2e]/10 text-[#16ca2e]"
-                            : "bg-[#ffa64d]/10 text-[#ffa64d]"
+                            ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20"
+                            : "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20"
                       }`}>
                         {row.changeType}
                       </span>
                     </td>
 
-                    <td className="p-4 hidden sm:table-cell text-[#6b7280]">
+                    <td className="py-4 px-6 hidden sm:table-cell text-steel dark:text-slate font-geist">
                       Today, 09:41 AM
                     </td>
 
-                    <td className="p-4 text-right font-semibold text-[#f26052]">
+                    <td className="py-4 px-6 text-right font-geist font-medium text-red-600 dark:text-red-400">
                       {row.impact}
                     </td>
 
-                    <td className="p-4">
-                      <div className="bg-[#f1f5f9] rounded-[8px] px-2.5 py-1 border border-[#e2e8f0] font-mono text-[12px] inline-block">
-                        <span className="text-[#6b7280] line-through mr-2">$19.00/mo</span>
-                        <span className="material-symbols-outlined text-[10px] text-[#6b7280] align-middle">arrow_forward</span>
-                        <span className="text-[#f26052] font-semibold ml-2">{row.values}</span>
+                    <td className="py-4 px-6">
+                      <div className="bg-vapor dark:bg-white/5 rounded-[6px] px-3 py-1 border border-bone-light dark:border-white/10 font-geist text-[12px] inline-block">
+                        <span className="text-steel dark:text-slate line-through mr-2">$19.00/mo</span>
+                        <span className="material-symbols-outlined text-[10px] text-steel dark:text-slate align-middle">arrow_forward</span>
+                        <span className="text-red-600 dark:text-red-400 font-medium ml-2">{row.values}</span>
                       </div>
                     </td>
 
-                    <td className="p-4 text-center font-inter">
+                    <td className="py-4 px-6 text-center font-dm-sans">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(`/intelligence/${row.id}`);
                         }}
-                        className="flex items-center gap-1 px-3 py-1 rounded-full border border-[#145aff] text-[#145aff] hover:bg-[#f0f4fe] transition-colors duration-150 text-[11px] font-medium"
+                        className="flex items-center gap-1 px-3 py-1 rounded-full border border-bone-light dark:border-white/15 text-carbon dark:text-bone hover:bg-vapor dark:hover:bg-white/10 transition-colors duration-150 text-[11px] font-medium"
                       >
                         <span>View</span>
                         <span className="material-symbols-outlined text-[14px]">chevron_right</span>
@@ -210,4 +210,6 @@ export const Changes: React.FC = () => {
     </main>
   );
 };
+
+
 

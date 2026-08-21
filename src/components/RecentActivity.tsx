@@ -3,19 +3,19 @@ import { recentActivities } from "../mockData";
 
 export const RecentActivity: React.FC = () => {
   return (
-    <div className="bg-[#ffffff] rounded-[16px] border border-[#e2e8f0] shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px] p-4 flex-1">
-      <h3 className="font-inter text-[16px] text-[#020520] font-semibold mb-4">
+    <div className="bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md rounded-[24px] border border-bone-light dark:border-white/10 p-6 flex-1 shadow-sm dark:shadow-glass transition-colors duration-200">
+      <h3 className="font-geist text-[18px] text-ink-black dark:text-bone font-medium mb-5">
         Recent Activity
       </h3>
 
-      <div className="relative border-l border-[#e2e8f0] ml-3 space-y-4 pb-2">
+      <div className="relative border-l border-bone-light dark:border-white/10 ml-2.5 space-y-5 pb-2">
         {recentActivities.map((act, idx) => (
-          <div className="relative pl-5" key={idx}>
-            <div className="absolute -left-1.5 top-1 w-3 h-3 border-2 border-[#ffffff] bg-[#145aff] rounded-full"></div>
-            <p className="text-[12px] text-[#6b7280] font-mono mb-0.5">
+          <div className="relative pl-6" key={idx}>
+            <div className="absolute -left-[5px] top-1 w-2.5 h-2.5 border-2 border-white dark:border-[#161616] bg-signal-blue dark:bg-bone rounded-full ring-2 ring-bone-light dark:ring-white/10"></div>
+            <p className="text-[11px] text-steel dark:text-slate font-geist uppercase tracking-wider mb-1">
               {act.time}
             </p>
-            <p className="text-[13px] text-[#020520] font-inter font-medium">
+            <p className="text-[13px] text-carbon dark:text-bone font-dm-sans leading-relaxed">
               {act.description}
             </p>
           </div>
@@ -24,4 +24,6 @@ export const RecentActivity: React.FC = () => {
     </div>
   );
 };
+
+
 

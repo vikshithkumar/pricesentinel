@@ -99,46 +99,46 @@ export const Vendors: React.FC = () => {
   }, [searchTerm, selectedCategory, selectedHealth, vendorList]);
 
   return (
-    <main className="flex-1 overflow-y-auto p-4 md:p-10 space-y-6 bg-[#fcfcfc] w-full max-w-[1400px] mx-auto">
+    <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-frost dark:bg-[#0a0a0a] w-full max-w-[1400px] mx-auto font-dm-sans transition-colors duration-200">
       {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="mb-2">
-        <ol className="flex items-center space-x-2 font-inter text-xs text-[#6b7280]">
+      <nav aria-label="Breadcrumb" className="mb-1">
+        <ol className="flex items-center space-x-2 font-dm-sans text-xs text-steel dark:text-slate">
           <li>
-            <Link to="/" className="hover:text-[#145aff] transition-colors">Dashboard</Link>
+            <Link to="/" className="hover:text-carbon dark:hover:text-white transition-colors">Dashboard</Link>
           </li>
           <li>
-            <span className="material-symbols-outlined text-xs">chevron_right</span>
+            <span className="material-symbols-outlined text-[14px]">chevron_right</span>
           </li>
-          <li className="font-medium text-[#020520]" aria-current="page">
+          <li className="font-medium text-carbon dark:text-bone" aria-current="page">
             Vendors
           </li>
         </ol>
       </nav>
 
       {triggerSuccess && (
-        <div className="p-3 bg-[#16ca2e]/10 border border-[#16ca2e]/30 text-[#16ca2e] rounded-[12px] text-[13px] font-inter flex items-center justify-between">
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 rounded-full text-[13px] font-dm-sans flex items-center justify-between shadow-sm dark:shadow-glass">
           <span className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[18px]">check_circle</span>
             {triggerSuccess}
           </span>
-          <span className="text-[11px] font-mono">Status: 202 Accepted</span>
+          <span className="text-[11px] font-geist text-steel dark:text-slate">Status: 202 Accepted</span>
         </div>
       )}
 
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#e2e8f0] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-bone-light dark:border-white/10 pb-6">
         <div>
-          <h2 className="font-inter text-[32px] md:text-[40px] font-semibold text-[#020520] tracking-[-1.48px] leading-tight">
+          <h2 className="font-geist text-[32px] md:text-[36px] font-medium text-ink-black dark:text-bone tracking-tight leading-tight">
             Vendor Portfolio
           </h2>
-          <p className="font-mono text-[14px] text-[#374151] mt-1 flex items-center gap-2">
+          <p className="font-geist text-[14px] text-steel dark:text-ash mt-1 flex items-center gap-2">
             <span>Total Vendors: {vendorList.length}</span>
-            {loading && <span className="text-[12px] text-[#145aff] font-inter animate-pulse">(Syncing API...)</span>}
+            {loading && <span className="text-[12px] text-signal-blue dark:text-white font-dm-sans animate-pulse">(Syncing API...)</span>}
           </p>
         </div>
         <button
           onClick={() => alert("Add Vendor API flow ready.")}
-          className="bg-[#fcfcfc] border border-[#145aff] text-[#145aff] hover:bg-[#f0f4fe] font-inter font-medium text-[14px] rounded-full py-2 px-6 transition-colors duration-150 flex items-center gap-1.5 self-start sm:self-auto shadow-sm"
+          className="bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-dm-sans font-medium text-[14px] rounded-full py-2.5 px-6 transition-all duration-150 flex items-center gap-2 self-start sm:self-auto shadow-sm"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           <span>Add Vendor</span>
@@ -146,10 +146,10 @@ export const Vendors: React.FC = () => {
       </div>
 
       {/* Search and Filter Bar */}
-      <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+      <div className="bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-[24px] p-5 flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between shadow-sm dark:shadow-glass">
         {/* Search Input */}
         <div className="relative w-full lg:w-96 shrink-0">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280] text-[18px]">
+          <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-steel dark:text-slate text-[18px]">
             search
           </span>
           <input
@@ -157,53 +157,53 @@ export const Vendors: React.FC = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search vendors, categories, plans..."
-            className="w-full pl-9 pr-4 py-2 bg-[#f1f5f9] border border-[#e2e8f0] rounded-[12px] font-inter text-[13px] text-[#020520] placeholder:text-[#6b7280] focus:outline-none focus:border-[#145aff] focus:ring-1 focus:ring-[#0099ff] transition-colors"
+            className="w-full pl-10 pr-4 py-2 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-full font-dm-sans text-[13px] text-carbon dark:text-bone placeholder:text-steel dark:placeholder:text-slate focus:outline-none focus:border-signal-blue dark:focus:border-white/30 transition-colors"
           />
         </div>
 
         {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-2 w-full overflow-x-auto text-[13px] font-inter">
-          <span className="text-[#374151] font-medium mr-1">Categories:</span>
+        <div className="flex flex-wrap items-center gap-2 w-full overflow-x-auto text-[13px] font-dm-sans">
+          <span className="text-steel dark:text-ash font-medium mr-1">Categories:</span>
           {["AI Infrastructure", "CRM", "DevTools"].map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-              className={`px-3 py-1 rounded-full border transition-colors duration-150 ${
+              className={`px-4 py-1.5 rounded-full border transition-all duration-150 ${
                 selectedCategory === cat
-                  ? "bg-[#f0f4fe] border-[#145aff] text-[#145aff] font-medium"
-                  : "bg-[#ffffff] border-[#e2e8f0] text-[#374151] hover:bg-[#f0f4fe]/60"
+                  ? "bg-signal-blue/15 border-signal-blue/30 text-signal-blue dark:bg-white/15 dark:border-white/30 dark:text-white font-medium shadow-sm"
+                  : "bg-vapor dark:bg-white/5 border-bone-light dark:border-white/10 text-steel dark:text-ash hover:text-carbon dark:hover:text-white hover:bg-[#e4e4e7] dark:hover:bg-white/10"
               }`}
             >
               {cat}
             </button>
           ))}
 
-          <div className="h-4 w-px bg-[#e2e8f0] mx-1 hidden sm:block"></div>
+          <div className="h-4 w-px bg-bone-light dark:bg-white/10 mx-1 hidden sm:block"></div>
 
           {/* Health Pill */}
           <button
             onClick={() => setSelectedHealth(selectedHealth === "Live" ? null : "Live")}
-            className={`px-3 py-1 rounded-full border transition-colors duration-150 flex items-center gap-1.5 ${
+            className={`px-4 py-1.5 rounded-full border transition-all duration-150 flex items-center gap-2 ${
               selectedHealth === "Live"
-                ? "bg-[#16ca2e]/10 border-[#16ca2e] text-[#16ca2e] font-medium"
-                : "bg-[#ffffff] border-[#e2e8f0] text-[#374151] hover:bg-[#f0f4fe]/60"
+                ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-700 dark:text-emerald-400 font-medium"
+                : "bg-vapor dark:bg-white/5 border-bone-light dark:border-white/10 text-steel dark:text-ash hover:text-carbon dark:hover:text-white hover:bg-[#e4e4e7] dark:hover:bg-white/10"
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-[#16ca2e]"></span>
+            <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
             <span>Live Health</span>
           </button>
         </div>
       </div>
 
       {/* Main Vendor Data Table */}
-      <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] overflow-hidden shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
+      <div className="bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-[24px] overflow-hidden shadow-sm dark:shadow-glass">
         {filteredVendors.length === 0 ? (
-          <div className="border border-[#e2e8f0] border-dashed rounded-[16px] p-10 text-center bg-[#ffffff] my-6 flex flex-col items-center">
-            <div className="w-16 h-16 mb-4 bg-[#f1f5f9] rounded-full flex items-center justify-center text-[#6b7280]">
-              <span className="material-symbols-outlined text-[36px]">storefront_off</span>
+          <div className="border border-bone-light dark:border-white/10 border-dashed rounded-[24px] p-12 text-center bg-vapor/30 dark:bg-white/[0.01] my-6 flex flex-col items-center">
+            <div className="w-16 h-16 mb-4 bg-vapor dark:bg-white/5 rounded-full flex items-center justify-center text-steel dark:text-slate border border-bone-light dark:border-white/10">
+              <span className="material-symbols-outlined text-[32px]">storefront_off</span>
             </div>
-            <h3 className="font-inter text-[18px] text-[#020520] font-semibold">No vendors found</h3>
-            <p className="font-inter text-[#6b7280] text-[14px] mt-1 max-w-sm">
+            <h3 className="font-geist text-[18px] text-ink-black dark:text-bone font-medium">No vendors found</h3>
+            <p className="font-dm-sans text-steel dark:text-ash text-[14px] mt-1 max-w-sm">
               Try adjusting your search query or removing category filters.
             </p>
           </div>
@@ -211,18 +211,18 @@ export const Vendors: React.FC = () => {
           <div className="overflow-x-auto w-full">
             <table className="w-full text-left border-collapse min-w-[900px]">
               <thead>
-                <tr className="bg-[#f1f5f9] border-b border-[#e2e8f0] font-inter text-[#374151] text-[12px] font-medium uppercase tracking-wider">
-                  <th className="py-3 px-4">Vendor</th>
-                  <th className="py-3 px-4">Category</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4">Pricing Plan</th>
-                  <th className="py-3 px-4">Recent Changes</th>
-                  <th className="py-3 px-4 text-right">Annual Impact</th>
-                  <th className="py-3 px-4 text-center">Scraper Health</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
+                <tr className="bg-vapor dark:bg-white/[0.02] border-b border-bone-light dark:border-white/10 font-dm-sans text-steel dark:text-ash text-[12px] font-medium uppercase tracking-wider">
+                  <th className="py-4 px-6">Vendor</th>
+                  <th className="py-4 px-6">Category</th>
+                  <th className="py-4 px-6">Status</th>
+                  <th className="py-4 px-6">Pricing Plan</th>
+                  <th className="py-4 px-6">Recent Changes</th>
+                  <th className="py-4 px-6 text-right">Annual Impact</th>
+                  <th className="py-4 px-6 text-center">Scraper Health</th>
+                  <th className="py-4 px-6 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="font-mono text-[13px] text-[#14141e] divide-y divide-[#e2e8f0]">
+              <tbody className="font-dm-sans text-[13px] text-carbon dark:text-bone divide-y divide-bone-light/60 dark:divide-white/5">
                 {filteredVendors.map((row) => {
                   const isIncrease = row.impactType === "increase";
                   const isDecrease = row.impactType === "decrease";
@@ -230,67 +230,67 @@ export const Vendors: React.FC = () => {
                   return (
                     <tr
                       key={row.id}
-                      className="hover:bg-[#f0f4fe]/60 transition-colors duration-150 group cursor-pointer"
+                      className="hover:bg-vapor/60 dark:hover:bg-white/[0.04] transition-colors duration-150 group cursor-pointer"
                       onClick={() => row.recentChangeId ? navigate(`/intelligence/${row.recentChangeId}`) : navigate("/intelligence")}
                     >
-                      <td className="py-3.5 px-4 font-inter">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-full bg-[#f1f5f9] border border-[#e2e8f0] flex items-center justify-center text-[#145aff] font-bold text-[13px] shrink-0">
+                      <td className="py-4 px-6 font-dm-sans">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-[4px] bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 flex items-center justify-center text-carbon dark:text-bone font-geist font-medium text-[13px] shrink-0 group-hover:bg-[#e4e4e7] dark:group-hover:bg-white/10 transition-colors">
                             {row.name.charAt(0)}
                           </div>
-                          <span className="font-semibold text-[#020520] group-hover:text-[#145aff] transition-colors text-[14px]">
+                          <span className="font-geist font-medium text-ink-black dark:text-bone group-hover:text-signal-blue dark:group-hover:text-white transition-colors text-[14px]">
                             {row.name}
                           </span>
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 font-inter text-[#374151]">
+                      <td className="py-4 px-6 font-dm-sans text-steel dark:text-ash">
                         {row.category}
                       </td>
 
-                      <td className="py-3.5 px-4 font-inter">
-                        <span className="inline-flex items-center gap-1.5 bg-[#145aff]/10 text-[#145aff] px-3 py-0.5 rounded-full text-[11px] font-medium">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#145aff]"></span>
+                      <td className="py-4 px-6 font-dm-sans">
+                        <span className="inline-flex items-center gap-2 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 text-carbon dark:text-bone px-3 py-1 rounded-full text-[11px] font-medium">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
                           {row.status}
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4 font-inter font-medium text-[#020520]">
+                      <td className="py-4 px-6 font-dm-sans font-medium text-carbon dark:text-bone">
                         {row.pricingPlan}
                       </td>
 
-                      <td className="py-3.5 px-4 max-w-[200px] truncate font-inter">
+                      <td className="py-4 px-6 max-w-[200px] truncate font-dm-sans">
                         {row.recentChangeId ? (
                           <Link
                             to={`/intelligence/${row.recentChangeId}`}
                             onClick={(e) => e.stopPropagation()}
-                            className="text-[#145aff] hover:underline font-medium"
+                            className="text-signal-blue dark:text-bone hover:underline underline-offset-4 font-medium"
                           >
                             {row.recentChange}
                           </Link>
                         ) : (
-                          <span className="text-[#6b7280] italic">{row.recentChange}</span>
+                          <span className="text-steel dark:text-slate italic">{row.recentChange}</span>
                         )}
                       </td>
 
-                      <td className={`py-3.5 px-4 text-right font-semibold text-[14px] ${
-                        isIncrease ? "text-[#f26052]" : isDecrease ? "text-[#16ca2e]" : "text-[#6b7280]"
+                      <td className={`py-4 px-6 text-right font-geist font-medium text-[14px] ${
+                        isIncrease ? "text-red-600 dark:text-red-400" : isDecrease ? "text-emerald-700 dark:text-emerald-400" : "text-steel dark:text-slate"
                       }`}>
                         {row.annualImpact}
                       </td>
 
-                      <td className="py-3.5 px-4 text-center">
-                        <div className="flex items-center justify-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#16ca2e]"></span>
-                          <span className="font-semibold text-[#020520]">{row.scraperHealth}%</span>
+                      <td className="py-4 px-6 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
+                          <span className="font-geist font-medium text-carbon dark:text-bone">{row.scraperHealth}%</span>
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 text-right">
+                      <td className="py-4 px-6 text-right">
                         <button
                           onClick={(e) => handleRunNow(e, row.id, row.name)}
                           disabled={triggeringId === row.id}
-                          className="px-3 py-1 bg-[#145aff] text-white text-[12px] font-inter font-medium rounded-full hover:bg-[#145aff]/90 transition-colors disabled:opacity-50"
+                          className="px-4 py-1.5 bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:text-black text-[12px] font-dm-sans font-medium rounded-full dark:hover:bg-neutral-200 transition-colors disabled:opacity-50"
                         >
                           {triggeringId === row.id ? "Running..." : "Run Now"}
                         </button>
@@ -306,3 +306,5 @@ export const Vendors: React.FC = () => {
     </main>
   );
 };
+
+

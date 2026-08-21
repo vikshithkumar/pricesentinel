@@ -1,40 +1,43 @@
 import React from "react";
 import { workspaceInfo } from "../mockData";
+import { useTheme } from "../context/ThemeContext";
 
 interface HeaderProps {
   onToggleMobileSidebar?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ onToggleMobileSidebar }) => {
+  const { theme, toggleTheme } = useTheme();
+
   return (
-    <header className="docked full-width top-0 sticky z-30 border-b border-[#e2e8f0] bg-[#fcfcfc]/90 backdrop-blur-md flex justify-between items-center h-16 px-4 md:px-10 shrink-0">
+    <header className="sticky top-4 z-30 mx-4 md:mx-6 my-2 bg-white/80 dark:bg-[#161616]/80 backdrop-blur-xl border border-bone-light dark:border-white/10 rounded-full px-5 py-2 flex justify-between items-center shrink-0 shadow-sm dark:shadow-glass transition-colors duration-200">
       {/* Workspace Selector & Search */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         {/* Mobile Hamburger Menu Toggle */}
         <button
           onClick={onToggleMobileSidebar}
-          className="md:hidden text-[#374151] hover:text-[#145aff] transition-colors p-1.5 rounded-full hover:bg-[#f0f4fe]"
+          className="md:hidden text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10"
           aria-label="Toggle Mobile Menu"
         >
-          <span className="material-symbols-outlined text-[24px]">menu</span>
+          <span className="material-symbols-outlined text-[22px]">menu</span>
         </button>
 
-        {/* Workspace Dropdown */}
-        <div className="flex items-center gap-2 bg-[#ffffff] border border-[#e2e8f0] rounded-[12px] px-3 py-1.5 cursor-pointer hover:border-[#145aff]/40 transition-colors shadow-sm">
-          <div className="w-6 h-6 bg-[#145aff] rounded-full text-white flex items-center justify-center font-bold text-[11px]">
+        {/* Workspace Dropdown Pill */}
+        <div className="flex items-center gap-2 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 hover:border-mist dark:hover:border-white/20 rounded-full px-3 py-1.5 cursor-pointer transition-all">
+          <div className="w-5 h-5 bg-signal-blue dark:bg-white text-white dark:text-black rounded-full flex items-center justify-center font-geist font-semibold text-[10px]">
             {workspaceInfo.workspaceCode}
           </div>
-          <span className="font-inter font-medium text-[14px] text-[#020520] hidden sm:inline">{workspaceInfo.workspaceName}</span>
-          <span className="material-symbols-outlined text-[16px] text-[#6b7280]">expand_more</span>
+          <span className="font-dm-sans font-medium text-[13px] text-carbon dark:text-bone hidden sm:inline">{workspaceInfo.workspaceName}</span>
+          <span className="material-symbols-outlined text-[16px] text-steel dark:text-slate">expand_more</span>
         </div>
 
-        {/* Global Search Bar */}
+        {/* Global Pill Search Bar */}
         <div className="relative hidden sm:block">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280] text-[18px]">
+          <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-steel dark:text-slate text-[16px]">
             search
           </span>
           <input
-            className="pl-9 pr-3 py-1.5 rounded-[12px] border border-[#e2e8f0] bg-[#f1f5f9] focus:bg-[#ffffff] focus:outline-none focus:border-[#145aff] focus:ring-1 focus:ring-[#0099ff] font-inter text-[14px] text-[#020520] placeholder-[#6b7280] w-36 sm:w-48 lg:w-64 transition-all"
+            className="pl-9 pr-4 py-1.5 rounded-full border border-bone-light dark:border-white/10 bg-vapor dark:bg-white/5 focus:bg-white dark:focus:bg-white/10 focus:outline-none focus:border-signal-blue dark:focus:border-white/30 font-dm-sans text-[13px] text-carbon dark:text-bone placeholder:text-steel dark:placeholder:text-slate w-36 sm:w-52 lg:w-72 transition-all"
             placeholder="Search vendors, SKUs..."
             type="text"
           />
@@ -42,49 +45,63 @@ export const Header: React.FC<HeaderProps> = ({ onToggleMobileSidebar }) => {
       </div>
 
       {/* Top Navigation Links & Actions */}
-      <div className="flex items-center gap-3">
-        <nav className="hidden lg:flex gap-6 mr-4">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <nav className="hidden lg:flex items-center gap-1 mr-2">
           <a
             href="#"
             onClick={(e) => e.preventDefault()}
-            className="text-[#374151] font-inter font-medium text-[15px] hover:text-[#145aff] transition-colors"
+            className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white font-dm-sans font-medium text-[13px] px-3 py-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             Market Overview
           </a>
           <a
             href="#"
             onClick={(e) => e.preventDefault()}
-            className="text-[#374151] font-inter font-medium text-[15px] hover:text-[#145aff] transition-colors"
+            className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white font-dm-sans font-medium text-[13px] px-3 py-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             Competitors
           </a>
           <a
             href="#"
             onClick={(e) => e.preventDefault()}
-            className="text-[#374151] font-inter font-medium text-[15px] hover:text-[#145aff] transition-colors"
+            className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white font-dm-sans font-medium text-[13px] px-3 py-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             Global Feeds
           </a>
         </nav>
 
-        {/* Action Buttons */}
-        <button className="text-[#374151] hover:text-[#145aff] transition-colors p-2 rounded-full hover:bg-[#f0f4fe]">
-          <span className="material-symbols-outlined text-[20px]">history</span>
+        {/* Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10"
+          title={`Switch to ${theme === "dark" ? "Light" : "Dark"} Mode`}
+          aria-label="Toggle Theme"
+        >
+          <span className="material-symbols-outlined text-[19px]">
+            {theme === "dark" ? "light_mode" : "dark_mode"}
+          </span>
         </button>
-        <button className="text-[#374151] hover:text-[#145aff] transition-colors p-2 rounded-full hover:bg-[#f0f4fe] relative">
-          <span className="material-symbols-outlined text-[20px]">notifications</span>
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#f26052] rounded-full border border-white"></span>
+
+        {/* Action Buttons */}
+        <button className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10">
+          <span className="material-symbols-outlined text-[19px]">history</span>
+        </button>
+        <button className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 relative">
+          <span className="material-symbols-outlined text-[19px]">notifications</span>
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-signal-blue dark:bg-[#6b62f2] rounded-full ring-2 ring-white dark:ring-[#161616]"></span>
         </button>
 
         {/* User Profile Avatar */}
         <img
           alt="Analyst Profile"
-          className="w-8 h-8 rounded-full object-cover border border-[#e2e8f0] ml-2 cursor-pointer"
+          className="w-7 h-7 rounded-full object-cover border border-bone-light dark:border-white/20 ml-1 cursor-pointer hover:border-signal-blue dark:hover:border-white transition-colors"
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuG0N8vPaKgsuUwe4BF397h2SOJvECwusBsLOs-gHvQyiMLviMbfEWOYd2nVQekdsqb4zPz-NMBRjXjLTFFLo7hDYKj7r_OQlxQujKhVMN7cdWlK_sTzdkkY3S5qCoC8MAlnOYg5hGBhhEymApRH82yKM1BhjQs91oCTvvVtGsLKU2yIG3t6QA-QEn0MOCA8Wa1OjZin4HorCiUsm2AGfy4Qu1ANEhtTzOfdP_QbGLSvvjveo-zOv2"
         />
       </div>
     </header>
   );
 };
+
+
 
 

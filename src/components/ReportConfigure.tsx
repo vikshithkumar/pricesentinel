@@ -14,21 +14,21 @@ export const ReportConfigure: React.FC = () => {
   };
 
   return (
-    <main className="flex-grow p-4 md:p-10 overflow-y-auto bg-[#fcfcfc] flex flex-col items-center w-full max-w-[1400px] mx-auto">
-      <div className="w-full max-w-xl bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-6 md:p-8 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px] mt-4 font-inter">
+    <main className="flex-grow p-4 md:p-6 overflow-y-auto bg-frost dark:bg-[#0a0a0a] flex flex-col items-center w-full max-w-[1400px] mx-auto font-dm-sans transition-colors duration-200">
+      <div className="w-full max-w-xl bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-[24px] p-6 md:p-8 shadow-sm dark:shadow-glass mt-4 font-dm-sans">
         {/* Header */}
-        <div className="border-b border-[#e2e8f0] pb-4 mb-6">
-          <h2 className="font-inter text-[24px] text-[#020520] font-semibold tracking-[-0.5px]">Configure New Report</h2>
-          <p className="font-inter text-sm text-[#374151] mt-1">Setup pricing intelligence report metrics, scope, and automation schedule.</p>
+        <div className="border-b border-bone-light dark:border-white/10 pb-5 mb-6">
+          <h2 className="font-geist text-[24px] text-ink-black dark:text-bone font-medium tracking-tight">Configure New Report</h2>
+          <p className="font-dm-sans text-sm text-steel dark:text-ash mt-1">Setup pricing intelligence report metrics, scope, and automation schedule.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Report Title */}
           <div>
-            <label className="block text-[#020520] text-[13px] font-medium mb-1">Report Title</label>
+            <label className="block text-carbon dark:text-bone text-[13px] font-medium mb-2">Report Title</label>
             <input
               required
-              className="w-full bg-[#f1f5f9] border border-[#e2e8f0] rounded-[12px] px-3 py-2 font-inter text-[14px] text-[#020520] focus:outline-none focus:border-[#145aff] focus:ring-1 focus:ring-[#0099ff] transition-all"
+              className="w-full bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-[12px] px-4 py-2.5 font-dm-sans text-[14px] text-carbon dark:text-bone placeholder:text-steel dark:placeholder:text-slate focus:outline-none focus:border-signal-blue dark:focus:border-white/30 transition-all"
               type="text"
               placeholder="e.g. Q4 Infrastructure Spend Audit"
               value={title}
@@ -38,32 +38,32 @@ export const ReportConfigure: React.FC = () => {
 
           {/* Category */}
           <div>
-            <label className="block text-[#020520] text-[13px] font-medium mb-1">Category</label>
+            <label className="block text-carbon dark:text-bone text-[13px] font-medium mb-2">Category</label>
             <div className="relative">
               <select
-                className="w-full bg-[#f1f5f9] border border-[#e2e8f0] rounded-[12px] px-3 py-2 pr-10 font-inter text-[14px] text-[#020520] focus:outline-none focus:border-[#145aff] focus:ring-1 focus:ring-[#0099ff] transition-all appearance-none cursor-pointer"
+                className="w-full bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-[12px] px-4 py-2.5 pr-10 font-dm-sans text-[14px] text-carbon dark:text-bone focus:outline-none focus:border-signal-blue dark:focus:border-white/30 transition-all appearance-none cursor-pointer"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value="Financial">Financial Summaries</option>
-                <option value="Executive">Executive Summaries</option>
-                <option value="Technical">Technical Audits</option>
-                <option value="All">All Reports</option>
+                <option value="Financial" className="bg-white dark:bg-[#161616] text-carbon dark:text-bone">Financial Summaries</option>
+                <option value="Executive" className="bg-white dark:bg-[#161616] text-carbon dark:text-bone">Executive Summaries</option>
+                <option value="Technical" className="bg-white dark:bg-[#161616] text-carbon dark:text-bone">Technical Audits</option>
+                <option value="All" className="bg-white dark:bg-[#161616] text-carbon dark:text-bone">All Reports</option>
               </select>
-              <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#6b7280] pointer-events-none text-[20px]">expand_more</span>
+              <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-steel dark:text-slate pointer-events-none text-[20px]">expand_more</span>
             </div>
           </div>
 
           {/* Schedule */}
           <div>
-            <label className="block text-[#020520] text-[13px] font-medium mb-1">Schedule Frequency</label>
+            <label className="block text-carbon dark:text-bone text-[13px] font-medium mb-2">Schedule Frequency</label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {["daily", "weekly", "monthly"].map((sched) => (
                 <label
                   key={sched}
-                  className={`flex flex-col items-center justify-center p-4 border rounded-[12px] cursor-pointer transition-all ${schedule === sched
-                      ? "border-[#145aff] bg-[#f0f4fe] text-[#145aff] font-medium"
-                      : "border-[#e2e8f0] bg-[#ffffff] hover:bg-[#f1f5f9] text-[#374151]"
+                  className={`flex flex-col items-center justify-center p-4 border rounded-[16px] cursor-pointer transition-all ${schedule === sched
+                      ? "border-signal-blue/30 bg-signal-blue/15 text-signal-blue dark:border-white/30 dark:bg-white/10 dark:text-white font-medium shadow-sm"
+                      : "border-bone-light dark:border-white/10 bg-vapor dark:bg-white/5 hover:bg-[#e4e4e7] dark:hover:bg-white/10 text-steel dark:text-ash"
                     }`}
                 >
                   <input
@@ -77,24 +77,24 @@ export const ReportConfigure: React.FC = () => {
                   <span className="material-symbols-outlined text-[20px] mb-1">
                     {sched === "daily" ? "today" : sched === "weekly" ? "date_range" : "calendar_month"}
                   </span>
-                  <span className="font-mono text-[12px] uppercase tracking-wider">{sched}</span>
+                  <span className="font-geist text-[12px] uppercase tracking-wider">{sched}</span>
                 </label>
               ))}
             </div>
           </div>
 
           {/* Action Footer */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-[#e2e8f0]">
+          <div className="flex justify-end gap-3 pt-5 border-t border-bone-light dark:border-white/10">
             <button
               type="button"
               onClick={() => navigate("/reports")}
-              className="text-[#374151] font-inter font-medium text-[14px] px-4 py-2 hover:bg-[#f0f4fe] rounded-full transition-colors duration-150"
+              className="text-steel dark:text-ash font-dm-sans font-medium text-[14px] px-5 py-2.5 hover:text-carbon dark:hover:text-white transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-[#fcfcfc] border border-[#145aff] text-[#145aff] font-inter font-medium text-[14px] px-6 py-2 rounded-full hover:bg-[#f0f4fe] transition-colors duration-150 shadow-sm"
+              className="bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-dm-sans font-medium text-[14px] px-6 py-2.5 rounded-full transition-all shadow-sm"
             >
               Configure Report
             </button>
@@ -104,4 +104,6 @@ export const ReportConfigure: React.FC = () => {
     </main>
   );
 };
+
+
 

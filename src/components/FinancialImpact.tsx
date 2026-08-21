@@ -8,27 +8,33 @@ export const FinancialImpact: React.FC = () => {
   return (
     <div
       onClick={() => navigate("/intelligence/financial-impact")}
-      className="bg-[#ffffff] rounded-[16px] border border-[#e2e8f0] shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px] p-4 cursor-pointer hover:border-[#145aff]/40 transition-colors"
+      className="bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md rounded-[24px] border border-bone-light dark:border-white/10 p-6 cursor-pointer hover:border-mist dark:hover:border-white/25 transition-all shadow-sm dark:shadow-glass group"
     >
-      <h3 className="font-inter text-[16px] text-[#020520] font-semibold mb-4">
-        Financial Impact Overview
-      </h3>
+      <div className="flex justify-between items-center mb-5">
+        <h3 className="font-geist text-[18px] text-ink-black dark:text-bone font-medium">
+          Financial Impact Overview
+        </h3>
+        <span className="material-symbols-outlined text-[18px] text-steel dark:text-ash group-hover:text-carbon dark:group-hover:text-white transition-colors">
+          arrow_forward
+        </span>
+      </div>
 
-      <div className="h-40 w-full rounded-[12px] border border-[#e2e8f0] bg-[#f1f5f9] relative overflow-hidden flex items-end px-4 pb-2 gap-2">
-        <div className="w-full flex justify-between items-end h-full pt-4">
+      <div className="h-44 w-full rounded-[16px] border border-bone-light dark:border-white/10 bg-vapor dark:bg-white/[0.02] relative overflow-hidden flex items-end px-5 pb-3 gap-2">
+        <div className="w-full flex justify-between items-end h-full pt-8">
           {financialImpactBars.map((bar, idx) => (
             <div
               key={idx}
               style={{ height: bar.height }}
-              className={`w-1/12 rounded-t-sm relative transition-colors ${bar.active
+              className={`w-1/12 rounded-t-[4px] relative transition-all duration-200 ${
+                bar.active
                   ? bar.monthLabel === "Sep"
-                    ? "bg-[#f26052] hover:bg-[#f26052]/90"
-                    : "bg-[#ffa64d] hover:bg-[#ffa64d]/90"
-                  : "bg-[#3b82f6]/30 hover:bg-[#3b82f6]/50"
-                }`}
+                    ? "bg-red-500 dark:bg-red-400 hover:bg-red-600 dark:hover:bg-red-300"
+                    : "bg-amber-500 dark:bg-amber-400 hover:bg-amber-600 dark:hover:bg-amber-300"
+                  : "bg-signal-blue/40 dark:bg-[#6b62f2]/40 hover:bg-signal-blue/70 dark:hover:bg-[#6b62f2]/70"
+              }`}
             >
               {bar.monthLabel && (
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-[#020520] font-bold">
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[11px] font-geist text-carbon dark:text-bone font-medium">
                   {bar.monthLabel}
                 </div>
               )}
@@ -36,11 +42,13 @@ export const FinancialImpact: React.FC = () => {
           ))}
         </div>
 
-        <div className="absolute top-4 left-4 font-mono text-[12px] text-[#374151]">
+        <div className="absolute top-4 left-5 font-dm-sans text-[12px] text-steel dark:text-ash">
           Monthly Cost Variance
         </div>
       </div>
     </div>
   );
 };
+
+
 

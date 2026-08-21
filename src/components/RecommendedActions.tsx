@@ -3,25 +3,27 @@ import { recommendedActions } from "../mockData";
 
 export const RecommendedActions: React.FC = () => {
   return (
-    <div className="bg-[#ffffff] rounded-[16px] border border-[#e2e8f0] shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px] p-4">
-      <h3 className="font-inter text-[16px] text-[#020520] font-semibold mb-3 flex items-center gap-2">
-        <span className="material-symbols-outlined text-[18px] text-[#145aff]">bolt</span>
+    <div className="bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md rounded-[24px] border border-bone-light dark:border-white/10 p-6 shadow-sm dark:shadow-glass transition-colors duration-200">
+      <h3 className="font-geist text-[18px] text-ink-black dark:text-bone font-medium mb-4 flex items-center gap-2">
+        <div className="w-6 h-6 rounded-[4px] bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 flex items-center justify-center text-carbon dark:text-bone">
+          <span className="material-symbols-outlined text-[15px]">bolt</span>
+        </div>
         Recommended Actions
       </h3>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {recommendedActions.map((action, idx) => (
           <button
             key={idx}
-            className="w-full bg-[#f1f5f9] hover:bg-[#f0f4fe] border border-[#e2e8f0] hover:border-[#145aff]/30 transition-colors duration-150 rounded-[12px] p-3 flex items-center justify-between group text-left"
+            className="w-full bg-vapor dark:bg-white/[0.03] hover:bg-[#e4e4e7] dark:hover:bg-white/[0.08] border border-bone-light dark:border-white/10 hover:border-mist dark:hover:border-white/20 transition-all duration-150 rounded-[16px] p-4 flex items-center justify-between group text-left"
           >
             <div>
-              <div className="text-[13px] font-inter font-semibold text-[#020520]">{action.title}</div>
-              <div className="text-[12px] font-inter text-[#374151] mt-0.5">{action.description}</div>
+              <div className="text-[14px] font-geist font-medium text-ink-black dark:text-bone">{action.title}</div>
+              <div className="text-[13px] font-dm-sans text-steel dark:text-ash mt-1">{action.description}</div>
               {action.hasActionLink && (
-                <div className="mt-2">
+                <div className="mt-2.5">
                   <span
-                    className="text-[11px] font-inter text-[#145aff] font-semibold hover:underline cursor-pointer"
+                    className="text-[12px] font-dm-sans text-signal-blue dark:text-white underline underline-offset-4 decoration-signal-blue/30 dark:decoration-white/30 hover:decoration-signal-blue dark:hover:decoration-white transition-colors cursor-pointer font-medium"
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
@@ -31,7 +33,7 @@ export const RecommendedActions: React.FC = () => {
                 </div>
               )}
             </div>
-            <span className="material-symbols-outlined text-[18px] text-[#6b7280] group-hover:text-[#145aff] transition-colors">
+            <span className="material-symbols-outlined text-[18px] text-steel dark:text-ash group-hover:text-carbon dark:group-hover:text-white transition-colors ml-2 shrink-0">
               arrow_forward
             </span>
           </button>
@@ -40,4 +42,6 @@ export const RecommendedActions: React.FC = () => {
     </div>
   );
 };
+
+
 

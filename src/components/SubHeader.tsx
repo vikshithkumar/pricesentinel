@@ -3,39 +3,41 @@ import { workspaceInfo } from "../mockData";
 
 export const SubHeader: React.FC = () => {
   return (
-    <div className="bg-[#fcfcfc] border-b border-[#e2e8f0] px-4 md:px-10 py-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 z-20 shadow-sm shrink-0">
+    <div className="mx-4 md:mx-6 my-1 px-5 py-3.5 bg-white/60 dark:bg-[#161616]/60 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-[20px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 z-20 shrink-0 transition-colors duration-200">
       {/* Analyst Greeting */}
-      <h2 className="font-inter text-[18px] sm:text-[20px] text-[#020520] font-semibold tracking-[-0.16px]">
-        {workspaceInfo.userGreeting}
-      </h2>
+      <div>
+        <h2 className="font-geist text-[18px] sm:text-[20px] text-ink-black dark:text-bone font-medium tracking-tight">
+          {workspaceInfo.userGreeting}
+        </h2>
+      </div>
 
       {/* Sync Status & Period Filters */}
       <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
-        {/* Verification status telemetry */}
-        <div className="flex items-center gap-1.5 text-[#374151] bg-[#f1f5f9] border border-[#e2e8f0] px-3 py-1 rounded-full text-[12px] font-mono">
-          <span className="material-symbols-outlined text-[14px] text-[#16ca2e]">check_circle</span>
+        {/* Verification status telemetry pill */}
+        <div className="flex items-center gap-2 text-steel dark:text-ash bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 px-3.5 py-1.5 rounded-full text-[12px] font-geist">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
           <span>{workspaceInfo.lastVerifiedText}</span>
         </div>
 
         <div className="flex items-center gap-2">
           {/* Manual Refresh Trigger */}
           <button
-            className="text-[#6b7280] hover:text-[#145aff] transition-colors p-1.5 rounded-full hover:bg-[#f0f4fe]"
+            className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10"
             title="Manual Refresh"
           >
             <span className="material-symbols-outlined text-[18px]">refresh</span>
           </button>
 
-          <div className="h-5 w-px bg-[#e2e8f0]"></div>
+          <div className="h-4 w-px bg-bone-light dark:bg-white/10"></div>
 
-          {/* Date Filter selector */}
+          {/* Date Filter selector pill */}
           <div className="relative">
-            <select className="appearance-none bg-[#f1f5f9] border border-[#e2e8f0] rounded-[12px] text-[13px] font-inter font-medium py-1.5 pl-3 pr-8 text-[#020520] focus:ring-1 focus:ring-[#0099ff] focus:border-[#145aff] cursor-pointer hover:bg-[#f0f4fe] transition-colors">
-              <option>Last 30 Days</option>
-              <option>Last 7 Days</option>
-              <option>Year to Date</option>
+            <select className="appearance-none bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-full text-[13px] font-dm-sans font-medium py-1.5 pl-4 pr-9 text-carbon dark:text-bone focus:outline-none focus:border-signal-blue dark:focus:border-white/30 cursor-pointer hover:bg-white dark:hover:bg-white/10 transition-colors">
+              <option className="bg-white text-carbon dark:bg-[#161616] dark:text-bone">Last 30 Days</option>
+              <option className="bg-white text-carbon dark:bg-[#161616] dark:text-bone">Last 7 Days</option>
+              <option className="bg-white text-carbon dark:bg-[#161616] dark:text-bone">Year to Date</option>
             </select>
-            <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[#6b7280] text-[18px] pointer-events-none">
+            <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-steel dark:text-slate text-[16px] pointer-events-none">
               expand_more
             </span>
           </div>
@@ -44,5 +46,7 @@ export const SubHeader: React.FC = () => {
     </div>
   );
 };
+
+
 
 

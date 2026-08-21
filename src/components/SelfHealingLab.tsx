@@ -106,27 +106,27 @@ export const SelfHealingLab: React.FC = () => {
   };
 
   return (
-    <main className="flex-grow p-4 md:p-10 overflow-y-auto bg-[#fcfcfc] flex flex-col w-full max-w-[1400px] mx-auto">
+    <main className="flex-grow p-4 md:p-6 overflow-y-auto bg-frost dark:bg-[#0a0a0a] flex flex-col w-full max-w-[1400px] mx-auto font-dm-sans transition-colors duration-200">
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-1.5 mb-4 font-inter text-[12px] text-[#6b7280]" aria-label="Breadcrumb">
-        <Link to="/" className="hover:text-[#145aff] transition-colors">
+      <nav className="flex items-center gap-2 mb-3 font-dm-sans text-[12px] text-steel dark:text-slate" aria-label="Breadcrumb">
+        <Link to="/" className="hover:text-carbon dark:hover:text-white transition-colors">
           Dashboard
         </Link>
         <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-        <Link to="/scrapers" className="hover:text-[#145aff] transition-colors">
+        <Link to="/scrapers" className="hover:text-carbon dark:hover:text-white transition-colors">
           Scraper Health
         </Link>
         <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-        <span className="text-[#020520] font-medium">Self-Healing Lab</span>
+        <span className="text-carbon dark:text-bone font-medium">Self-Healing Lab</span>
       </nav>
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-bone-light dark:border-white/10 pb-6">
         <div>
-          <h2 className="font-inter text-[32px] md:text-[40px] text-[#020520] font-semibold tracking-[-1.48px] leading-tight mb-1">
+          <h2 className="font-geist text-[32px] md:text-[36px] text-ink-black dark:text-bone font-medium tracking-tight leading-tight mb-1">
             Self-Healing Lab
           </h2>
-          <p className="font-inter text-[#374151] text-[14px] max-w-2xl leading-relaxed">
+          <p className="font-dm-sans text-steel dark:text-ash text-[14px] max-w-2xl leading-relaxed">
             Interactive demonstration of automated DOM adaptation. Simulate a target site structural failure and observe the Sentinel AI re-map extraction logic in real-time.
           </p>
         </div>
@@ -134,7 +134,7 @@ export const SelfHealingLab: React.FC = () => {
           <button
             onClick={handleBreak}
             disabled={simStatus !== "healthy"}
-            className="px-5 py-2 bg-[#f26052] text-white rounded-full font-inter font-medium text-[13px] hover:bg-[#f26052]/90 transition-colors shadow-sm disabled:opacity-50"
+            className="px-5 py-2.5 bg-red-500/20 border border-red-500/30 text-red-600 dark:text-red-400 rounded-full font-dm-sans font-medium text-[13px] hover:bg-red-500/30 transition-all shadow-sm disabled:opacity-50"
           >
             Simulate DOM Breakage
           </button>
@@ -142,20 +142,20 @@ export const SelfHealingLab: React.FC = () => {
       </div>
 
       {/* Interactive Simulation Console */}
-      <div className="bg-[#020520] rounded-[16px] p-6 text-white font-mono text-[13px] shadow-lg flex flex-col min-h-[350px]">
-        <div className="flex justify-between items-center pb-4 border-b border-[#e2e8f0]/10 mb-4">
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-[#f26052]"></span>
-            <span className="w-3 h-3 rounded-full bg-[#ffa64d]"></span>
-            <span className="w-3 h-3 rounded-full bg-[#16ca2e]"></span>
-            <span className="ml-2 font-semibold text-[#145aff]">node-console // collector: SCR-EXP-05</span>
+      <div className="bg-[#18181b] dark:bg-[#161616] rounded-[24px] border border-bone-light dark:border-white/10 p-6 text-bone font-geist text-[13px] shadow-sm dark:shadow-glass flex flex-col min-h-[380px]">
+        <div className="flex justify-between items-center pb-4 border-b border-white/10 mb-4">
+          <div className="flex items-center gap-2.5">
+            <span className="w-3 h-3 rounded-full bg-red-400"></span>
+            <span className="w-3 h-3 rounded-full bg-amber-400"></span>
+            <span className="w-3 h-3 rounded-full bg-emerald-400"></span>
+            <span className="ml-2 font-medium text-bone">node-console // collector: SCR-EXP-05</span>
           </div>
-          <span className="text-[11px] text-[#6b7280]">Status: {simStatus.toUpperCase()}</span>
+          <span className="text-[11px] text-ash uppercase tracking-wider font-geist">Status: {simStatus.toUpperCase()}</span>
         </div>
 
-        <div className="flex-1 overflow-y-auto space-y-1 font-mono text-[12px] text-[#e2e8f0]/90 max-h-[300px]">
+        <div className="flex-1 overflow-y-auto space-y-1.5 font-geist text-[13px] text-ash max-h-[300px]">
           {logs.map((log, idx) => (
-            <div key={idx} className={log.includes("CRIT") || log.includes("WARN") ? "text-[#f26052]" : log.includes("complete") || log.includes("repaired") ? "text-[#16ca2e]" : ""}>
+            <div key={idx} className={log.includes("CRIT") || log.includes("WARN") ? "text-red-400" : log.includes("complete") || log.includes("repaired") ? "text-emerald-400" : ""}>
               {log}
             </div>
           ))}
@@ -163,12 +163,12 @@ export const SelfHealingLab: React.FC = () => {
         </div>
 
         {simStatus === "repaired" && (
-          <div className="mt-4 pt-4 border-t border-[#e2e8f0]/10 flex items-center justify-between">
-            <span className="text-[#16ca2e] font-semibold">Suggested Fix: [data-test="current-price"]</span>
+          <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-between">
+            <span className="text-emerald-400 font-medium">Suggested Fix: [data-test="current-price"]</span>
             <button
               onClick={handleRepair}
               disabled={applyingRepair}
-              className="px-5 py-2 bg-[#16ca2e] text-white rounded-full font-inter font-medium text-[13px] hover:bg-[#16ca2e]/90 transition-colors shadow-sm disabled:opacity-50"
+              className="px-6 py-2.5 bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:text-black rounded-full font-dm-sans font-medium text-[13px] dark:hover:bg-neutral-200 transition-all shadow-sm disabled:opacity-50"
             >
               {applyingRepair ? "Applying Repair..." : "Apply AI Repair & Deploy"}
             </button>
@@ -178,3 +178,5 @@ export const SelfHealingLab: React.FC = () => {
     </main>
   );
 };
+
+

@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext";
 import { Sidebar } from "./components/Sidebar";
 import { Header } from "./components/Header";
 import { SubHeader } from "./components/SubHeader";
@@ -23,7 +24,7 @@ const AppContent: React.FC = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = React.useState<boolean>(false);
 
   return (
-    <div className="flex w-full h-screen overflow-hidden bg-background">
+    <div className="flex w-full h-screen overflow-hidden bg-frost text-carbon dark:bg-[#0a0a0a] dark:text-bone font-dm-sans transition-colors duration-200">
       {/* Sidebar Shell */}
       <Sidebar
         currentPath={location.pathname}
@@ -32,7 +33,7 @@ const AppContent: React.FC = () => {
       />
 
       {/* Main Content Pane */}
-      <div className="flex-1 md:ml-64 flex flex-col h-screen overflow-hidden w-full">
+      <div className="flex-1 md:ml-[264px] flex flex-col h-screen overflow-hidden w-full">
         {/* Top Header */}
         <Header onToggleMobileSidebar={() => setMobileSidebarOpen(!mobileSidebarOpen)} />
 
@@ -56,19 +57,21 @@ const AppContent: React.FC = () => {
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/settings" element={<Settings />} />
 
-          {/* Placeholders for unfinished areas as per rules */}
+          {/* Placeholders for unfinished areas */}
           <Route
             path="*"
             element={
-              <main className="flex-1 p-margin-desktop bg-background flex flex-col items-center justify-center text-center">
-                <span className="material-symbols-outlined text-[48px] text-secondary mb-2">
-                  construction
-                </span>
-                <h3 className="font-tagline text-tagline text-ink font-semibold">
+              <main className="flex-1 p-8 bg-frost dark:bg-[#0a0a0a] flex flex-col items-center justify-center text-center font-dm-sans">
+                <div className="w-16 h-16 rounded-full bg-white border border-bone-light dark:bg-white/5 dark:border-white/10 flex items-center justify-center mb-4 shadow-sm">
+                  <span className="material-symbols-outlined text-[32px] text-steel dark:text-ash">
+                    construction
+                  </span>
+                </div>
+                <h3 className="font-geist text-[24px] text-ink-black dark:text-bone font-medium">
                   Under Construction
                 </h3>
-                <p className="font-body text-body text-secondary mt-1">
-                  This section will be implemented in a future batch.
+                <p className="font-dm-sans text-[14px] text-steel dark:text-ash mt-2 max-w-sm">
+                  This section will be implemented in a future update.
                 </p>
               </main>
             }
@@ -81,10 +84,13 @@ const AppContent: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </ThemeProvider>
   );
 };
 export default App;
+
 

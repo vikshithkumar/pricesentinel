@@ -81,14 +81,14 @@ export const Dashboard: React.FC = () => {
     : initialKpiMetrics;
 
   return (
-    <main className="flex-1 overflow-y-auto p-4 md:p-10 bg-[#fcfcfc] w-full max-w-[1400px] mx-auto">
+    <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-frost dark:bg-[#0a0a0a] w-full max-w-[1400px] mx-auto font-dm-sans transition-colors duration-200">
       {error && (
-        <div className="mb-4 p-3 bg-[#f0f4fe] border border-[#145aff]/30 rounded-[12px] flex items-center justify-between text-[13px] text-[#020520] font-inter">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#145aff] animate-pulse"></span>
-            <span>Real backend status: <strong>http://localhost:8080</strong> (Live DB connection active)</span>
+        <div className="mb-6 p-4 bg-white/80 dark:bg-[#161616]/80 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-full flex items-center justify-between text-[13px] text-carbon dark:text-bone font-dm-sans shadow-sm dark:shadow-glass">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-signal-blue dark:bg-[#6b62f2] animate-pulse"></span>
+            <span>Real backend status: <strong className="text-ink-black dark:text-white font-geist">http://localhost:8080</strong> (Live DB connection active)</span>
           </div>
-          <span className="font-mono text-[11px] text-[#6b7280]">Backend Sync Active</span>
+          <span className="font-geist text-[11px] text-steel dark:text-ash uppercase tracking-wider">Backend Sync Active</span>
         </div>
       )}
 
@@ -100,7 +100,7 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Main Bento Grid */}
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-12 gap-6 pb-6">
         {/* Left Column */}
         <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
           <RecentDetections />
@@ -119,3 +119,5 @@ export const Dashboard: React.FC = () => {
 };
 
 export default Dashboard;
+
+

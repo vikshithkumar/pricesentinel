@@ -35,3 +35,8 @@ dist-ssr
 __pycache__/
 *.py[cod]
 
+
+# Backend generated files and local backup
+backend/pp-backup/
+backend/pp/target/
+backend/pp/*.log

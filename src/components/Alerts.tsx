@@ -1,16 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { mockAlerts } from "../mockData";
 import type { AlertData } from "../mockData";
+import { api } from "../services/api";
+import type { AlertResponse } from "../services/api";
 
 export const Alerts: React.FC = () => {
   const [alerts, setAlerts] = useState<AlertData[]>(mockAlerts);
   const [categoryFilter, setCategoryFilter] = useState<string>("Plan");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [dismissingId, setDismissingId] = useState<string | null>(null);
 
-  const handleRead = (id: string) => {
-    setAlerts((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, isRead: !item.isRead } : item))
-    );
+  useEffect(() => {
+    let isMounted = true;
+    api.getAlerts()
+      .then((apiAlerts: AlertResponse[]) => {
+        if (isMounted && apiAlerts && apiAlerts.length > 0) {
+          const mapped: AlertData[] = apiAlerts.map((a) => ({
+            id: a.changeEventId,
+            severity: (a.finalScore >= 75 ? "critical" : a.finalScore >= 45 ? "high" : "info") as 'critical' | 'high' | 'info',
+            title: `${a.vendorName}: ${a.type.replace(/_/g, " ")}`,
+            description: a.impactSummary || "Detected pricing change in monitoring scan.",
+            timeText: new Date(a.createdAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            vendorName: a.vendorName,
+            vendorLogoUrl: "",
+            isRead: a.status === "DISMISSED",
+            isSnoozed: false,
+            impactAmount: a.impactSummary,
+          }));
+          setAlerts(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn("Backend alerts API unavailable, using seed alert feed", err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleRead = async (id: string) => {
+    setDismissingId(id);
+    try {
+      await api.dismissAlert(id);
+      setAlerts((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, isRead: true } : item))
+      );
+    } catch (err) {
+      console.warn("Alert dismiss fallback to local state", err);
+      setAlerts((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, isRead: !item.isRead } : item))
+      );
+    } finally {
+      setDismissingId(null);
+    }
   };
 
   const handleSnooze = (id: string) => {
@@ -48,12 +91,14 @@ export const Alerts: React.FC = () => {
           <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] px-4 py-2 flex items-center gap-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
             <div className="flex flex-col">
               <span className="font-mono text-[10px] text-[#6b7280] uppercase tracking-wider font-medium">Active Risks</span>
-              <span className="font-mono text-[24px] font-semibold text-[#020520] leading-none mt-1">14</span>
+              <span className="font-mono text-[24px] font-semibold text-[#020520] leading-none mt-1">{alerts.length}</span>
             </div>
             <div className="w-px h-8 bg-[#e2e8f0]"></div>
             <div className="flex flex-col">
               <span className="font-mono text-[#f26052] text-[10px] uppercase tracking-wider font-semibold">Critical</span>
-              <span className="font-mono text-[24px] font-semibold text-[#f26052] leading-none mt-1">3</span>
+              <span className="font-mono text-[24px] font-semibold text-[#f26052] leading-none mt-1">
+                {alerts.filter(a => a.severity === 'critical').length}
+              </span>
             </div>
           </div>
         </div>
@@ -176,27 +221,16 @@ export const Alerts: React.FC = () => {
                               <div className="font-inter text-[14px] text-[#020520] font-semibold">{item.actionByText}</div>
                             </div>
                           )}
-                          {item.potentialImpactText && (
-                            <div className="hidden sm:block">
-                              <div className="font-mono text-[11px] text-[#6b7280] uppercase tracking-wider mb-0.5">Potential Impact</div>
-                              <div className="font-mono text-[14px] text-[#ffa64d] font-semibold">{item.potentialImpactText}</div>
-                            </div>
-                          )}
                         </div>
                       )}
 
                       <div className="flex flex-wrap gap-2 items-center font-inter">
                         <button
-                          onClick={() => console.log("Mock review scenario")}
+                          onClick={() => handleRead(item.id)}
+                          disabled={dismissingId === item.id}
                           className="bg-[#fcfcfc] border border-[#145aff] text-[#145aff] font-medium text-[12px] px-4 py-1.5 rounded-full hover:bg-[#f0f4fe] transition-colors duration-150 inline-block shadow-sm"
                         >
-                          Review Scenario
-                        </button>
-                        <button
-                          onClick={() => console.log("Mock view scraper")}
-                          className="bg-[#ffffff] border border-[#e2e8f0] text-[#020520] text-[12px] px-4 py-1.5 rounded-full hover:bg-[#f0f4fe] transition-colors duration-150 inline-block font-medium"
-                        >
-                          View Scraper
+                          {dismissingId === item.id ? "Dismissing..." : item.isRead ? "Dismissed" : "Dismiss Alert"}
                         </button>
 
                         <div className="ml-auto flex gap-1">
@@ -204,7 +238,7 @@ export const Alerts: React.FC = () => {
                             onClick={() => handleRead(item.id)}
                             className={`p-1.5 text-[#6b7280] hover:text-[#145aff] transition-colors rounded-full hover:bg-[#f0f4fe] ${item.isRead ? "text-[#145aff] bg-[#f0f4fe]" : ""
                               }`}
-                            title="Mark as Read"
+                            title="Mark as Read / Dismiss"
                           >
                             <span className="material-symbols-outlined text-[18px] block">done</span>
                           </button>
@@ -251,41 +285,6 @@ export const Alerts: React.FC = () => {
               <span>Mon</span>
               <span>Today</span>
             </div>
-
-            <div className="mt-4 bg-[#ffa64d]/10 border border-[#ffa64d]/30 rounded-[12px] p-2.5 flex items-start gap-2">
-              <span className="material-symbols-outlined text-[14px] text-[#ffa64d] shrink-0 mt-[2px]">trending_up</span>
-              <span className="font-inter text-[11px] text-[#020520] leading-tight">Volume is <strong>24% higher</strong> than average today. Consider tuning your plan change sensitivity.</span>
-            </div>
-          </div>
-
-          <div className="bg-[#ffffff] border border-[#e2e8f0] rounded-[16px] p-4 shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px]">
-            <h4 className="font-inter text-[#020520] mb-3 font-semibold text-[14px]">Quick Preferences</h4>
-            <ul className="flex flex-col gap-3 font-inter">
-              <li className="flex items-center justify-between">
-                <span className="text-[13px] text-[#374151] font-medium">Critical Alerts (Email)</span>
-                <div className="w-8 h-4 bg-[#145aff] rounded-full relative cursor-pointer">
-                  <div className="absolute right-0.5 top-0.5 w-3 h-3 bg-white rounded-full shadow-sm"></div>
-                </div>
-              </li>
-              <li className="flex items-center justify-between">
-                <span className="text-[13px] text-[#374151] font-medium">Digest (Weekly)</span>
-                <div className="w-8 h-4 bg-[#145aff] rounded-full relative cursor-pointer">
-                  <div className="absolute right-0.5 top-0.5 w-3 h-3 bg-white rounded-full shadow-sm"></div>
-                </div>
-              </li>
-              <li className="flex items-center justify-between">
-                <span className="text-[13px] text-[#374151] font-medium">Scraper Warnings</span>
-                <div className="w-8 h-4 bg-[#e2e8f0] rounded-full relative cursor-pointer">
-                  <div className="absolute left-0.5 top-0.5 w-3 h-3 bg-white rounded-full shadow-sm"></div>
-                </div>
-              </li>
-            </ul>
-            <button
-              onClick={() => console.log("Mock manage settings click")}
-              className="mt-4 w-full bg-[#ffffff] border border-[#e2e8f0] text-[#020520] font-inter text-[12px] py-2 rounded-full hover:bg-[#f0f4fe] transition-colors duration-150 font-medium"
-            >
-              Manage All Settings
-            </button>
           </div>
         </aside>
 
@@ -293,4 +292,3 @@ export const Alerts: React.FC = () => {
     </main>
   );
 };
-

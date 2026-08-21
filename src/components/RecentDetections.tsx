@@ -1,17 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { detections } from "../mockData";
+import { detections as initialDetections } from "../mockData";
+import type { DetectionData } from "../mockData";
+import { api } from "../services/api";
+import type { AlertResponse } from "../services/api";
 
 export const RecentDetections: React.FC = () => {
   const navigate = useNavigate();
+  const [items, setItems] = useState<DetectionData[]>(initialDetections);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    api.getAlerts()
+      .then((alerts: AlertResponse[]) => {
+        if (isMounted && alerts && alerts.length > 0) {
+          const mapped: DetectionData[] = alerts.map((a) => {
+            const isIncrease = a.type.includes("INCREASE") || a.impactSummary.startsWith("+");
+            const isDecrease = a.impactSummary.startsWith("-");
+            
+            return {
+              id: a.changeEventId,
+              vendor: a.vendorName || "Unknown Vendor",
+              changeType: a.type.replace(/_/g, " "),
+              changeTypeClass: isIncrease
+                ? "bg-[#f26052]/10 text-[#f26052]"
+                : isDecrease
+                ? "bg-[#16ca2e]/10 text-[#16ca2e]"
+                : "bg-[#ffa64d]/10 text-[#ffa64d]",
+              values: a.impactSummary || "Updated tier pricing",
+              percentageChange: isIncrease ? "+15%" : isDecrease ? "-10%" : "N/A",
+              severity: a.finalScore >= 75 ? "High" : a.finalScore >= 40 ? "Med" : "Low",
+              severityClass: a.finalScore >= 75 ? "text-[#f26052]" : "text-[#ffa64d]",
+              impact: a.impactSummary,
+              impactClass: isIncrease ? "text-[#f26052]" : "text-[#16ca2e]",
+              confidence: `${Math.round((a.confidence || 0.95) * 100)}%`,
+              icon: a.vendorName === "AWS" ? "cloud" : a.vendorName === "OpenAI" ? "psychology" : "storefront",
+            };
+          });
+          setItems(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn("Using local detections fallback", err);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className="bg-[#ffffff] rounded-[16px] border border-[#e2e8f0] shadow-[rgba(0,0,0,0.1)_0px_0px_4px_-2px] overflow-hidden flex flex-col">
       {/* Widget Header */}
       <div className="p-4 border-b border-[#e2e8f0] bg-[#f1f5f9] flex justify-between items-center">
-        <h3 className="font-inter text-[16px] text-[#020520] font-semibold">
-          Recent Detections
-        </h3>
+        <div className="flex items-center gap-2">
+          <h3 className="font-inter text-[16px] text-[#020520] font-semibold">
+            Recent Detections
+          </h3>
+          {loading && (
+            <span className="w-2 h-2 rounded-full bg-[#145aff] animate-ping"></span>
+          )}
+        </div>
         <Link to="/intelligence" className="text-[13px] font-inter font-medium text-[#145aff] hover:underline">
           View All
         </Link>
@@ -33,9 +86,9 @@ export const RecentDetections: React.FC = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-[#e2e8f0]">
-            {detections.map((row, idx) => (
+            {items.map((row, idx) => (
               <tr
-                key={idx}
+                key={row.id || idx}
                 onClick={() => navigate(`/intelligence/${row.id}`)}
                 className="hover:bg-[#f0f4fe]/60 transition-colors duration-150 cursor-pointer group"
               >
@@ -50,12 +103,13 @@ export const RecentDetections: React.FC = () => {
                 {/* Change type status chip */}
                 <td className="py-3.5 px-4 font-inter">
                   <span
-                    className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium ${row.changeType === "Price Increase" || row.changeType === "Fee Added"
+                    className={`px-2.5 py-0.5 rounded-full text-[11px] font-medium ${
+                      row.changeType === "Price Increase" || row.changeType === "Fee Added" || row.changeType.includes("INCREASE")
                         ? "bg-[#f26052]/10 text-[#f26052]"
-                        : row.changeType === "Price Decrease"
+                        : row.changeType === "Price Decrease" || row.changeType.includes("DECREASE")
                           ? "bg-[#16ca2e]/10 text-[#16ca2e]"
                           : "bg-[#ffa64d]/10 text-[#ffa64d]"
-                      }`}
+                    }`}
                   >
                     {row.changeType}
                   </span>
@@ -88,7 +142,7 @@ export const RecentDetections: React.FC = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate("/vendors");
+                        navigate("/scrapers");
                       }}
                       className="text-[#145aff] font-medium text-[12px] opacity-0 group-hover:opacity-100 transition-opacity mr-4 hover:underline"
                     >
@@ -111,4 +165,3 @@ export const RecentDetections: React.FC = () => {
     </div>
   );
 };
-

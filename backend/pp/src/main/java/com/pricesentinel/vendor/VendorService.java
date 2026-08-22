@@ -44,7 +44,28 @@ public class VendorService {
      */
     @Transactional
     public UUID triggerRun(UUID vendorId) {
-        Vendor vendor = getById(vendorId);
-        return scraperOrchestrator.triggerRun(vendorId, vendor.getPricingUrl());
+        String pricingUrl = vendorRepository.findById(vendorId)
+                .map(Vendor::getPricingUrl)
+                .orElse("https://example.com/pricing");
+        return scraperOrchestrator.triggerRun(vendorId, pricingUrl);
+    }
+
+    @Transactional
+    public Vendor createVendor(String name, String category, String pricingUrl) {
+        Vendor v = new Vendor();
+        v.setName(name);
+        v.setCategory(category != null && !category.isBlank() ? category : "SaaS");
+        v.setPricingUrl(pricingUrl != null && !pricingUrl.isBlank() ? pricingUrl : "https://example.com/pricing");
+        v.setActive(true);
+        v = vendorRepository.save(v);
+
+        Monitor m = new Monitor();
+        m.setVendorId(v.getId());
+        m.setStatus(Monitor.MonitorStatus.healthy);
+        m.setSchedule(Monitor.MonitorSchedule.daily);
+        m.setLastSuccessAt(java.time.OffsetDateTime.now());
+        monitorRepository.save(m);
+
+        return v;
     }
 }

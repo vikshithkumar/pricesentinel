@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   currentPath: string;
@@ -8,10 +8,13 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = false, onCloseMobile }) => {
+  const navigate = useNavigate();
+
   const navItems = [
     { label: "Dashboard", icon: "dashboard", href: "/", active: currentPath === "/" },
     { label: "Vendors", icon: "storefront", href: "/vendors", active: currentPath === "/vendors" },
-    { label: "Intelligence", icon: "analytics", href: "/intelligence", active: currentPath.startsWith("/intelligence") },
+    { label: "Intelligence", icon: "analytics", href: "/intelligence", active: currentPath === "/intelligence" || (currentPath.startsWith("/intelligence/") && !currentPath.startsWith("/intelligence/financial-impact")) },
+    { label: "Analysis", icon: "monitoring", href: "/intelligence/financial-impact", active: currentPath.startsWith("/intelligence/financial-impact") },
     { label: "Scrapers", icon: "precision_manufacturing", href: "/scrapers", active: currentPath.startsWith("/scrapers") },
     { label: "Watchlists", icon: "visibility", href: "/watchlists", active: currentPath.startsWith("/watchlists") },
     { label: "Reports", icon: "assessment", href: "/reports", active: currentPath.startsWith("/reports") },
@@ -20,7 +23,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
 
   const bottomItems = [
     { label: "Settings", icon: "settings", href: "/settings", active: currentPath.startsWith("/settings") },
-    { label: "Support", icon: "help", href: "/support", active: currentPath.startsWith("/support") },
   ];
 
   const sidebarContent = (
@@ -47,15 +49,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isOpenMobile = fa
           <h1 className="font-geist text-[18px] leading-tight font-medium text-ink-black dark:text-bone tracking-tight">
             PriceSentinel
           </h1>
-          <p className="font-geist text-[11px] text-steel dark:text-slate mt-0.5 tracking-wider uppercase">
-            Workspace v2.4
-          </p>
         </div>
       </div>
 
       {/* Primary Pill CTA */}
       <div className="px-1 mb-6">
-        <button className="w-full bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-[#ededed] dark:text-black py-2.5 px-4 rounded-full font-dm-sans font-medium text-[14px] transition-all duration-150 shadow-sm flex items-center justify-center gap-2 group">
+        <button
+          onClick={() => {
+            navigate("/intelligence/financial-impact");
+            if (onCloseMobile) onCloseMobile();
+          }}
+          className="w-full bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-[#ededed] dark:text-black py-2.5 px-4 rounded-full font-dm-sans font-medium text-[14px] transition-all duration-150 shadow-sm flex items-center justify-center gap-2 group cursor-pointer"
+        >
           <span className="material-symbols-outlined text-[18px] text-white dark:text-black group-hover:rotate-90 transition-transform duration-200">add</span>
           New Analysis
         </button>

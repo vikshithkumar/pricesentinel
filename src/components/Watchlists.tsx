@@ -1,12 +1,83 @@
 import React, { useState } from "react";
 import { mockWatchlists } from "../mockData";
+import type { WatchlistData } from "../mockData";
+
+const CUSTOM_WATCHLISTS_KEY = "pricesentinel_custom_watchlists";
+
+const getStoredWatchlists = (): WatchlistData[] => {
+  try {
+    const saved = localStorage.getItem(CUSTOM_WATCHLISTS_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.error("Failed to parse custom watchlists from localStorage", e);
+  }
+  return mockWatchlists;
+};
+
+const saveStoredWatchlists = (list: WatchlistData[]) => {
+  try {
+    localStorage.setItem(CUSTOM_WATCHLISTS_KEY, JSON.stringify(list));
+  } catch (e) {
+    console.error("Failed to save custom watchlists to localStorage", e);
+  }
+};
 
 export const Watchlists: React.FC = () => {
+  const [watchlists, setWatchlists] = useState<WatchlistData[]>(() => getStoredWatchlists());
   const [activeTab, setActiveTab] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [archivedOpen, setArchivedOpen] = useState<boolean>(false);
 
-  const activeWatchlists = mockWatchlists.filter((item) => {
+  // Create Modal State
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [vendorCount, setVendorCount] = useState<number>(5);
+  const [estimatedImpact, setEstimatedImpact] = useState<string>("$0");
+  const [icon, setIcon] = useState<string>("visibility");
+
+  const handleCreateWatchlist = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+
+    const newWatchlist: WatchlistData = {
+      id: "wl-" + Date.now(),
+      name: name.trim(),
+      description: description.trim() || "Curated vendor watch group",
+      vendorCount: Number(vendorCount) || 1,
+      healthPercentage: 100,
+      recentChanges: 0,
+      estimatedImpact: estimatedImpact.trim() || "$0",
+      icon: icon || "visibility",
+      archived: false,
+    };
+
+    const updated = [newWatchlist, ...watchlists];
+    setWatchlists(updated);
+    saveStoredWatchlists(updated);
+
+    // Reset & Close
+    setName("");
+    setDescription("");
+    setVendorCount(5);
+    setEstimatedImpact("$0");
+    setIsModalOpen(false);
+  };
+
+  const handleToggleArchive = (id: string) => {
+    const updated = watchlists.map((w) =>
+      w.id === id ? { ...w, archived: !w.archived } : w
+    );
+    setWatchlists(updated);
+    saveStoredWatchlists(updated);
+  };
+
+  const activeWatchlists = watchlists.filter((item) => {
     if (item.archived) return false;
 
     const matchesSearch =
@@ -21,7 +92,7 @@ export const Watchlists: React.FC = () => {
     return true;
   });
 
-  const archivedWatchlists = mockWatchlists.filter((item) => {
+  const archivedWatchlists = watchlists.filter((item) => {
     if (!item.archived) return false;
     return (
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,7 +117,10 @@ export const Watchlists: React.FC = () => {
         </div>
 
         <div className="flex gap-2 shrink-0">
-          <button className="hidden md:flex bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-dm-sans font-medium text-[14px] py-2.5 px-6 rounded-full items-center gap-2 transition-all shadow-sm">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-dm-sans font-medium text-[14px] py-2.5 px-6 rounded-full items-center gap-2 transition-all shadow-sm cursor-pointer"
+          >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Create Watchlist
           </button>
@@ -63,7 +137,7 @@ export const Watchlists: React.FC = () => {
                 : "text-steel dark:text-ash hover:text-carbon dark:hover:text-white"
               }`}
           >
-            All
+            All ({watchlists.filter((w) => !w.archived).length})
           </button>
           <button
             onClick={() => setActiveTab("recent")}
@@ -72,7 +146,7 @@ export const Watchlists: React.FC = () => {
                 : "text-steel dark:text-ash hover:text-carbon dark:hover:text-white"
               }`}
           >
-            Recent
+            Recent Changes
           </button>
         </nav>
 
@@ -98,7 +172,10 @@ export const Watchlists: React.FC = () => {
           <p className="font-dm-sans text-[14px] text-steel dark:text-ash max-w-md mx-auto mb-6">
             Start monitoring vendor pricing by grouping them into focused watchlists. Get alerted when critical changes occur.
           </p>
-          <button className="bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-dm-sans font-medium text-[13px] py-2.5 px-6 rounded-full inline-flex items-center gap-2 transition-all shadow-sm">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black font-dm-sans font-medium text-[13px] py-2.5 px-6 rounded-full inline-flex items-center gap-2 transition-all shadow-sm cursor-pointer"
+          >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Create your first Watchlist
           </button>
@@ -108,14 +185,18 @@ export const Watchlists: React.FC = () => {
           {activeWatchlists.map((watchlist) => {
             const isCritical = watchlist.healthPercentage < 90;
             return (
-              <article key={watchlist.id} className="bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-[24px] p-6 relative group flex flex-col shadow-sm dark:shadow-glass hover:border-signal-blue/30 dark:hover:border-white/25 transition-all duration-200 cursor-pointer">
+              <article key={watchlist.id} className="bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-[24px] p-6 relative group flex flex-col shadow-sm dark:shadow-glass hover:border-signal-blue/30 dark:hover:border-white/25 transition-all duration-200">
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h3 className="font-geist text-[18px] text-ink-black dark:text-bone font-medium mb-1">{watchlist.name}</h3>
                     <p className="font-dm-sans text-[13px] text-steel dark:text-ash">{watchlist.description}</p>
                   </div>
-                  <button className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="material-symbols-outlined text-[20px]">more_vert</span>
+                  <button
+                    onClick={() => handleToggleArchive(watchlist.id)}
+                    title="Archive Watchlist"
+                    className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white p-1 rounded-full opacity-60 hover:opacity-100 transition-opacity cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">archive</span>
                   </button>
                 </div>
 
@@ -160,7 +241,7 @@ export const Watchlists: React.FC = () => {
         <div className="border-t border-bone-light dark:border-white/10 pt-6 mb-8">
           <button
             onClick={() => setArchivedOpen(!archivedOpen)}
-            className="flex items-center gap-2 text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors font-geist font-medium text-[14px] w-full text-left"
+            className="flex items-center gap-2 text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors font-geist font-medium text-[14px] w-full text-left cursor-pointer"
           >
             <span className={`material-symbols-outlined transition-transform duration-200 ${archivedOpen ? "rotate-90" : ""}`}>
               chevron_right
@@ -177,6 +258,13 @@ export const Watchlists: React.FC = () => {
                       <h3 className="font-geist text-[17px] text-ink-black dark:text-bone font-medium mb-1">{watchlist.name}</h3>
                       <p className="font-dm-sans text-[13px] text-steel dark:text-slate">{watchlist.description}</p>
                     </div>
+                    <button
+                      onClick={() => handleToggleArchive(watchlist.id)}
+                      title="Unarchive Watchlist"
+                      className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white p-1 rounded-full cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-[18px]">unarchive</span>
+                    </button>
                   </div>
                   <div className="flex items-center gap-2 font-dm-sans">
                     <span className="inline-flex items-center px-3 py-1 rounded-full bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 text-[12px] text-steel dark:text-slate">
@@ -187,6 +275,100 @@ export const Watchlists: React.FC = () => {
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Create Watchlist Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white dark:bg-[#161616] border border-bone-light dark:border-white/10 rounded-[24px] p-6 w-full max-w-md shadow-2xl space-y-5 text-carbon dark:text-bone font-dm-sans">
+            <div className="flex justify-between items-center border-b border-bone-light dark:border-white/10 pb-4">
+              <h3 className="font-geist text-[20px] font-medium text-ink-black dark:text-bone flex items-center gap-2">
+                <span className="material-symbols-outlined text-[22px] text-signal-blue dark:text-white">visibility</span>
+                Create New Watchlist
+              </h3>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateWatchlist} className="space-y-4">
+              <div>
+                <label className="block text-[13px] font-medium text-steel dark:text-ash mb-1">
+                  Watchlist Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Core Infrastructure"
+                  className="w-full px-4 py-2.5 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-[12px] text-[14px] font-geist text-carbon dark:text-bone focus:outline-none focus:border-signal-blue dark:focus:border-white/30 transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[13px] font-medium text-steel dark:text-ash mb-1">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="e.g. Critical vendors monitored for price spikes"
+                  className="w-full px-4 py-2.5 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-[12px] text-[14px] font-geist text-carbon dark:text-bone focus:outline-none focus:border-signal-blue dark:focus:border-white/30 transition-colors"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[13px] font-medium text-steel dark:text-ash mb-1">
+                    Vendor Count
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={vendorCount}
+                    onChange={(e) => setVendorCount(Number(e.target.value))}
+                    className="w-full px-4 py-2.5 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-[12px] text-[14px] font-geist text-carbon dark:text-bone focus:outline-none focus:border-signal-blue dark:focus:border-white/30 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[13px] font-medium text-steel dark:text-ash mb-1">
+                    Est. Annual Impact
+                  </label>
+                  <input
+                    type="text"
+                    value={estimatedImpact}
+                    onChange={(e) => setEstimatedImpact(e.target.value)}
+                    placeholder="e.g. +$45k"
+                    className="w-full px-4 py-2.5 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-[12px] text-[14px] font-geist text-carbon dark:text-bone focus:outline-none focus:border-signal-blue dark:focus:border-white/30 transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="flex-1 py-2.5 px-4 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 text-carbon dark:text-bone rounded-full font-medium text-[13px] hover:bg-[#e4e4e7] dark:hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={!name.trim()}
+                  className="flex-1 py-2.5 px-4 bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:text-black font-medium text-[13px] rounded-full dark:hover:bg-neutral-200 transition-colors shadow-sm disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-[16px]">add</span>
+                  <span>Create Watchlist</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </main>

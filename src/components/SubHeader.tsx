@@ -1,13 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { workspaceInfo } from "../mockData";
+import { getGreeting, getFormattedCurrentTime } from "../utils/dateUtils";
 
 export const SubHeader: React.FC = () => {
+  const [currentTime, setCurrentTime] = useState<string>(getFormattedCurrentTime(true));
+  const [userName, setUserName] = useState<string>("Sarah");
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("pricesentinel_user_settings");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.name) setUserName(parsed.name.split(" ")[0]);
+      }
+    } catch (e) {
+      // fallback
+    }
+
+    const timer = setInterval(() => {
+      setCurrentTime(getFormattedCurrentTime(true));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleManualRefresh = () => {
+    setCurrentTime(getFormattedCurrentTime(true));
+  };
+
   return (
     <div className="mx-4 md:mx-6 my-1 px-5 py-3.5 bg-white/60 dark:bg-[#161616]/60 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-[20px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 z-20 shrink-0 transition-colors duration-200">
       {/* Analyst Greeting */}
       <div>
         <h2 className="font-geist text-[18px] sm:text-[20px] text-ink-black dark:text-bone font-medium tracking-tight">
-          {workspaceInfo.userGreeting}
+          {getGreeting(userName)}
         </h2>
       </div>
 
@@ -16,14 +41,15 @@ export const SubHeader: React.FC = () => {
         {/* Verification status telemetry pill */}
         <div className="flex items-center gap-2 text-steel dark:text-ash bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 px-3.5 py-1.5 rounded-full text-[12px] font-geist">
           <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse"></span>
-          <span>{workspaceInfo.lastVerifiedText}</span>
+          <span>Last verified: {currentTime}</span>
         </div>
 
         <div className="flex items-center gap-2">
           {/* Manual Refresh Trigger */}
           <button
-            className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10"
-            title="Manual Refresh"
+            onClick={handleManualRefresh}
+            className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer"
+            title="Manual Refresh Telemetry"
           >
             <span className="material-symbols-outlined text-[18px]">refresh</span>
           </button>

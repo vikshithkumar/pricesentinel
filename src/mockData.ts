@@ -198,19 +198,21 @@ export const monitoringHealth: HealthStatData[] = [
   },
 ];
 
+import { getFormattedCurrentTime, getRelativeDateString } from "./utils/dateUtils";
+
 export const recentActivities: ActivityData[] = [
   {
-    time: "10:42 AM",
+    time: getFormattedCurrentTime(),
     description: "Scraper AWS-01 recovered",
     statusColorClass: "bg-surface-container border-canvas-white",
   },
   {
-    time: "09:15 AM",
+    time: "15 mins ago",
     description: "Alert: Atlassian pricing page changed",
     statusColorClass: "bg-warning-amber border-canvas-white",
   },
   {
-    time: "Yesterday, 4:00 PM",
+    time: `Yesterday, ${getFormattedCurrentTime()}`,
     description: "System snapshot completed",
     statusColorClass: "bg-primary border-canvas-white",
   },
@@ -903,40 +905,40 @@ export const mockReports: ReportData[] = [
   {
     id: "weekly-pricing-oct-31",
     title: "Weekly Pricing Report",
-    dateRange: "Oct 24 - Oct 31, 2024",
+    dateRange: `${getRelativeDateString(7)} - ${getFormattedCurrentDate()}`,
     category: "Financial",
     status: "Complete",
     changesCount: 42,
     impactText: "+$12k",
-    generatedTimeText: "Today, 9:00 AM"
+    generatedTimeText: `Today, ${getFormattedCurrentTime()}`
   },
   {
     id: "monthly-procurement-oct",
     title: "Monthly Procurement",
-    dateRange: "Oct 1 - Oct 31, 2024",
+    dateRange: `${getRelativeDateString(30)} - ${getFormattedCurrentDate()}`,
     category: "Executive",
     status: "Scheduled",
-    runsTimeText: "Nov 1, 12:00 AM"
+    runsTimeText: `${getRelativeDateString(-1)}, 12:00 AM`
   },
   {
     id: "vendor-change-q3-2024",
     title: "Vendor Change Report",
-    dateRange: "Q3 2024 Overview",
+    dateRange: "Current Quarter Overview",
     category: "All",
     status: "Complete",
     changesCount: 14,
     anomaliesCount: 3,
-    generatedTimeText: "Oct 15, 2024"
+    generatedTimeText: getRelativeDateString(5)
   },
   {
     id: "cost-impact-ytd-2024",
     title: "Cost Impact Report",
-    dateRange: "YTD 2024",
+    dateRange: "YTD Overview",
     category: "Financial",
     status: "Complete",
     changesCount: 180,
     impactText: "+$845k",
-    generatedTimeText: "Oct 1, 2024"
+    generatedTimeText: getRelativeDateString(14)
   },
   {
     id: "scraper-reliability-7d",
@@ -946,7 +948,7 @@ export const mockReports: ReportData[] = [
     status: "Review Needed",
     uptimeText: "99.1%",
     failuresCount: 12,
-    generatedTimeText: "Today, 1:00 AM"
+    generatedTimeText: `Today, ${getFormattedCurrentTime()}`
   }
 ];
 
@@ -972,7 +974,7 @@ export const mockAlerts: AlertData[] = [
     vendorLogoUrl: "",
     title: "AWS: Enterprise Support Plan Structure Change",
     description: "New tiers introduced for enterprise support, deprecating the current legacy tier attached to account 8849-XXXX.",
-    actionByText: "Oct 31, 2023",
+    actionByText: getRelativeDateString(-7),
     potentialImpactText: "Service Downgrade",
     isRead: false,
     isSnoozed: false

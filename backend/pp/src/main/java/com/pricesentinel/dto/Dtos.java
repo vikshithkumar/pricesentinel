@@ -20,6 +20,50 @@ public class Dtos {
             MonitorStatusResponse monitor
     ) {}
 
+    public record CreateVendorRequest(
+            String name,
+            String category,
+            String pricingUrl,
+            String pricingPlan
+    ) {}
+
+    public record UserSettingsResponse(
+            String name,
+            String email,
+            String timeZone,
+            String dateFormat,
+            String theme
+    ) {}
+
+    public record UpdateSettingsRequest(
+            String name,
+            String email,
+            String currentPassword,
+            String newPassword,
+            String timeZone,
+            String dateFormat,
+            String theme
+    ) {}
+
+    public record ScrapeRealDataRequest(
+            String targetUrl,
+            String vendorName
+    ) {}
+
+    public record ScrapeRealDataResult(
+            String targetUrl,
+            String vendorName,
+            int httpStatus,
+            long payloadSizeBytes,
+            String contentType,
+            String serverHeader,
+            String extractedPriceText,
+            String extractedTierName,
+            String extractedTitle,
+            List<String> liveLogs,
+            String timestamp
+    ) {}
+
     public record MonitorStatusResponse(
             UUID monitorId,
             String status,

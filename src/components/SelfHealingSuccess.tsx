@@ -5,24 +5,9 @@ export const SelfHealingSuccess: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <main className="flex-grow flex flex-col items-center justify-center p-4 md:p-6 bg-frost dark:bg-[#0a0a0a] relative overflow-hidden w-full max-w-[1400px] mx-auto min-h-screen font-dm-sans transition-colors duration-200">
-      {/* Breadcrumb nav */}
-      <nav className="absolute top-6 left-4 md:left-6 z-30 flex items-center gap-2 text-xs font-dm-sans text-steel dark:text-slate" aria-label="Breadcrumb">
-        <span>Dashboard</span>
-        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-        <span>Scraper Health</span>
-        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-        <span>OpenAI</span>
-        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-        <span>Self-Healing Lab</span>
-        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-        <span>Success</span>
-        <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-        <span className="text-carbon dark:text-bone font-medium">Propagation</span>
-      </nav>
-
+    <main className="flex-grow flex flex-col items-center justify-start p-4 md:p-8 bg-frost dark:bg-[#0a0a0a] relative overflow-y-auto w-full max-w-[1400px] mx-auto min-h-full font-dm-sans transition-colors duration-200">
       {/* Success Recovery Card */}
-      <div className="w-full max-w-3xl bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md rounded-[24px] border border-bone-light dark:border-white/10 p-6 md:p-10 flex flex-col gap-6 shadow-sm dark:shadow-glass relative z-10">
+      <div className="w-full max-w-3xl bg-white/90 dark:bg-[#161616]/60 backdrop-blur-md rounded-[24px] border border-bone-light dark:border-white/10 p-6 md:p-10 flex flex-col gap-6 shadow-sm dark:shadow-glass relative z-10 my-auto">
         {/* Header Section */}
         <div className="flex flex-col items-center text-center gap-2">
           <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-2">

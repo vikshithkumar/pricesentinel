@@ -179,6 +179,38 @@ export interface SelfHealingLogResponse {
   createdAt: string;
 }
 
+export interface UserSettingsResponse {
+  name: string;
+  email: string;
+  timeZone: string;
+  dateFormat: string;
+  theme: string;
+}
+
+export interface UpdateSettingsRequest {
+  name?: string;
+  email?: string;
+  currentPassword?: string;
+  newPassword?: string;
+  timeZone?: string;
+  dateFormat?: string;
+  theme?: string;
+}
+
+export interface ScrapeRealDataResult {
+  targetUrl: string;
+  vendorName: string;
+  httpStatus: number;
+  payloadSizeBytes: number;
+  contentType: string;
+  serverHeader: string;
+  extractedPriceText: string;
+  extractedTierName: string;
+  extractedTitle: string;
+  liveLogs: string[];
+  timestamp: string;
+}
+
 async function handleResponse<T>(res: Response): Promise<T> {
   if (!res.ok) {
     const text = await res.text().catch(() => '');
@@ -206,6 +238,15 @@ export const api = {
   async getVendors(): Promise<VendorResponse[]> {
     const res = await fetch(`${BASE_URL}/vendors`);
     return handleResponse<VendorResponse[]>(res);
+  },
+
+  async createVendor(name: string, category: string, pricingUrl: string, pricingPlan?: string): Promise<VendorResponse> {
+    const res = await fetch(`${BASE_URL}/vendors`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, category, pricingUrl, pricingPlan }),
+    });
+    return handleResponse<VendorResponse>(res);
   },
 
   async triggerVendorRun(vendorId: string): Promise<RunNowResponse> {
@@ -303,6 +344,15 @@ export const api = {
     return handleResponse<CollectorNodeResponse[]>(res);
   },
 
+  async scrapeRealData(targetUrl: string, vendorName: string): Promise<ScrapeRealDataResult> {
+    const res = await fetch(`${BASE_URL}/scrapers/scrape-real`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ targetUrl, vendorName }),
+    });
+    return handleResponse<ScrapeRealDataResult>(res);
+  },
+
   // Self Healing
   async getSelfHealingStatus(collectorId: string): Promise<SelfHealingStatusResponse> {
     const res = await fetch(`${BASE_URL}/self-healing/status/${collectorId}`);
@@ -330,5 +380,20 @@ export const api = {
   async getSelfHealingHistory(): Promise<SelfHealingLogResponse[]> {
     const res = await fetch(`${BASE_URL}/self-healing/history`);
     return handleResponse<SelfHealingLogResponse[]>(res);
+  },
+
+  // Settings
+  async getSettings(): Promise<UserSettingsResponse> {
+    const res = await fetch(`${BASE_URL}/settings`);
+    return handleResponse<UserSettingsResponse>(res);
+  },
+
+  async updateSettings(req: UpdateSettingsRequest): Promise<UserSettingsResponse> {
+    const res = await fetch(`${BASE_URL}/settings`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req),
+    });
+    return handleResponse<UserSettingsResponse>(res);
   },
 };

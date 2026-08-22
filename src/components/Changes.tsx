@@ -20,6 +20,29 @@ export const Changes: React.FC = () => {
     });
   }, [searchQuery, selectedCategory]);
 
+  const handleExportCsv = () => {
+    const headers = ["ID", "Vendor", "Change Type", "Impact", "Values", "Severity", "Confidence"];
+    const rows = filteredDetections.map((row) => [
+      `"${row.id.replace(/"/g, '""')}"`,
+      `"${row.vendor.replace(/"/g, '""')}"`,
+      `"${row.changeType.replace(/"/g, '""')}"`,
+      `"${row.impact.replace(/"/g, '""')}"`,
+      `"${row.values.replace(/"/g, '""')}"`,
+      `"${row.severity.replace(/"/g, '""')}"`,
+      `"${row.confidence.replace(/"/g, '""')}"`,
+    ]);
+    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "intelligence_feed.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-frost dark:bg-[#0a0a0a] w-full max-w-[1400px] mx-auto font-dm-sans transition-colors duration-200">
       {/* Breadcrumb */}
@@ -50,18 +73,11 @@ export const Changes: React.FC = () => {
 
         <div className="flex gap-2.5 shrink-0">
           <button
-            onClick={() => alert("Exporting Intelligence Feed CSV...")}
-            className="flex items-center gap-2 px-5 py-2.5 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-full font-dm-sans text-[13px] text-carbon dark:text-bone hover:bg-[#e4e4e7] dark:hover:bg-white/10 transition-colors"
+            onClick={handleExportCsv}
+            className="flex items-center gap-2 px-5 py-2.5 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 rounded-full font-dm-sans text-[13px] text-carbon dark:text-bone hover:bg-[#e4e4e7] dark:hover:bg-white/10 transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-[16px]">download</span>
             <span>Export CSV</span>
-          </button>
-          <button
-            onClick={() => navigate("/settings")}
-            className="flex items-center gap-2 px-5 py-2.5 bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:hover:bg-neutral-200 dark:text-black rounded-full font-dm-sans font-medium text-[13px] transition-colors shadow-sm"
-          >
-            <span className="material-symbols-outlined text-[16px]">tune</span>
-            <span>View Settings</span>
           </button>
         </div>
       </div>
@@ -88,20 +104,23 @@ export const Changes: React.FC = () => {
             />
           </div>
 
-          {/* Quick Filter Pill */}
-          <button
-            onClick={() => setSelectedCategory(selectedCategory ? null : "Plan Restructure")}
-            className={`px-4 py-1.5 rounded-full border font-dm-sans text-[13px] flex items-center transition-all duration-150 ${
-              selectedCategory === "Plan Restructure"
-                ? "border-signal-blue/30 bg-signal-blue/15 text-signal-blue dark:border-white/30 dark:bg-white/15 dark:text-white font-medium shadow-sm"
-                : "border-bone-light dark:border-white/10 bg-vapor dark:bg-white/5 text-steel dark:text-ash hover:text-carbon dark:hover:text-white hover:bg-[#e4e4e7] dark:hover:bg-white/10"
-            }`}
-          >
-            Category: Plan Shifts
-            {selectedCategory === "Plan Restructure" && (
-              <span className="material-symbols-outlined text-[14px] ml-1">close</span>
-            )}
-          </button>
+          {/* Category Filter Dropdown */}
+          <div className="relative">
+            <select
+              value={selectedCategory || ""}
+              onChange={(e) => setSelectedCategory(e.target.value || null)}
+              className="appearance-none pl-4 pr-8 py-1.5 rounded-full border border-bone-light dark:border-white/10 bg-vapor dark:bg-white/5 text-carbon dark:text-bone font-dm-sans text-[13px] focus:outline-none focus:border-signal-blue dark:focus:border-white/30 cursor-pointer transition-all"
+            >
+              <option value="" className="bg-white dark:bg-[#161616] text-carbon dark:text-bone">Category: All</option>
+              <option value="Plan Restructure" className="bg-white dark:bg-[#161616] text-carbon dark:text-bone">Category: Plan Shifts</option>
+              <option value="Price Increase" className="bg-white dark:bg-[#161616] text-carbon dark:text-bone">Category: Price Increase</option>
+              <option value="Price Drop" className="bg-white dark:bg-[#161616] text-carbon dark:text-bone">Category: Price Drop</option>
+              <option value="T&C Update" className="bg-white dark:bg-[#161616] text-carbon dark:text-bone">Category: T&C Update</option>
+            </select>
+            <span className="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-steel dark:text-slate text-[16px] pointer-events-none">
+              expand_more
+            </span>
+          </div>
         </div>
 
         <div className="w-full md:w-auto flex items-center space-x-2 border-t md:border-t-0 border-bone-light dark:border-white/10 pt-2 md:pt-0">

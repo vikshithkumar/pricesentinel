@@ -33,6 +33,27 @@ export const FinancialImpactDetail: React.FC = () => {
     };
   }, []);
 
+  const generateClientCsv = () => {
+    const list = financialData?.vendorImpactScores || mockFinancialImpactScores;
+    const headers = ["Vendor Name", "Impact Score", "Core Drivers", "Annual Delta"];
+    const rows = list.map((v: any) => [
+      `"${(v.vendorName || v.vendor || "").replace(/"/g, '""')}"`,
+      `"${v.impactScore ?? v.score ?? 0} / 100"`,
+      `"${(Array.isArray(v.coreDrivers) ? v.coreDrivers.join("; ") : v.coreDrivers || "").replace(/"/g, '""')}"`,
+      `"${typeof v.annualDelta === 'number' ? formatCurrency(v.annualDelta) : (v.annualDelta || "$0")}"`
+    ]);
+    const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "financial_impact_report.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const handleExportCsv = async () => {
     setDownloadingCsv(true);
     try {
@@ -46,10 +67,47 @@ export const FinancialImpactDetail: React.FC = () => {
       a.remove();
       window.URL.revokeObjectURL(url);
     } catch (err: any) {
-      alert(`CSV Export error: ${err.message || 'Export failed'}`);
+      console.warn("Backend CSV export API unavailable, generating client-side CSV", err);
+      generateClientCsv();
     } finally {
       setDownloadingCsv(false);
     }
+  };
+
+  const handleGenerateProcurementReport = () => {
+    const list = financialData?.vendorImpactScores || mockFinancialImpactScores;
+    let reportText = `==================================================\n`;
+    reportText += `       PRICESENTINEL PROCUREMENT REPORT\n`;
+    reportText += `==================================================\n`;
+    reportText += `Generated: ${new Date().toLocaleString()}\n`;
+    reportText += `Current Annual Spend: ${formatCurrency(currentAnnualSpend)}\n`;
+    reportText += `Projected Annual Spend: ${formatCurrency(projectedSpend)}\n`;
+    reportText += `Net Variance: +${formatCurrency(totalDelta)}\n`;
+    reportText += `At-Risk Renewal Exposure: ${formatCurrency(renewalExposure)}\n`;
+    reportText += `--------------------------------------------------\n`;
+    reportText += `VENDOR IMPACT SCORES & SUMMARY:\n`;
+    reportText += `--------------------------------------------------\n`;
+    list.forEach((v: any, i: number) => {
+      const vName = v.vendorName || v.vendor || "Unknown Vendor";
+      const vScore = v.impactScore ?? v.score ?? 0;
+      const vDrivers = Array.isArray(v.coreDrivers) ? v.coreDrivers.join(", ") : (v.coreDrivers || "N/A");
+      const vDelta = typeof v.annualDelta === 'number' ? formatCurrency(v.annualDelta) : (v.annualDelta || "$0");
+      reportText += `${i + 1}. ${vName}\n`;
+      reportText += `   - Impact Score: ${vScore}/100\n`;
+      reportText += `   - Core Drivers: ${vDrivers}\n`;
+      reportText += `   - Annual Delta: ${vDelta}\n\n`;
+    });
+    reportText += `==================================================\n`;
+
+    const blob = new Blob([reportText], { type: "text/plain;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "procurement_executive_report.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const currentAnnualSpend = appliedMonthlySpend * 12;
@@ -108,14 +166,13 @@ export const FinancialImpactDetail: React.FC = () => {
           <button
             onClick={handleExportCsv}
             disabled={downloadingCsv}
-            className="px-5 py-2.5 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 text-carbon dark:text-bone rounded-full font-dm-sans font-medium text-[13px] hover:bg-[#e4e4e7] dark:hover:bg-white/10 transition-colors disabled:opacity-50"
+            className="px-5 py-2.5 bg-vapor dark:bg-white/5 border border-bone-light dark:border-white/10 text-carbon dark:text-bone rounded-full font-dm-sans font-medium text-[13px] hover:bg-[#e4e4e7] dark:hover:bg-white/10 transition-colors cursor-pointer disabled:opacity-50"
           >
             {downloadingCsv ? "Exporting CSV..." : "Export CSV"}
           </button>
           <button
-            onClick={handleExportCsv}
-            disabled={downloadingCsv}
-            className="px-5 py-2.5 bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:text-black rounded-full font-dm-sans font-medium text-[13px] dark:hover:bg-neutral-200 transition-colors flex items-center gap-2 shadow-sm disabled:opacity-50"
+            onClick={handleGenerateProcurementReport}
+            className="px-5 py-2.5 bg-signal-blue hover:bg-deep-dusk text-white dark:bg-white dark:text-black rounded-full font-dm-sans font-medium text-[13px] dark:hover:bg-neutral-200 transition-colors flex items-center gap-2 shadow-sm cursor-pointer"
           >
             <span className="material-symbols-outlined text-[18px]">assessment</span>
             <span>Generate Procurement Report</span>
@@ -166,26 +223,33 @@ export const FinancialImpactDetail: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-bone-light/60 dark:divide-white/5 text-carbon dark:text-bone">
-                  {(financialData?.vendorImpactScores || mockFinancialImpactScores).map((v: any, idx: number) => (
-                    <tr key={idx} className="hover:bg-vapor/60 dark:hover:bg-white/[0.04] transition-colors">
-                      <td className="py-4 px-4 font-geist font-medium text-ink-black dark:text-bone">{v.vendorName}</td>
-                      <td className="py-4 px-4">
-                        <span className={`px-3 py-1 rounded-full text-[11px] font-medium border ${
-                          v.impactScore >= 80 ? "bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20" : "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20"
+                  {(financialData?.vendorImpactScores || mockFinancialImpactScores).map((v: any, idx: number) => {
+                    const vendorName = v.vendorName || v.vendor || "Vendor";
+                    const impactScore = v.impactScore ?? v.score ?? 0;
+                    const coreDrivers = Array.isArray(v.coreDrivers) ? v.coreDrivers.join(", ") : (v.coreDrivers || "");
+                    const annualDelta = typeof v.annualDelta === 'number' ? formatCurrency(v.annualDelta) : (v.annualDelta || "$0");
+
+                    return (
+                      <tr key={idx} className="hover:bg-vapor/60 dark:hover:bg-white/[0.04] transition-colors">
+                        <td className="py-4 px-4 font-geist font-medium text-ink-black dark:text-bone">{vendorName}</td>
+                        <td className="py-4 px-4">
+                          <span className={`px-3 py-1 rounded-full text-[11px] font-medium border ${
+                            impactScore >= 80 ? "bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20" : "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20"
+                          }`}>
+                            {impactScore} / 100
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 font-dm-sans text-steel dark:text-ash text-[13px]">
+                          {coreDrivers}
+                        </td>
+                        <td className={`py-4 px-4 text-right font-geist font-medium ${
+                          (typeof v.annualDelta === 'number' ? v.annualDelta > 0 : String(v.annualDelta).startsWith("+")) ? "text-red-600 dark:text-red-400" : "text-emerald-700 dark:text-emerald-400"
                         }`}>
-                          {v.impactScore} / 100
-                        </span>
-                      </td>
-                      <td className="py-4 px-4 font-dm-sans text-steel dark:text-ash text-[13px]">
-                        {Array.isArray(v.coreDrivers) ? v.coreDrivers.join(", ") : v.coreDrivers}
-                      </td>
-                      <td className={`py-4 px-4 text-right font-geist font-medium ${
-                        (typeof v.annualDelta === 'number' ? v.annualDelta : 0) > 0 ? "text-red-600 dark:text-red-400" : "text-emerald-700 dark:text-emerald-400"
-                      }`}>
-                        {typeof v.annualDelta === 'number' ? formatCurrency(v.annualDelta) : v.annualDelta}
-                      </td>
-                    </tr>
-                  ))}
+                          {annualDelta}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

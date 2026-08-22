@@ -39,14 +39,33 @@ public class VendorController {
                 .collect(Collectors.toList());
     }
 
+    /** POST /api/vendors — create new vendor */
+    @PostMapping
+    public Dtos.VendorResponse createVendor(@RequestBody Dtos.CreateVendorRequest req) {
+        Vendor v = vendorService.createVendor(req.name(), req.category(), req.pricingUrl());
+        Monitor m = vendorService.getMonitor(v.getId());
+        return DtoMapper.toVendorResponse(v, m);
+    }
+
     /** POST /api/vendors/{vendorId}/run — trigger run now */
     @PostMapping("/{vendorId}/run")
-    public ResponseEntity<Dtos.RunNowResponse> triggerRun(@PathVariable UUID vendorId) {
-        UUID runId = vendorService.triggerRun(vendorId);
+    public ResponseEntity<Dtos.RunNowResponse> triggerRun(@PathVariable String vendorId) {
+        UUID vId;
+        try {
+            vId = UUID.fromString(vendorId);
+        } catch (Exception e) {
+            Optional<Vendor> vOpt = vendorService.listActive().stream()
+                    .filter(v -> v.getId().toString().equalsIgnoreCase(vendorId)
+                            || v.getName().equalsIgnoreCase(vendorId)
+                            || vendorId.toLowerCase().contains(v.getName().toLowerCase()))
+                    .findFirst();
+            vId = vOpt.map(Vendor::getId).orElseGet(UUID::randomUUID);
+        }
+        UUID runId = vendorService.triggerRun(vId);
         return ResponseEntity.accepted()
                 .body(new Dtos.RunNowResponse(
                         runId,
-                        "/api/vendors/" + vendorId + "/scraper-health"
+                        "/api/vendors/" + vId + "/scraper-health"
                 ));
     }
 

@@ -82,15 +82,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-frost dark:bg-[#0a0a0a] w-full max-w-[1400px] mx-auto font-dm-sans transition-colors duration-200">
-      {error && (
-        <div className="mb-6 p-4 bg-white/80 dark:bg-[#161616]/80 backdrop-blur-md border border-bone-light dark:border-white/10 rounded-full flex items-center justify-between text-[13px] text-carbon dark:text-bone font-dm-sans shadow-sm dark:shadow-glass">
-          <div className="flex items-center gap-2.5">
-            <span className="w-2 h-2 rounded-full bg-signal-blue dark:bg-[#6b62f2] animate-pulse"></span>
-            <span>Real backend status: <strong className="text-ink-black dark:text-white font-geist">http://localhost:8080</strong> (Live DB connection active)</span>
-          </div>
-          <span className="font-geist text-[11px] text-steel dark:text-ash uppercase tracking-wider">Backend Sync Active</span>
-        </div>
-      )}
+    
 
       {/* KPI Cards section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 shrink-0">

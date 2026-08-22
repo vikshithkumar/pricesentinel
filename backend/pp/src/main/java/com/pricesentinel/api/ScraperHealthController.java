@@ -2,6 +2,7 @@ package com.pricesentinel.api;
 
 import com.pricesentinel.collector.ScraperHealthService;
 import com.pricesentinel.dto.Dtos;
+import com.pricesentinel.scraper.BrightDataScraperService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,12 @@ import java.util.List;
 public class ScraperHealthController {
 
     private final ScraperHealthService scraperHealthService;
+    private final BrightDataScraperService brightDataScraperService;
 
-    public ScraperHealthController(ScraperHealthService scraperHealthService) {
+    public ScraperHealthController(ScraperHealthService scraperHealthService,
+                                   BrightDataScraperService brightDataScraperService) {
         this.scraperHealthService = scraperHealthService;
+        this.brightDataScraperService = brightDataScraperService;
     }
 
     /** GET /api/scrapers/health — Global Nerve Center metrics & list of collectors */
@@ -42,5 +46,11 @@ public class ScraperHealthController {
     @PostMapping("/bulk-retry-stale")
     public ResponseEntity<List<Dtos.CollectorNodeResponse>> bulkRetryStale() {
         return ResponseEntity.ok(scraperHealthService.bulkRetryStale());
+    }
+
+    /** POST /api/scrapers/scrape-real — Live web scrape target site via Bright Data pipeline */
+    @PostMapping("/scrape-real")
+    public ResponseEntity<Dtos.ScrapeRealDataResult> scrapeRealData(@RequestBody Dtos.ScrapeRealDataRequest req) {
+        return ResponseEntity.ok(brightDataScraperService.scrapeLiveTarget(req.targetUrl(), req.vendorName()));
     }
 }

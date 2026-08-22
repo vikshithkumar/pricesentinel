@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { workspaceInfo } from "../mockData";
 import { useTheme } from "../context/ThemeContext";
 
@@ -8,6 +9,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onToggleMobileSidebar }) => {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   return (
     <header className="sticky top-4 z-30 mx-4 md:mx-6 my-2 bg-white/80 dark:bg-[#161616]/80 backdrop-blur-xl border border-bone-light dark:border-white/10 rounded-full px-5 py-2 flex justify-between items-center shrink-0 shadow-sm dark:shadow-glass transition-colors duration-200">
@@ -46,30 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleMobileSidebar }) => {
 
       {/* Top Navigation Links & Actions */}
       <div className="flex items-center gap-2 sm:gap-3">
-        <nav className="hidden lg:flex items-center gap-1 mr-2">
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white font-dm-sans font-medium text-[13px] px-3 py-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-          >
-            Market Overview
-          </a>
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white font-dm-sans font-medium text-[13px] px-3 py-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-          >
-            Competitors
-          </a>
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white font-dm-sans font-medium text-[13px] px-3 py-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-          >
-            Global Feeds
-          </a>
-        </nav>
-
+        
         {/* Theme Toggle Button */}
         <button
           onClick={toggleTheme}
@@ -83,10 +62,13 @@ export const Header: React.FC<HeaderProps> = ({ onToggleMobileSidebar }) => {
         </button>
 
         {/* Action Buttons */}
-        <button className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10">
-          <span className="material-symbols-outlined text-[19px]">history</span>
-        </button>
-        <button className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 relative">
+
+        <button
+          onClick={() => navigate("/alerts")}
+          title="View Alerts"
+          aria-label="View Alerts"
+          className="text-steel dark:text-ash hover:text-carbon dark:hover:text-white transition-colors p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 relative cursor-pointer"
+        >
           <span className="material-symbols-outlined text-[19px]">notifications</span>
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-signal-blue dark:bg-[#6b62f2] rounded-full ring-2 ring-white dark:ring-[#161616]"></span>
         </button>

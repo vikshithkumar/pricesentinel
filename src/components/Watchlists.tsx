@@ -39,7 +39,7 @@ export const Watchlists: React.FC = () => {
   const [description, setDescription] = useState<string>("");
   const [vendorCount, setVendorCount] = useState<number>(5);
   const [estimatedImpact, setEstimatedImpact] = useState<string>("$0");
-  const [icon, setIcon] = useState<string>("visibility");
+  const [icon] = useState<string>("visibility");
 
   const handleCreateWatchlist = (e: React.FormEvent) => {
     e.preventDefault();

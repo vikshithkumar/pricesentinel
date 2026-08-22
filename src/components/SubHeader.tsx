@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { workspaceInfo } from "../mockData";
 import { getGreeting, getFormattedCurrentTime } from "../utils/dateUtils";
 
 export const SubHeader: React.FC = () => {

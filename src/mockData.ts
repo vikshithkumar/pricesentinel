@@ -198,7 +198,7 @@ export const monitoringHealth: HealthStatData[] = [
   },
 ];
 
-import { getFormattedCurrentTime, getRelativeDateString } from "./utils/dateUtils";
+import { getFormattedCurrentDate, getFormattedCurrentTime, getRelativeDateString } from "./utils/dateUtils";
 
 export const recentActivities: ActivityData[] = [
   {
